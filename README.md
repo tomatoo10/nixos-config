@@ -1,12 +1,10 @@
 # My NixOS config
 
-Here lies the configuration of my working/studying setup using NixOS. This config is for a single host (for now) which is my desktop.
-
-I'm not enterely sure but i think it requires flakes, i'm still unsure how do i use flakes tbh.
+Here lies the configuration of my working/studying setup using NixOS. ~This config is for a single host (for now) which is my desktop.~
 
 ## Disclamer
 
-I'm completely new to nix/nixOS. I migrate from Arch (btw) weeks ago and this is my first config, so i'm not sure you that is reading it should use it if you also don't know what you doing :p
+I'm completely new to nix/nixOS. I migrate from Arch (btw) weeks ago and this is my first config, so if you are here looking for a starter config, bad place go look somewhere else man. I barely know what i am doing :p.
 
 In this case, this will be better for you, take it: [starter config](https://github.com/Misterio77/nix-starter-configs)
 
