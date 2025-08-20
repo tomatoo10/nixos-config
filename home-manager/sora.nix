@@ -10,11 +10,7 @@
     ../modules/sora/programs/cli
   ];
 
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-    };
-  };
+  nixpkgs.config.allowUnfree = true;
 
   # Overlays
   nixpkgs.overlays = [
@@ -26,6 +22,13 @@
     username = "ak4m3";
     homeDirectory = "/home/ak4m3";
   };
+
+  programs.ssh.startAgent = true;
+  programs.ssh.extraConfig = ''
+    AddKeysToAgent yes
+    IdentityFile ~/.ssh/id_ed25519
+  '';
+
   # Here lies packages that don't require any configuration/setup whatsoever.
   # Important apps are at ./modules/*
   home.packages = with pkgs; [

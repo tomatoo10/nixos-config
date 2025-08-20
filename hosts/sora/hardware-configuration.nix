@@ -20,30 +20,6 @@
 
   powerManagement.cpuFreqGovernor = "performance";
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/505fe06c-d1b8-4499-ae30-d25cc7a3592b";
-    fsType = "btrfs";
-    options = ["subvol=@" "noatime"];
-  };
-
-  fileSystems."/home" = {
-    device = "/dev/disk/by-uuid/505fe06c-d1b8-4499-ae30-d25cc7a3592b";
-    fsType = "btrfs";
-    options = ["subvol=@home" "noatime"];
-  };
-
-  fileSystems."/nix" = {
-    device = "/dev/disk/by-uuid/505fe06c-d1b8-4499-ae30-d25cc7a3592b";
-    fsType = "btrfs";
-    options = ["subvol=@nix" "noatime" "compress=zstd"];
-  };
-
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/0792-2D09";
-    fsType = "vfat";
-    options = ["fmask=0077" "dmask=0077"];
-  };
-
   networking.useDHCP = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.bluetooth.enable = true;

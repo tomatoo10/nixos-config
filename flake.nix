@@ -12,6 +12,10 @@
       url = "github:alexghr/alacritty-theme.nix";
     };
 
+    disko = {
+      url = "github:nix-community/disko";
+    };
+
     stylix = {
       url = "github:nix-community/stylix/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";

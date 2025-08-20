@@ -1,20 +1,65 @@
 {
   config,
+  lib,
   pkgs,
   inputs,
-  lib,
   ...
 }: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./disk-config.nix
+
+    # System
     ./system-packages.nix
     ./services.nix
 
     # Flakes
-    inputs.lanzaboote.nixosModules.lanzaboote
     inputs.flake-programs-sqlite.nixosModules.programs-sqlite
+    inputs.disko.nixosModules.disko
   ];
+
+  # Use the systemd-boot EFI boot loader.
+  # boot.loader.systemd-boot.enable = true;
+  # boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.efiSupport = true;
+  boot.loader.grub.efiInstallAsRemovable = true;
+  boot.loader.grub.device = "nodev";
+
+  system.nixos.label = "NixOS_${builtins.substring 6 8 config.system.nixos.version}";
+
+  networking.hostName = "sora";
+  networking.networkmanager.enable = true;
+
+  time.timeZone = "America/Sao_Paulo";
+  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "pt_BR.UTF-8";
+    LC_IDENTIFICATION = "pt_BR.UTF-8";
+    LC_MEASUREMENT = "pt_BR.UTF-8";
+    LC_MONETARY = "pt_BR.UTF-8";
+    LC_NAME = "pt_BR.UTF-8";
+    LC_NUMERIC = "pt_BR.UTF-8";
+    LC_PAPER = "pt_BR.UTF-8";
+    LC_TELEPHONE = "pt_BR.UTF-8";
+    LC_TIME = "pt_BR.UTF-8";
+  };
+
+  console.keyMap = "br-abnt2";
+
+  users.users.ak4m3 = {
+    isNormalUser = true;
+    home = "/home/ak4m3";
+    description = " ak4m3";
+    extraGroups = ["networkmanager" "wheel"];
+    shell = pkgs.fish;
+  };
+
+  environment.variables.EDITOR = "nvim";
+  services.getty.autologinUser = "ak4m3";
+  system.stateVersion = "25.05";
+  nixpkgs.config.allowUnfree = true;
 
   nix = let
     flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
@@ -54,46 +99,4 @@
     registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
   };
-
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  system.nixos.label = "NixOS_${builtins.substring 6 8 config.system.nixos.version}";
-
-  networking.hostName = "sora";
-  networking.networkmanager.enable = true;
-
-  # Set your time zone.
-  time.timeZone = "America/Sao_Paulo";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "pt_BR.UTF-8";
-    LC_IDENTIFICATION = "pt_BR.UTF-8";
-    LC_MEASUREMENT = "pt_BR.UTF-8";
-    LC_MONETARY = "pt_BR.UTF-8";
-    LC_NAME = "pt_BR.UTF-8";
-    LC_NUMERIC = "pt_BR.UTF-8";
-    LC_PAPER = "pt_BR.UTF-8";
-    LC_TELEPHONE = "pt_BR.UTF-8";
-    LC_TIME = "pt_BR.UTF-8";
-  };
-
-  console.keyMap = "br-abnt2";
-
-  users.users.ak4m3 = {
-    isNormalUser = true;
-    home = "/home/ak4m3";
-    description = " ak4m3";
-    extraGroups = ["networkmanager" "wheel"];
-    shell = pkgs.fish;
-  };
-
-  environment.variables.EDITOR = "nvim";
-  services.getty.autologinUser = "ak4m3";
-  system.stateVersion = "25.05";
-  nixpkgs.config.allowUnfree = true;
 }
