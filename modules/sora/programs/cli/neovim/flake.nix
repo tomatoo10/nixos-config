@@ -1,82 +1,203 @@
 {
-  description = "Neovim derivation";
-
-  # The function receives several key inputs:
-  #
-  # The normalized plugin configuration from neovimUtils.makeNeovimConfig
-  # The generated init.lua content that sets up runtime paths
-  # Wrapper arguments for environment variables and PATH extensions
-  # The Bundling Process
-  # Rather than literally bundling plugins into the binary itself, wrapNeovimUnstable creates a wrapper script that:
-  #
-  # Sets up the environment with proper PATH and environment variables mkNeovim.nix:158-175
-  #
-  # Configures plugin paths through the neovimConfig structure that tells Neovim where to find each plugin in the Nix store mkNeovim.nix:66-71
-  #
-  # Injects the custom init.lua that manages runtime path loading order mkNeovim.nix:122-156
+  description = "A Lua-natic's neovim flake, with extra cats! nixCats!";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
-    gen-luarc.url = "github:mrcjkb/nix-gen-luarc-json";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixCats.url = "github:BirdeeHub/nixCats-nvim";
 
-    multicursor-nvim = {
+    "plugins-multicursor" = {
       url = "github:jake-stewart/multicursor.nvim";
       flake = false;
     };
+    
+    # Overlay so i can use neovim nightly instead
+    neovim-nightly-overlay = {  
+      url = "github:nix-community/neovim-nightly-overlay";  
+    };
   };
 
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    flake-utils,
-    ...
-  }: let
-    systems = builtins.attrNames nixpkgs.legacyPackages;
+  outputs = { self, nixpkgs, ... }@inputs: let
+    inherit (inputs.nixCats) utils;
+    luaPath = ./.;
+    forEachSystem = utils.eachSystem nixpkgs.lib.platforms.all;
+    extra_pkg_config = {
+      allowUnfree = true;
+    };
+    dependencyOverlays =  [
+      (utils.standardPluginOverlay inputs)
+    ];
 
-    # This is where the Neovim derivation is built.
-    neovim-overlay = import ./nix/neovim-overlay.nix {inherit inputs;};
-  in
-    flake-utils.lib.eachSystem systems (system: let
-      pkgs = import nixpkgs {
-        inherit system;
-        overlays = [
-          # Import the overlay, so that the final Neovim derivation(s) can be accessed via pkgs.<nvim-pkg>
-          neovim-overlay
-          # This adds a function can be used to generate a .luarc.json
-          # containing the Neovim API all plugins in the workspace directory.
-          # The generated file can be symlinked in the devShell's shellHook.
-          inputs.gen-luarc.overlays.default
+    categoryDefinitions = { pkgs, settings, categories, extra, name, mkPlugin, ... }@packageDef: {
+      lspsAndRuntimeDeps = {
+        deps = with pkgs; [
+          universal-ctags
+          ripgrep
+          fd
+        ];
+
+        langs = with pkgs; [
+          rust-analyzer
+          clippy
+          rustfmt
+          nixd
         ];
       };
-      shell = pkgs.mkShell {
-        name = "nvim-devShell";
-        buildInputs = with pkgs; [
-          # Tools for Lua and Nix development, useful for editing files in this repo
-          lua-language-server
-          nil
-          stylua
-          luajitPackages.luacheck
-          nvim-dev
+      
+      startupPlugins = {
+        general = with pkgs.vimPlugins; {
+          always = [
+            lze
+            lzextras
+            vim-repeat
+            plenary-nvim
+            nvim-notify
+          ];
+          extra = [
+            nvim-web-devicons
+          ];
+        };
+        themer = with pkgs.vimPlugins;
+          (builtins.getAttr (categories.colorscheme or "onedark") {
+              "onedark" = onedark-nvim;
+              "catppuccin" = catppuccin-nvim;
+              "catppuccin-mocha" = catppuccin-nvim;
+              "tokyonight" = tokyonight-nvim;
+              "tokyonight-day" = tokyonight-nvim;
+              "gruvbox" = gruvbox;
+            }
+          );
+      };
+
+      optionalPlugins = {
+        lint = with pkgs.vimPlugins; [
+          nvim-lint
         ];
+
+        format = with pkgs.vimPlugins; [
+          conform-nvim
+        ];
+
+        general = {
+          blink = with pkgs.vimPlugins; [
+            luasnip
+            cmp-cmdline
+            blink-cmp
+            blink-compat
+            colorful-menu-nvim
+          ];
+          treesitter = with pkgs.vimPlugins; [
+            nvim-treesitter-textobjects
+            nvim-treesitter.withAllGrammars
+          ];
+          utils = with pkgs.vimPlugins; [
+            fzf-lua            
+            pkgs.neovimPlugins.multicursor
+            rustaceanvim
+          ];
+          core = with pkgs.vimPlugins; [
+            nvim-lspconfig
+            lualine-nvim 
+            vim-sleuth
+            nvim-surround
+          ];
+          extra = with pkgs.vimPlugins; [
+            fidget-nvim
+            which-key-nvim
+          ];
+        };
+      };
+
+       sharedLibraries = {
+        general = with pkgs; [         ];
+      };
+
+       python3.libraries = {
+        test = (_:[]);
+      };
+      extraLuaPackages = {
+        general = [ (_:[]) ];
+      };
+     };
+
+     packageDefinitions = {
+      nvim = { pkgs, name, ... }@misc: {
+        settings = {
+          suffix-path = true;
+          suffix-LD = true;
+          aliases = [ "vim" "vimcat" ];
+          wrapRc = true;
+          configDirName = "nixCats-nvim";
+          hosts.python3.enable = true;
+          hosts.node.enable = true;
+          neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
+        };
+        categories = {
+          langs = true;
+          general = true;
+          lint = true;
+          format = true;
+          themer = true;
+          colorscheme = "gruvbox";
+        };
+        extra = {
+          nixdExtras = {
+            nixpkgs = ''import ${pkgs.path} {}'';
+          };
+        };
+      };
+    };
+
+    defaultPackageName = "nvim";
+  in
+  forEachSystem (system: let
+    
+    nixCatsBuilder = utils.baseBuilder luaPath {
+      
+      inherit nixpkgs system dependencyOverlays extra_pkg_config;
+      
+    } categoryDefinitions packageDefinitions;
+    
+    defaultPackage = nixCatsBuilder defaultPackageName;
+    
+    pkgs = import nixpkgs { inherit system; };
+  in {
+    
+    packages = utils.mkAllWithDefault defaultPackage;
+
+    devShells = {
+      default = pkgs.mkShell {
+        name = defaultPackageName;
+        packages = [ defaultPackage ];
+        inputsFrom = [ ];
         shellHook = ''
-          # symlink the .luarc.json generated in the overlay
-          ln -fs ${pkgs.nvim-luarc-json} .luarc.json
-          # allow quick iteration of lua configs
-          ln -Tfns $PWD/nvim ~/.config/nvim-dev
         '';
       };
-    in {
-      packages = rec {
-        default = nvim;
-        nvim = pkgs.nvim-pkg;
-      };
-      devShells = {
-        default = shell;
-      };
-    })
-    // {
-      # You can add this overlay to your NixOS configuration
-      overlays.default = neovim-overlay;
     };
+
+  }) // (let
+    
+    nixosModule = utils.mkNixosModules {
+      moduleNamespace = [ defaultPackageName ];
+      inherit defaultPackageName dependencyOverlays luaPath
+        categoryDefinitions packageDefinitions extra_pkg_config nixpkgs;
+    };
+    
+    homeModule = utils.mkHomeModules {
+      moduleNamespace = [ defaultPackageName ];
+      inherit defaultPackageName dependencyOverlays luaPath
+        categoryDefinitions packageDefinitions extra_pkg_config nixpkgs;
+    };
+  in {
+
+    overlays = utils.makeOverlays luaPath {
+      inherit nixpkgs dependencyOverlays extra_pkg_config;
+    } categoryDefinitions packageDefinitions defaultPackageName;
+
+    nixosModules.default = nixosModule;
+    homeModules.default = homeModule;
+
+    inherit utils nixosModule homeModule;
+    inherit (utils) templates;
+  });
+
 }

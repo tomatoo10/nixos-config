@@ -23,7 +23,6 @@
     homeDirectory = "/home/ak4m3";
   };
 
-  programs.ssh.startAgent = true;
   programs.ssh.extraConfig = ''
     AddKeysToAgent yes
     IdentityFile ~/.ssh/id_ed25519

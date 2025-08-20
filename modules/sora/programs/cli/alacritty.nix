@@ -27,7 +27,7 @@
           family = font_family;
           style = "Bold Italic";
         };
-        size = 18;
+        size = 16;
       };
 
       keyboard = {

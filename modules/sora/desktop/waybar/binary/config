@@ -31,7 +31,7 @@
       "dynamic-order": ["title" , "artist"],
 
       "tooltip": false,
-      "ignored-playes": ["brave", "firefox"]
+      "ignored-playes": ["brave-browser", "firefox"]
     },
 
     "network": {

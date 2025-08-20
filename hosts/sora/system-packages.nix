@@ -23,8 +23,6 @@
   # enable the xwayland compatibility layer for x11 applications
   programs.xwayland.enable = true;
 
-  programs.ssh.startAgent = true;
-
   programs.ssh.extraConfig = ''
     AddKeysToAgent yes
     IdentityFile ~/.ssh/id_ed25519

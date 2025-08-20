@@ -13,5 +13,6 @@
 
     targets.alacritty.enable = false;
     targets.fish.enable = false;
+    targets.yazi.enable = false;
   };
 }
