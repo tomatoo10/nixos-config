@@ -59,7 +59,7 @@
     };
 
     # My own neovim overlay
-    nvim-config = {
+     nixcats = {
       url = "path:./modules/sora/programs/cli/neovim";
     };
   };
