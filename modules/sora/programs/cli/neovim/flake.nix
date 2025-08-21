@@ -9,25 +9,37 @@
       url = "github:jake-stewart/multicursor.nvim";
       flake = false;
     };
-    
+
     # Overlay so i can use neovim nightly instead
-    neovim-nightly-overlay = {  
-      url = "github:nix-community/neovim-nightly-overlay";  
+    neovim-nightly-overlay = {
+      url = "github:nix-community/neovim-nightly-overlay";
     };
   };
 
-  outputs = { self, nixpkgs, ... }@inputs: let
+  outputs = {
+    self,
+    nixpkgs,
+    ...
+  } @ inputs: let
     inherit (inputs.nixCats) utils;
     luaPath = ./.;
     forEachSystem = utils.eachSystem nixpkgs.lib.platforms.all;
     extra_pkg_config = {
       allowUnfree = true;
     };
-    dependencyOverlays =  [
+    dependencyOverlays = [
       (utils.standardPluginOverlay inputs)
     ];
 
-    categoryDefinitions = { pkgs, settings, categories, extra, name, mkPlugin, ... }@packageDef: {
+    categoryDefinitions = {
+      pkgs,
+      settings,
+      categories,
+      extra,
+      name,
+      mkPlugin,
+      ...
+    } @ packageDef: {
       lspsAndRuntimeDeps = {
         deps = with pkgs; [
           universal-ctags
@@ -42,7 +54,7 @@
           nixd
         ];
       };
-      
+
       startupPlugins = {
         general = with pkgs.vimPlugins; {
           always = [
@@ -56,16 +68,16 @@
             nvim-web-devicons
           ];
         };
-        themer = with pkgs.vimPlugins;
-          (builtins.getAttr (categories.colorscheme or "onedark") {
-              "onedark" = onedark-nvim;
-              "catppuccin" = catppuccin-nvim;
-              "catppuccin-mocha" = catppuccin-nvim;
-              "tokyonight" = tokyonight-nvim;
-              "tokyonight-day" = tokyonight-nvim;
-              "gruvbox" = gruvbox;
-            }
-          );
+        themer = with pkgs.vimPlugins; (
+          builtins.getAttr (categories.colorscheme or "onedark") {
+            "onedark" = onedark-nvim;
+            "catppuccin" = catppuccin-nvim;
+            "catppuccin-mocha" = catppuccin-nvim;
+            "tokyonight" = tokyonight-nvim;
+            "tokyonight-day" = tokyonight-nvim;
+            "gruvbox" = gruvbox;
+          }
+        );
       };
 
       optionalPlugins = {
@@ -90,13 +102,13 @@
             nvim-treesitter.withAllGrammars
           ];
           utils = with pkgs.vimPlugins; [
-            fzf-lua            
+            fzf-lua
             pkgs.neovimPlugins.multicursor
             rustaceanvim
           ];
           core = with pkgs.vimPlugins; [
             nvim-lspconfig
-            lualine-nvim 
+            lualine-nvim
             vim-sleuth
             nvim-surround
           ];
@@ -107,24 +119,28 @@
         };
       };
 
-       sharedLibraries = {
-        general = with pkgs; [         ];
+      sharedLibraries = {
+        general = with pkgs; [];
       };
 
-       python3.libraries = {
-        test = (_:[]);
+      python3.libraries = {
+        test = _: [];
       };
       extraLuaPackages = {
-        general = [ (_:[]) ];
+        general = [(_: [])];
       };
-     };
+    };
 
-     packageDefinitions = {
-      nvim = { pkgs, name, ... }@misc: {
+    packageDefinitions = {
+      nvim = {
+        pkgs,
+        name,
+        ...
+      } @ misc: {
         settings = {
           suffix-path = true;
           suffix-LD = true;
-          aliases = [ "vim" "vimcat" ];
+          aliases = ["vim" "vimcat"];
           wrapRc = true;
           configDirName = "nixCats-nvim";
           hosts.python3.enable = true;
@@ -149,55 +165,69 @@
 
     defaultPackageName = "nvim";
   in
-  forEachSystem (system: let
-    
-    nixCatsBuilder = utils.baseBuilder luaPath {
-      
-      inherit nixpkgs system dependencyOverlays extra_pkg_config;
-      
-    } categoryDefinitions packageDefinitions;
-    
-    defaultPackage = nixCatsBuilder defaultPackageName;
-    
-    pkgs = import nixpkgs { inherit system; };
-  in {
-    
-    packages = utils.mkAllWithDefault defaultPackage;
+    forEachSystem (system: let
+      nixCatsBuilder =
+        utils.baseBuilder luaPath {
+          inherit nixpkgs system dependencyOverlays extra_pkg_config;
+        }
+        categoryDefinitions
+        packageDefinitions;
 
-    devShells = {
-      default = pkgs.mkShell {
-        name = defaultPackageName;
-        packages = [ defaultPackage ];
-        inputsFrom = [ ];
-        shellHook = ''
-        '';
+      defaultPackage = nixCatsBuilder defaultPackageName;
+
+      pkgs = import nixpkgs {inherit system;};
+    in {
+      packages = utils.mkAllWithDefault defaultPackage;
+
+      devShells = {
+        default = pkgs.mkShell {
+          name = defaultPackageName;
+          packages = [defaultPackage];
+          inputsFrom = [];
+          shellHook = ''
+          '';
+        };
       };
-    };
+    })
+    // (let
+      nixosModule = utils.mkNixosModules {
+        moduleNamespace = [defaultPackageName];
+        inherit
+          defaultPackageName
+          dependencyOverlays
+          luaPath
+          categoryDefinitions
+          packageDefinitions
+          extra_pkg_config
+          nixpkgs
+          ;
+      };
 
-  }) // (let
-    
-    nixosModule = utils.mkNixosModules {
-      moduleNamespace = [ defaultPackageName ];
-      inherit defaultPackageName dependencyOverlays luaPath
-        categoryDefinitions packageDefinitions extra_pkg_config nixpkgs;
-    };
-    
-    homeModule = utils.mkHomeModules {
-      moduleNamespace = [ defaultPackageName ];
-      inherit defaultPackageName dependencyOverlays luaPath
-        categoryDefinitions packageDefinitions extra_pkg_config nixpkgs;
-    };
-  in {
+      homeModule = utils.mkHomeModules {
+        moduleNamespace = [defaultPackageName];
+        inherit
+          defaultPackageName
+          dependencyOverlays
+          luaPath
+          categoryDefinitions
+          packageDefinitions
+          extra_pkg_config
+          nixpkgs
+          ;
+      };
+    in {
+      overlays =
+        utils.makeOverlays luaPath {
+          inherit nixpkgs dependencyOverlays extra_pkg_config;
+        }
+        categoryDefinitions
+        packageDefinitions
+        defaultPackageName;
 
-    overlays = utils.makeOverlays luaPath {
-      inherit nixpkgs dependencyOverlays extra_pkg_config;
-    } categoryDefinitions packageDefinitions defaultPackageName;
+      nixosModules.default = nixosModule;
+      homeModules.default = homeModule;
 
-    nixosModules.default = nixosModule;
-    homeModules.default = homeModule;
-
-    inherit utils nixosModule homeModule;
-    inherit (utils) templates;
-  });
-
+      inherit utils nixosModule homeModule;
+      inherit (utils) templates;
+    });
 }

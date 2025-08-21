@@ -182,6 +182,10 @@
           function fish_mode_prompt
           end
 
+          # nix-shell indicator
+          if set -q IN_NIX_SHELL
+                  _nim_prompt_wrapper $retc N "nix-$IN_NIX_SHELL"
+          end
           if test "$fish_key_bindings" = fish_vi_key_bindings
               or test "$fish_key_bindings" = fish_hybrid_key_bindings
               set -l mode
@@ -228,7 +232,7 @@
           set_color normal
         '';
       };
-      
+
       # Nh alias
       nhhm = {
         body = ''
