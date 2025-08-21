@@ -25,7 +25,7 @@ return {
     -- Telescope/fzf-lua keybinds
     keys = {
       { "ff", function() require('fzf-lua').files() end, mode = {"n"}, desc = '[F]ind [F]iles' },
-      { "fw", function() require('fzf-lua').grep() end, mode = {"n"}, desc = '[F]ind [W]ord (Grep)' },
+      { "fw", function() require('fzf-lua').live_grep() end, mode = {"n"}, desc = '[F]ind [W]ord (Grep)' },
       { "fg", function() require('fzf-lua').grep({ search = vim.fn.expand("<cword>") }) end, mode = {"n"}, desc = '[F]ind [G]rep on Current Word' },
       { "fr", function() require('fzf-lua').oldfiles() end, mode = {"n"}, desc = '[F]ind [R]ecent Files' },
       { "fk", function() require('fzf-lua').keymaps() end, mode = {"n"}, desc = '[F]ind [K]eymaps' },

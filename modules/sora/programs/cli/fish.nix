@@ -202,11 +202,6 @@
               _nim_prompt_wrapper $retc ''$mode
           end
 
-          set -q VIRTUAL_ENV_DISABLE_PROMPT
-          or set -g VIRTUAL_ENV_DISABLE_PROMPT true
-          set -q VIRTUAL_ENV
-          and _nim_prompt_wrapper $retc V (basename "$VIRTUAL_ENV")
-
           set -l prompt_git (fish_git_prompt '%s')
           test -n "$prompt_git"
           and _nim_prompt_wrapper $retc G $prompt_git
