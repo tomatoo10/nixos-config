@@ -1,13 +1,11 @@
-# This is your home-manager configuration file
-# Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
   inputs,
   pkgs,
   ...
 }: {
   imports = [
-    ../modules/desktop
-    ../modules/programs/cli
+    # Configs for ryu workspace
+    ../modules/ryu
   ];
 
   nixpkgs = {
@@ -18,7 +16,6 @@
 
   # Overlays
   nixpkgs.overlays = [
-    inputs.nvim-config.overlays.default
     inputs.alacritty-theme.overlays.default
   ];
 
@@ -47,7 +44,6 @@
     btop # process monitor
     fzf # fuzzy finder to find things
     ripgrep # finder to search for things
-    nvim-pkg # my neovim cfg overlay
     bat # Replacing cat
     alejandra # nixformatter
     killall # utils (this shouldn't be here)
@@ -69,7 +65,9 @@
     hyprpaper # wallpaper
     hyprpicker # color picker
     hyprsunset # night filter
+    greetd.regreet
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default # cursor
+    inputs.nixcats.packages.${pkgs.system}.default # nixcats
   ];
 
   # Enable home-manager

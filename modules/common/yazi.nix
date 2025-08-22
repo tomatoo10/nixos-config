@@ -1,7 +1,8 @@
 {inputs, ...}: {
-  # Yazi plugin flake
   # https://github.com/lordkekz/nix-yazi-plugins
-  imports = [(inputs.nix-yazi-plugins.legacyPackages.x86_64-linux.homeManagerModules.default)];
+  imports = [
+    inputs.nix-yazi-plugins.legacyPackages.x86_64-linux.homeManagerModules.default
+  ];
 
   programs.yazi = {
     enable = true;

@@ -1,13 +1,11 @@
-# This is your home-manager configuration file
-# Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
   inputs,
   pkgs,
   ...
 }: {
   imports = [
-    ../modules/sora/desktop
-    ../modules/sora/programs/cli
+    # Configuration of applications used by sora workspace.
+    ../modules/sora
   ];
 
   nixpkgs.config.allowUnfree = true;

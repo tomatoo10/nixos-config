@@ -5,6 +5,7 @@
   config,
   lib,
   modulesPath,
+  pkgs,
   ...
 }: {
   imports = [(modulesPath + "/installer/scan/not-detected.nix")];
@@ -12,6 +13,11 @@
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-amd"];
   boot.extraModulePackages = [];
+
+  boot.kernelPackages = pkgs.linuxPackages_zen;
+
+  powerManagement.cpuFreqGovernor = "performance";
+
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/663eabbc-eef2-43db-8e7f-cae986188d9d";
