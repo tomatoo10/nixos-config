@@ -114,7 +114,7 @@
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager switch --flake .#your-username@your-hostname'
     homeConfigurations = {
-      "akame@ryu" = home-manager.lib.homeManagerConfiguration {
+      "ak4m3@ryu" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [

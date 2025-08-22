@@ -6,6 +6,7 @@
   imports = [
     # Configs for ryu workspace
     ../modules/ryu
+    ../modules/common
   ];
 
   nixpkgs = {
@@ -20,9 +21,10 @@
   ];
 
   home = {
-    username = "akame";
-    homeDirectory = "/home/akame";
+    username = "ak4m3";
+    homeDirectory = "/home/ak4m3";
   };
+
   # Here lies packages that don't require any configuration/setup whatsoever.
   # Important apps are at ./modules/*
   home.packages = with pkgs; [

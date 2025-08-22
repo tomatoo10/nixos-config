@@ -9,7 +9,7 @@
 
   stylix = {
     enable = true;
-    base16Scheme = ../../../themes/red.yaml;
+    base16Scheme = ../../themes/red.yaml;
 
     targets.alacritty.enable = false;
     targets.fish.enable = false;

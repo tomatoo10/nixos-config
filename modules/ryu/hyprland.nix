@@ -43,17 +43,19 @@ in {
 
       input = {
         kb_layout = "us";
+        kb_options = "caps:swapescape";
 
         follow_mouse = 1;
 
         sensitivity = 0; # -1.0 - 1.0, 0 means no modification.
       };
+
       general = {
         gaps_in = 4;
         gaps_out = 9;
         border_size = 2;
-        "col.active_border" = "rgba(ca9ee6ff) rgba(f2d5cfff) 45deg";
-        "col.inactive_border" = "rgba(b4befecc) rgba(6c7086cc) 45deg";
+        # "col.active_border" = "rgba(ca9ee6ff) rgba(f2d5cfff) 45deg";
+        # "col.inactive_border" = "rgba(b4befecc) rgba(6c7086cc) 45deg";
         resize_on_border = true;
         layout = "dwindle"; # dwindle or master
       };
@@ -64,10 +66,10 @@ in {
       };
 
       group = {
-        "col.border_active" = "rgba(ca9ee6ff) rgba(f2d5cfff) 45deg";
-        "col.border_inactive" = "rgba(b4befecc) rgba(6c7086cc) 45deg";
-        "col.border_locked_active" = "rgba(ca9ee6ff) rgba(f2d5cfff) 45deg";
-        "col.border_locked_inactive" = "rgba(b4befecc) rgba(6c7086cc) 45deg";
+        # "col.border_active" = "rgba(ca9ee6ff) rgba(f2d5cfff) 45deg";
+        # "col.border_inactive" = "rgba(b4befecc) rgba(6c7086cc) 45deg";
+        # "col.border_locked_active" = "rgba(ca9ee6ff) rgba(f2d5cfff) 45deg";
+        # "col.border_locked_inactive" = "rgba(b4befecc) rgba(6c7086cc) 45deg";
       };
 
       layerrule = [

@@ -27,7 +27,7 @@
       find = "fd --color never";
 
       # Nix
-      # nhhm = "nh home switch /etc/nixos#homeConfigurations.akame@$1.activationPackage";
+      # nhhm = "nh home switch /etc/nixos#homeConfigurations.ak4m3@$1.activationPackage";
       nhos = "nh os switch /etc/nixos";
 
       # Servers and Vm's
