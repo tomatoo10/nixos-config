@@ -10,7 +10,7 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 -- Set highlight on search
 vim.opt.hlsearch = true
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { noremap = true, silent = true })
 
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = 'split'
@@ -102,8 +102,8 @@ vim.keymap.set("n", "<A-k>", "V:m '<-2<CR>gv=gv", { desc = "Moves Current Line U
 vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Moves Selected Lines Down" })
 vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Moves Selected Lines Up" })
 
-vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = 'Scroll Down' })
-vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = 'Scroll Up' })
+-- vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = 'Scroll Up' })
+-- vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = 'Scroll Down' })
 vim.keymap.set("n", "n", "nzzzv", { desc = 'Next Search Result' })
 vim.keymap.set("n", "N", "Nzzzv", { desc = 'Previous Search Result' })
 
@@ -121,6 +121,36 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+
+-- Go to next error
+vim.keymap.set("n", "[e", function()
+vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+end, opts)
+vim.keymap.set("n", "]e", function()
+vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+end, opts)
+
+-- Go to next warning
+vim.keymap.set("n", "[w", function()
+vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.WARN})
+end, opts)
+vim.keymap.set("n", "]w", function()
+vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.WARN})
+end, opts)
+
+-- Disable LSP signs in the gutter
+vim.diagnostic.config({
+    virtual_text = {
+        prefix = '···',
+    },   -- show diagnostics inline
+    signs = false,         -- disable signs (E/W/H) in the gutter
+    underline = true,      -- keep underline if you like
+    update_in_insert = false,
+})
+
+
+vim.wo.signcolumn = "auto"
+
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 

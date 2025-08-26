@@ -48,8 +48,8 @@ return {
         -- See :h blink-cmp-config-keymap for configuring keymaps
         keymap =  {
           preset = 'super-tab',
-          -- ['<C-F>'] = { 'select_prev', 'fallback' },
-          -- ['<C-f>'] = { 'select_next', 'fallback' },
+          ['<C-S-f>'] = { 'select_prev', 'fallback' },
+          ['<C-f>'] = { 'select_next', 'fallback' },
           -- ['<Tab>'] = { 'accept', 'fallback' },
           -- show with a list of providers
           ['<C-x>'] = { function(cmp) cmp.show() end },

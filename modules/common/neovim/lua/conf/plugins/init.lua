@@ -9,9 +9,9 @@ if ok then
     end,
   })
   vim.notify = notify
-  vim.keymap.set("n", "<Esc>", function()
-      notify.dismiss({ silent = true, })
-  end, { desc = "dismiss notify popup and clear hlsearch" })
+  -- vim.keymap.set("n", "<Esc>", function()
+  --     notify.dismiss({ silent = true, })
+  -- end, { desc = "dismiss notify popup and clear hlsearch" })
 end
 
 -- NOTE: you can check if you included the category with the thing wherever you want.
