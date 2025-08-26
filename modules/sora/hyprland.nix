@@ -3,7 +3,7 @@
   lib,
   ...
 }: let
-  walls = ../../../wallpapers;
+  walls = ../../wallpapers;
 in {
   wayland.windowManager.hyprland = {
     enable = true;
