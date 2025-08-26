@@ -1,13 +1,12 @@
-# This is your home-manager configuration file
-# Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
   inputs,
   pkgs,
   ...
 }: {
   imports = [
-    ../modules/sora/desktop
-    ../modules/sora/programs/cli
+    # Configuration of applications used by sora workspace.
+    ../modules/sora
+    ../modules/common
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -21,11 +20,6 @@
     username = "ak4m3";
     homeDirectory = "/home/ak4m3";
   };
-
-  programs.ssh.extraConfig = ''
-    AddKeysToAgent yes
-    IdentityFile ~/.ssh/id_ed25519
-  '';
 
   # Here lies packages that don't require any configuration/setup whatsoever.
   # Important apps are at ./modules/*
