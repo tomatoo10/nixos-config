@@ -1160,11 +1160,11 @@
         "plugins-multicursor": "plugins-multicursor"
       },
       "locked": {
-        "path": "./modules/sora/programs/cli/neovim",
+        "path": "./modules/common/neovim",
         "type": "path"
       },
       "original": {
-        "path": "./modules/sora/programs/cli/neovim",
+        "path": "./modules/common/neovim",
         "type": "path"
       },
       "parent": []
