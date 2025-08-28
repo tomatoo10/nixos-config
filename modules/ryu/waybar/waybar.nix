@@ -31,7 +31,7 @@ in {
           "memory"
           "disk"
           "wireplumber" # Audio control
-          "custom/weather"
+          # "custom/weather" # change to wttrbar
         ];
 
         disk = {
@@ -107,7 +107,7 @@ in {
         };
 
         mpris = {
-          format = " {status_icon} {dynamic}";
+          format = "{status_icon} {dynamic}";
           interval = 1;
           "dynamic-len" = 40;
           "status-icons" = {

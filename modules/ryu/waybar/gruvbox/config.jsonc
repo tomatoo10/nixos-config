@@ -94,7 +94,7 @@
     },
 
     "mpris": {
-      "format": " {status_icon} {dynamic}",
+      "format": "{status_icon} {dynamic}",
       "interval": 1,
       "dynamic-len": 40,
       "status-icons": {
