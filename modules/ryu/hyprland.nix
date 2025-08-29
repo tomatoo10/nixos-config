@@ -71,6 +71,10 @@ in {
         "ignorealpha 0.7, swaync-control-center"
       ];
 
+      animations = {
+        enabled = false;
+      };
+
       ecosystem = {
         no_update_news = true;
         no_donation_nag = true;
@@ -108,8 +112,8 @@ in {
       windowrule = [
         # Move applications to different workspaces
         "suppressevent maximize, class: *"
-        "workspace 0, class:^(Spotify)$"
-        "workspace 0, title:(.*)(Spotify)(.*)$"
+        # "workspace 0, class:^(Spotify)$"
+        # "workspace 0, title:(.*)(Spotify)(.*)$"
       ];
 
       binde = [
@@ -227,10 +231,6 @@ in {
     };
 
     extraConfig = ''
-      binds {
-        workspace_back_and_forth = 1
-      }
-
       # Easily plug in any monitor
       monitor=,preferred,auto,1
 

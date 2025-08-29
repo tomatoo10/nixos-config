@@ -1,6 +1,7 @@
 return function(_, bufnr)
   -- we create a function that lets us more easily define mappings specific
   -- for LSP related items. It sets the mode, buffer and description for us each time.
+  print("on_attach called for buffer:", bufnr)
 
   local nmap = function(keys, func, desc)
     if desc then
@@ -13,7 +14,6 @@ return function(_, bufnr)
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
-  nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
 
   -- NOTE: why are these functions that call the telescope builtin?
   -- because otherwise they would load telescope eagerly when this is defined.
@@ -25,13 +25,12 @@ return function(_, bufnr)
     nmap('<leader>ws', function() require('fzf-lua.builtin').lsp_dynamic_workspace_symbols() end, '[W]orkspace [S]ymbols')
   end -- TODO: someone who knows the builtin versions of these to do instead help me out please.
 
-  nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
-
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
   nmap('<C-S-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
+  nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
   nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
   nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')

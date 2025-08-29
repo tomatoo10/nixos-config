@@ -2,9 +2,6 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- Sets how neovim will display certain whitespace characters in the editor.
---  See `:help 'list'`
---  and `:help 'listchars'`
 vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
@@ -25,14 +22,14 @@ vim.wo.number = true
 vim.o.mouse = 'a'
 
 -- Indent
--- vim.o.smarttab = true
+vim.o.smarttab = true
 vim.opt.cpoptions:append('I')
 vim.o.expandtab = true
--- vim.o.smartindent = true
--- vim.o.autoindent = true
--- vim.o.tabstop = 4
--- vim.o.softtabstop = 4
--- vim.o.shiftwidth = 4
+vim.o.smartindent = true
+vim.o.autoindent = true
+vim.o.tabstop = 2
+vim.o.softtabstop = 2
+vim.o.shiftwidth = 2
 
 -- stops line wrapping from being confusing
 vim.o.breakindent = true
@@ -83,6 +80,18 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   pattern = '*',
 })
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+    callback = function()
+        local mode = vim.api.nvim_get_mode().mode
+        local filetype = vim.bo.filetype
+        if vim.bo.modified == true and mode == 'n' and filetype ~= "oil" then
+            vim.cmd('lua vim.lsp.buf.format()')
+        else
+        end
+    end
+})
+
 
 vim.cmd([[command! W w]])
 vim.cmd([[command! Wq wq]])
@@ -140,13 +149,22 @@ end, opts)
 
 -- Disable LSP signs in the gutter
 vim.diagnostic.config({
-    virtual_text = {
-        prefix = '···',
-    },   -- show diagnostics inline
-    signs = false,         -- disable signs (E/W/H) in the gutter
-    underline = true,      -- keep underline if you like
-    update_in_insert = false,
+    -- virtual_text = {
+        -- prefix = '» ',
+        -- truncate = 120,
+    -- },
+    signs = true,
+    underline = true,
+    update_in_insert = true,
+    severity_sort = false,
+    -- float = {
+    --     border = 'rounded',
+    --     source = 'always',
+    --     header = '',
+    --     prefix = '',
+    -- },
 })
+
 
 
 vim.wo.signcolumn = "auto"

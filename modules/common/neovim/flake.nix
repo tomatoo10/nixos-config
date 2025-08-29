@@ -10,10 +10,6 @@
       flake = false;
     };
 
-    # Overlay so i can use neovim nightly instead
-    neovim-nightly-overlay = {
-      url = "github:nix-community/neovim-nightly-overlay";
-    };
   };
 
   outputs = {
@@ -45,13 +41,6 @@
           universal-ctags
           ripgrep
           fd
-        ];
-
-        langs = with pkgs; [
-          rust-analyzer
-          clippy
-          rustfmt
-          nixd
         ];
       };
 
@@ -85,10 +74,6 @@
           nvim-lint
         ];
 
-        format = with pkgs.vimPlugins; [
-          conform-nvim
-        ];
-
         general = {
           blink = with pkgs.vimPlugins; [
             luasnip
@@ -104,7 +89,6 @@
           utils = with pkgs.vimPlugins; [
             fzf-lua
             pkgs.neovimPlugins.multicursor
-            rustaceanvim
           ];
           core = with pkgs.vimPlugins; [
             nvim-lspconfig
@@ -151,7 +135,6 @@
           langs = true;
           general = true;
           lint = true;
-          format = true;
           themer = true;
           colorscheme = "gruvbox";
         };
