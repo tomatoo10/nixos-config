@@ -22,6 +22,7 @@ vim.wo.number = true
 vim.o.mouse = 'a'
 
 -- Indent
+-- nvim-sleuth takes care of it so it should be disabled?
 vim.o.smarttab = true
 vim.opt.cpoptions:append('I')
 vim.o.expandtab = true

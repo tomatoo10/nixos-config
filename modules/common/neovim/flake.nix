@@ -9,7 +9,6 @@
       url = "github:jake-stewart/multicursor.nvim";
       flake = false;
     };
-
   };
 
   outputs = {
@@ -36,6 +35,7 @@
       mkPlugin,
       ...
     } @ packageDef: {
+
       lspsAndRuntimeDeps = {
         deps = with pkgs; [
           universal-ctags
@@ -52,10 +52,9 @@
             vim-repeat
             plenary-nvim
             nvim-notify
-          ];
-          extra = [
             nvim-web-devicons
           ];
+          extra = [];
         };
         themer = with pkgs.vimPlugins; (
           builtins.getAttr (categories.colorscheme or "onedark") {
@@ -70,50 +69,33 @@
       };
 
       optionalPlugins = {
-        lint = with pkgs.vimPlugins; [
-          nvim-lint
-        ];
-
-        general = {
-          blink = with pkgs.vimPlugins; [
+        general = with pkgs.vimPlugins; [
             luasnip
             cmp-cmdline
             blink-cmp
             blink-compat
             colorful-menu-nvim
-          ];
-          treesitter = with pkgs.vimPlugins; [
+
             nvim-treesitter-textobjects
             nvim-treesitter.withAllGrammars
-          ];
-          utils = with pkgs.vimPlugins; [
+
             fzf-lua
             pkgs.neovimPlugins.multicursor
-          ];
-          core = with pkgs.vimPlugins; [
+
             nvim-lspconfig
             lualine-nvim
-            vim-sleuth
-            nvim-surround
-          ];
-          extra = with pkgs.vimPlugins; [
-            fidget-nvim
+            vim-sleuth # Automatic fix tabs based on the file
+            nvim-surround # Do i need it?
+
+            fidget-nvim # Do i need it?
             which-key-nvim
-          ];
-        };
-      };
+        ];
 
-      sharedLibraries = {
-        general = with pkgs; [];
+        notlazy = with pkgs.vimPlugins; [
+            # Plugins that don't need to be lazy loaded
+        ];
       };
-
-      python3.libraries = {
-        test = _: [];
-      };
-      extraLuaPackages = {
-        general = [(_: [])];
-      };
-    };
+   };
 
     packageDefinitions = {
       nvim = {
@@ -132,9 +114,7 @@
           neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
         };
         categories = {
-          langs = true;
           general = true;
-          lint = true;
           themer = true;
           colorscheme = "gruvbox";
         };

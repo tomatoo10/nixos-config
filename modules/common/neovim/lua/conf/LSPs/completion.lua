@@ -6,18 +6,18 @@ end
 return {
   {
     "cmp-cmdline",
-    for_cat = "general.blink",
+    for_cat = "general",
     on_plugin = { "blink.cmp" },
     load = load_w_after,
   },
   {
     "blink.compat",
-    for_cat = "general.blink",
+    for_cat = "general",
     dep_of = { "cmp-cmdline" },
   },
   {
     "luasnip",
-    for_cat = "general.blink",
+    for_cat = "general",
     dep_of = { "blink.cmp" },
     after = function (_)
       local luasnip = require 'luasnip'
@@ -35,23 +35,19 @@ return {
   },
   {
     "colorful-menu.nvim",
-    for_cat = "general.blink",
+    for_cat = "general",
     on_plugin = { "blink.cmp" },
   },
   {
     "blink.cmp",
-    for_cat = "general.blink",
+    for_cat = "general",
     event = "DeferredUIEnter",
     after = function (_)
       require("blink.cmp").setup({
-        -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
-        -- See :h blink-cmp-config-keymap for configuring keymaps
         keymap =  {
           preset = 'super-tab',
           ['<C-S-f>'] = { 'select_prev', 'fallback' },
           ['<C-f>'] = { 'select_next', 'fallback' },
-          -- ['<Tab>'] = { 'accept', 'fallback' },
-          -- show with a list of providers
           ['<C-x>'] = { function(cmp) cmp.show() end },
         },
         cmdline = {
@@ -64,9 +60,6 @@ return {
           },
           sources = function()
             local type = vim.fn.getcmdtype()
-            -- Search forward and backward
-            -- if type == '/' or type == '?' then return { 'buffer' } end
-            -- Commands
             if type == ':' or type == '@' then return { 'cmdline', 'cmp_cmdline' } end
             return {}
           end,
@@ -74,7 +67,6 @@ return {
         fuzzy = {
           sorts = {
             'exact',
-            -- defaults
             'score',
             'sort_text',
           },
