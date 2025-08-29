@@ -59,8 +59,8 @@ vim.o.completeopt = 'menu,preview,noselect'
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
-vim.g.netrw_liststyle=0
-vim.g.netrw_banner=0
+vim.g.netrw_liststyle = 0
+vim.g.netrw_banner = 0
 
 -- [[ Disable auto comment on enter ]]
 -- See :help formatoptions
@@ -83,14 +83,14 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
-    callback = function()
-        local mode = vim.api.nvim_get_mode().mode
-        local filetype = vim.bo.filetype
-        if vim.bo.modified == true and mode == 'n' and filetype ~= "oil" then
-            vim.cmd('lua vim.lsp.buf.format()')
-        else
-        end
+  callback = function()
+    local mode = vim.api.nvim_get_mode().mode
+    local filetype = vim.bo.filetype
+    if vim.bo.modified == true and mode == 'n' and filetype ~= "oil" then
+      vim.cmd('lua vim.lsp.buf.format()')
+    else
     end
+  end
 })
 
 
@@ -134,36 +134,30 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnos
 
 -- Go to next error
 vim.keymap.set("n", "[e", function()
-vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+  vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
 end, opts)
 vim.keymap.set("n", "]e", function()
-vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+  vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
 end, opts)
 
 -- Go to next warning
 vim.keymap.set("n", "[w", function()
-vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.WARN})
+  vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.WARN })
 end, opts)
 vim.keymap.set("n", "]w", function()
-vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.WARN})
+  vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.WARN })
 end, opts)
 
 -- Disable LSP signs in the gutter
 vim.diagnostic.config({
-    -- virtual_text = {
-        -- prefix = '» ',
-        -- truncate = 120,
-    -- },
-    signs = true,
-    underline = true,
-    update_in_insert = true,
-    severity_sort = false,
-    -- float = {
-    --     border = 'rounded',
-    --     source = 'always',
-    --     header = '',
-    --     prefix = '',
-    -- },
+  virtual_text = {
+    prefix = '➡ ',
+    truncate = 120,
+  },
+  signs = false,
+  underline = true,
+  update_in_insert = true,
+  severity_sort = false,
 })
 
 
@@ -174,6 +168,6 @@ vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open float
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- You should instead use these keybindings so that they are still easy to use, but dont conflict
-vim.keymap.set({"v", "x", "n"}, '<C-y>', '"+y', { noremap = true, silent = false, desc = 'Yank to clipboard' })
-vim.keymap.set({"n", "v", "x"}, '<C-S-y>', '"+yy', { noremap = true, silent = false, desc = 'Yank line to clipboard' })
-vim.keymap.set({"n", "v", "x"}, '<C-a>', 'gg0vG$', { noremap = true, silent = false, desc = 'Select all' })
+vim.keymap.set({ "v", "x", "n" }, '<C-y>', '"+y', { noremap = true, silent = false, desc = 'Yank to clipboard' })
+vim.keymap.set({ "n", "v", "x" }, '<C-S-y>', '"+yy', { noremap = true, silent = false, desc = 'Yank line to clipboard' })
+vim.keymap.set({ "n", "v", "x" }, '<C-a>', 'gg0vG$', { noremap = true, silent = false, desc = 'Select all' })

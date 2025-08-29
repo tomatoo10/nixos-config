@@ -2,18 +2,18 @@
 local old_ft_fallback = require('lze').h.lsp.get_ft_fallback()
 require('lze').h.lsp.set_ft_fallback(function(name)
   local lspcfg = nixCats.pawsible({ "allPlugins", "opt", "nvim-lspconfig" })
-               or nixCats.pawsible({ "allPlugins", "start", "nvim-lspconfig" })
+      or nixCats.pawsible({ "allPlugins", "start", "nvim-lspconfig" })
   if not lspcfg then
     return old_ft_fallback(name)
   end
-  local cfg = dofile(lspcfg .. "/lsp/" .. name .. ".lua") 
-          or dofile(lspcfg .. "/lua/lspconfig/configs/" .. name .. ".lua")
+  local cfg = dofile(lspcfg .. "/lsp/" .. name .. ".lua")
+      or dofile(lspcfg .. "/lua/lspconfig/configs/" .. name .. ".lua")
   return (cfg and cfg.filetypes) or {}
 end)
 
 -- TODO: Am i even using lspconfig here? Can i put rustacenvim to work?
 require('lze').load {
-  { import = "conf.LSPs.completion"},
+  { import = "conf.LSPs.completion" },
 
   {
     "nvim-lspconfig",
@@ -24,35 +24,46 @@ require('lze').load {
       vim.lsp.enable(plugin.name)
     end,
     before = function(_)
-    vim.lsp.config('*', {
-      on_attach = require('conf.LSPs.on_attach'),
-    })
-  end,
+      vim.lsp.config('*', {
+        on_attach = require('conf.LSPs.on_attach'),
+      })
+    end,
   },
 
-  -- I'm not using the plugin here
+  -- {
+  --   "rust_analyzer",
+  --   -- This will make it be loaded by lsp-config
+  --   lsp = {
+  --     on_attach = require('conf.LSPs.on_attach'),
+  --     filetypes = { "rust" },
+  --     settings = {
+  --       ["rust-analyzer"] = {
+  --         cargo = {
+  --               allFeatures = true
+  --         },
+  --         check = {
+  --               command = "clippy",
+  --         },
+  --         checkOnSave = true,
+  --         diagnostics = {
+  --                 previewRustcOutput = false,
+  --                 useRustcErrorCode = false,
+  --         },
+  --       },
+  --     },
+  --   },
+  -- },
+
   {
-    "rust_analyzer",
-    -- This will make it be loaded by lsp-config
-    lsp = {
-      on_attach = require('conf.LSPs.on_attach'),
-      filetypes = { "rust" },
-      settings = {
-        ["rust-analyzer"] = {
-          cargo = {
-                allFeatures = true 
-          },
-          check = {
-                command = "clippy",
-          },
-          checkOnSave = true,
-          diagnostics = {
-                  previewRustcOutput = false,
-                  useRustcErrorCode = false,
-          },
-        },
-      },
-    },
+    "rustaceanvim",
+    for_cat = "general",
+    after = function()
+      vim.g.rustaceanvim = {
+        server = {
+          on_attach = require('conf.LSPs.on_attach')
+        }
+      }
+    end,
   },
 
   -- Lua LSP

@@ -98,6 +98,9 @@
 
               fidget-nvim # Show LSP progress :D
               which-key-nvim # Show keysmaps
+
+              # Langs
+              rustaceanvim
             ];
           };
         };
