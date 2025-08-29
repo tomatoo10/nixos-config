@@ -9,188 +9,198 @@
       url = "github:jake-stewart/multicursor.nvim";
       flake = false;
     };
+
+    neovim-nightly-overlay = {
+      url = "github:nix-community/neovim-nightly-overlay";
+    };
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    ...
-  } @ inputs: let
-    inherit (inputs.nixCats) utils;
-    luaPath = ./.;
-    forEachSystem = utils.eachSystem nixpkgs.lib.platforms.all;
-    extra_pkg_config = {
-      allowUnfree = true;
-    };
-    dependencyOverlays = [
-      (utils.standardPluginOverlay inputs)
-    ];
-
-    categoryDefinitions = {
-      pkgs,
-      settings,
-      categories,
-      extra,
-      name,
-      mkPlugin,
+  outputs =
+    {
+      self,
+      nixpkgs,
       ...
-    } @ packageDef: {
+    }@inputs:
+    let
+      inherit (inputs.nixCats) utils;
+      luaPath = ./.;
+      forEachSystem = utils.eachSystem nixpkgs.lib.platforms.all;
+      extra_pkg_config.allowUnfree = true;
+      dependencyOverlays = [
+        (utils.standardPluginOverlay inputs)
+      ];
 
-      lspsAndRuntimeDeps = {
-        deps = with pkgs; [
-          universal-ctags
-          ripgrep
-          fd
-        ];
-      };
+      categoryDefinitions =
+        {
+          pkgs,
+          settings,
+          categories,
+          extra,
+          name,
+          mkPlugin,
+          ...
+        }:
+        {
 
-      startupPlugins = {
-        general = with pkgs.vimPlugins; {
-          always = [
-            lze
-            lzextras
-            vim-repeat
-            plenary-nvim
-            nvim-notify
-            nvim-web-devicons
-          ];
-          extra = [];
-        };
-        themer = with pkgs.vimPlugins; (
-          builtins.getAttr (categories.colorscheme or "onedark") {
-            "onedark" = onedark-nvim;
-            "catppuccin" = catppuccin-nvim;
-            "catppuccin-mocha" = catppuccin-nvim;
-            "tokyonight" = tokyonight-nvim;
-            "tokyonight-day" = tokyonight-nvim;
-            "gruvbox" = gruvbox;
-          }
-        );
-      };
+          lspsAndRuntimeDeps = {
+            deps = with pkgs; [
+              # I can make LSPs available here or in my system, either by using nix-shell or systemPackages.
+              universal-ctags
+              ripgrep
+              fd
+              lua-language-server
+              nil
+            ];
+          };
 
-      optionalPlugins = {
-        general = with pkgs.vimPlugins; [
-            luasnip
-            cmp-cmdline
-            blink-cmp
-            blink-compat
-            colorful-menu-nvim
+          startupPlugins = {
+            # Not lazy loaded
+            general = with pkgs.vimPlugins; {
+              always = [
+                lze
+                lzextras
+                vim-repeat
+                plenary-nvim
+                nvim-notify
+                nvim-web-devicons
+              ];
+            };
+            themer =
+              with pkgs.vimPlugins;
+              (builtins.getAttr (categories.colorscheme or "onedark") {
+                "onedark" = onedark-nvim;
+                "catppuccin" = catppuccin-nvim;
+                "catppuccin-mocha" = catppuccin-nvim;
+                "tokyonight" = tokyonight-nvim;
+                "tokyonight-day" = tokyonight-nvim;
+                "gruvbox" = gruvbox;
+              });
+          };
 
-            nvim-treesitter-textobjects
-            nvim-treesitter.withAllGrammars
+          optionalPlugins = {
+            # Lazy loaded
+            general = with pkgs.vimPlugins; [
+              luasnip # I don't know
+              cmp-cmdline # Cmd line completation
+              blink-cmp # Completation
+              blink-compat # compability layer for nvim-cmp
+              colorful-menu-nvim # Enhance : command line in neovim
 
-            fzf-lua
-            pkgs.neovimPlugins.multicursor
+              nvim-treesitter.withAllGrammars # Syntax highlighting
 
-            nvim-lspconfig
-            lualine-nvim
-            vim-sleuth # Automatic fix tabs based on the file
-            nvim-surround # Do i need it?
+              fzf-lua # Fuzzy finder
+              pkgs.neovimPlugins.multicursor # Multicursor feature, maybe i change it to vim-multi bc of update on insert
 
-            fidget-nvim # Do i need it?
-            which-key-nvim
-        ];
+              nvim-lspconfig # Configure LSPs
+              lualine-nvim # Cool line
+              vim-sleuth # Automatic fix tabs based on the file
+              nvim-surround # Do i need it?
 
-        notlazy = with pkgs.vimPlugins; [
-            # Plugins that don't need to be lazy loaded
-        ];
-      };
-   };
-
-    packageDefinitions = {
-      nvim = {
-        pkgs,
-        name,
-        ...
-      } @ misc: {
-        settings = {
-          suffix-path = true;
-          suffix-LD = true;
-          aliases = ["vim" "vimcat"];
-          wrapRc = true;
-          configDirName = "nixCats-nvim";
-          hosts.python3.enable = true;
-          hosts.node.enable = true;
-          neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
-        };
-        categories = {
-          general = true;
-          themer = true;
-          colorscheme = "gruvbox";
-        };
-        extra = {
-          nixdExtras = {
-            nixpkgs = ''import ${pkgs.path} {}'';
+              fidget-nvim # Show LSP progress :D
+              which-key-nvim # Show keysmaps
+            ];
           };
         };
+
+      packageDefinitions = {
+        nvim =
+          {
+            pkgs,
+            name,
+            ...
+          }:
+          {
+            settings = {
+              suffix-path = true;
+              suffix-LD = true;
+              aliases = [
+                "vim"
+                "vimcat"
+              ];
+              wrapRc = true;
+              configDirName = "nvim";
+              hosts.python3.enable = true;
+              hosts.node.enable = true;
+              neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
+            };
+            categories = {
+              general = true;
+              deps = true;
+              themer = true;
+              colorscheme = "gruvbox";
+            };
+          };
       };
-    };
 
-    defaultPackageName = "nvim";
-  in
-    forEachSystem (system: let
-      nixCatsBuilder =
-        utils.baseBuilder luaPath {
-          inherit nixpkgs system dependencyOverlays extra_pkg_config;
-        }
-        categoryDefinitions
-        packageDefinitions;
+      defaultPackageName = "nvim";
+    in
+    forEachSystem (
+      system:
+      let
+        nixCatsBuilder = utils.baseBuilder luaPath {
+          inherit
+            nixpkgs
+            system
+            dependencyOverlays
+            extra_pkg_config
+            ;
+        } categoryDefinitions packageDefinitions;
 
-      defaultPackage = nixCatsBuilder defaultPackageName;
+        defaultPackage = nixCatsBuilder defaultPackageName;
 
-      pkgs = import nixpkgs {inherit system;};
-    in {
-      packages = utils.mkAllWithDefault defaultPackage;
+        pkgs = import nixpkgs { inherit system; };
+      in
+      {
+        packages = utils.mkAllWithDefault defaultPackage;
 
-      devShells = {
-        default = pkgs.mkShell {
-          name = defaultPackageName;
-          packages = [defaultPackage];
-          inputsFrom = [];
-          shellHook = ''
-          '';
+        devShells = {
+          default = pkgs.mkShell {
+            name = defaultPackageName;
+            packages = [ defaultPackage ];
+            inputsFrom = [ ];
+            shellHook = '''';
+          };
         };
-      };
-    })
-    // (let
-      nixosModule = utils.mkNixosModules {
-        moduleNamespace = [defaultPackageName];
-        inherit
-          defaultPackageName
-          dependencyOverlays
-          luaPath
-          categoryDefinitions
-          packageDefinitions
-          extra_pkg_config
-          nixpkgs
-          ;
-      };
+      }
+    )
+    // (
+      let
+        nixosModule = utils.mkNixosModules {
+          moduleNamespace = [ defaultPackageName ];
+          inherit
+            defaultPackageName
+            dependencyOverlays
+            luaPath
+            categoryDefinitions
+            packageDefinitions
+            extra_pkg_config
+            nixpkgs
+            ;
+        };
 
-      homeModule = utils.mkHomeModules {
-        moduleNamespace = [defaultPackageName];
-        inherit
-          defaultPackageName
-          dependencyOverlays
-          luaPath
-          categoryDefinitions
-          packageDefinitions
-          extra_pkg_config
-          nixpkgs
-          ;
-      };
-    in {
-      overlays =
-        utils.makeOverlays luaPath {
+        homeModule = utils.mkHomeModules {
+          moduleNamespace = [ defaultPackageName ];
+          inherit
+            defaultPackageName
+            dependencyOverlays
+            luaPath
+            categoryDefinitions
+            packageDefinitions
+            extra_pkg_config
+            nixpkgs
+            ;
+        };
+      in
+      {
+        overlays = utils.makeOverlays luaPath {
           inherit nixpkgs dependencyOverlays extra_pkg_config;
-        }
-        categoryDefinitions
-        packageDefinitions
-        defaultPackageName;
+        } categoryDefinitions packageDefinitions defaultPackageName;
 
-      nixosModules.default = nixosModule;
-      homeModules.default = homeModule;
+        nixosModules.default = nixosModule;
+        homeModules.default = homeModule;
 
-      inherit utils nixosModule homeModule;
-      inherit (utils) templates;
-    });
+        inherit utils nixosModule homeModule;
+        inherit (utils) templates;
+      }
+    );
 }

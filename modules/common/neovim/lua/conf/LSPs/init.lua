@@ -33,6 +33,7 @@ require('lze').load {
   -- I'm not using the plugin here
   {
     "rust_analyzer",
+    -- This will make it be loaded by lsp-config
     lsp = {
       on_attach = require('conf.LSPs.on_attach'),
       filetypes = { "rust" },
@@ -51,6 +52,37 @@ require('lze').load {
           },
         },
       },
+    },
+  },
+
+  -- Lua LSP
+  {
+    "lua_ls",
+    lsp = {
+      filetypes = { 'lua' },
+      settings = {
+        Lua = {
+          runtime = { version = 'LuaJIT' },
+          formatters = {
+            ignoreComments = true,
+          },
+          signatureHelp = { enabled = true },
+          diagnostics = {
+            -- The fuck is this for
+            globals = { "nvim", "neovim", "nixCats", "vim" },
+            disable = { 'missing-fields' },
+          },
+          telemetry = { enabled = false },
+        },
+      },
+    },
+  },
+
+  -- Nix
+  {
+    "nil_ls",
+    lsp = {
+      filetypes = { "nix" },
     },
   },
 }
