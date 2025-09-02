@@ -19,7 +19,7 @@ return {
     "luasnip",
     for_cat = "general",
     dep_of = { "blink.cmp" },
-    after = function (_)
+    after = function(_)
       local luasnip = require 'luasnip'
       require('luasnip.loaders.from_vscode').lazy_load()
       luasnip.config.setup {}
@@ -42,9 +42,9 @@ return {
     "blink.cmp",
     for_cat = "general",
     event = "DeferredUIEnter",
-    after = function (_)
+    after = function(_)
       require("blink.cmp").setup({
-        keymap =  {
+        keymap = {
           preset = 'super-tab',
           ['<C-S-f>'] = { 'select_prev', 'fallback' },
           ['<C-f>'] = { 'select_next', 'fallback' },

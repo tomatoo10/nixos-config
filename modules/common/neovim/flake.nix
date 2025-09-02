@@ -63,6 +63,7 @@
                 plenary-nvim
                 nvim-notify
                 nvim-web-devicons
+                mini-nvim
               ];
             };
             themer =

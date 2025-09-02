@@ -1,7 +1,6 @@
 -- NOTE: These 2 need to be set up before any plugins are loaded.
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-
 vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
@@ -14,15 +13,11 @@ vim.opt.inccommand = 'split'
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
-
--- Make line numbers default
-vim.wo.number = true
-
 -- Enable mouse mode
 vim.o.mouse = 'a'
 
 -- Indent
--- nvim-sleuth takes care of it so it should be disabled?
+-- nvim-sleuth takes care of it so i guess it should be disabled?
 vim.o.smarttab = true
 vim.opt.cpoptions:append('I')
 vim.o.expandtab = true
@@ -48,6 +43,7 @@ vim.o.smartcase = true
 -- Keep signcolumn on by default
 vim.wo.signcolumn = 'yes'
 vim.wo.relativenumber = true
+vim.wo.number = true
 
 -- Decrease update time
 vim.o.updatetime = 250
@@ -157,7 +153,7 @@ vim.diagnostic.config({
   signs = false,
   underline = true,
   update_in_insert = true,
-  severity_sort = false,
+  severity_sort = true,
 })
 
 

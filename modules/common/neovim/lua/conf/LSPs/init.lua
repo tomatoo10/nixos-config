@@ -30,30 +30,6 @@ require('lze').load {
     end,
   },
 
-  -- {
-  --   "rust_analyzer",
-  --   -- This will make it be loaded by lsp-config
-  --   lsp = {
-  --     on_attach = require('conf.LSPs.on_attach'),
-  --     filetypes = { "rust" },
-  --     settings = {
-  --       ["rust-analyzer"] = {
-  --         cargo = {
-  --               allFeatures = true
-  --         },
-  --         check = {
-  --               command = "clippy",
-  --         },
-  --         checkOnSave = true,
-  --         diagnostics = {
-  --                 previewRustcOutput = false,
-  --                 useRustcErrorCode = false,
-  --         },
-  --       },
-  --     },
-  --   },
-  -- },
-
   {
     "rustaceanvim",
     for_cat = "general",
