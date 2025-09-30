@@ -11,7 +11,6 @@ require('lze').h.lsp.set_ft_fallback(function(name)
   return (cfg and cfg.filetypes) or {}
 end)
 
--- TODO: Am i even using lspconfig here? Can i put rustacenvim to work?
 require('lze').load {
   { import = "conf.LSPs.completion" },
 
@@ -36,6 +35,13 @@ require('lze').load {
     after = function()
       vim.g.rustaceanvim = {
         server = {
+          settings = {
+            ['rust-analyzer'] = {
+              cargo = {
+                allFeatures = true,
+              }
+            },
+          },
           on_attach = require('conf.LSPs.on_attach')
         }
       }

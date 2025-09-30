@@ -2,7 +2,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   programs.fish = {
     enable = true;
     shellAliases = {
@@ -32,8 +33,8 @@
 
       # Servers and Vm's
       sharedwin = "cd ~/.akame/sharedwin/";
-      mountsshfs_homeserver = "sudo sshfs -o allow_other,default_permissions,kernel_cache,cache=yes akame@192.168.1.100:/home/akame/ ~/.akame/server/ -p 2222";
-      mountsshfs_backup = "sudo sshfs -o allow_other,default_permissions,kernel_cache,cache=yes akame@192.168.1.100:/home/shared/ ~/.akame/home-backup/ -p 2222";
+      mount_server = "sudo sshfs -o allow_other,default_permissions,kernel_cache,cache=yes akame@192.168.1.100:/home/akame/ ~/misc/server/ -p 2222";
+      mount_homeserver = "sudo sshfs -o allow_other,default_permissions,kernel_cache,cache=yes akame@192.168.1.100:/home/shared/ ~/misc/home-server/ -p 2222";
 
       # Rust ;
       cargo_build_win = "cargo build --target x86_64-pc-windows-gnu";

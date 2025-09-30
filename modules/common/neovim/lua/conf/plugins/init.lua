@@ -1,5 +1,12 @@
 -- Colorscheme
-vim.cmd.colorscheme(nixCats('colorscheme'))
+local colorscheme = nixCats('colorscheme')
+vim.cmd.colorscheme(colorscheme)
+
+if colorscheme == "sonokai" then
+  vim.o.termguicolors = false
+else
+  vim.o.termguicolors = true
+end
 
 -- Notify
 local ok, notify = pcall(require, "notify")
@@ -33,5 +40,19 @@ require('lze').load {
     after = function(plugin)
       require('nvim-surround').setup()
     end,
+  },
+  {
+    "no-neck-pain.nvim",
+    for_cat = 'general',
+    load = function(name)
+      vim.cmd.packadd(name)
+    end,
+    after = function(plugin)
+      require('no-neck-pain').setup({
+        width = 120, -- Set your desired width here
+        -- Add other configuration options as needed
+      })
+    end,
+    event = "DeferredUIEnter",
   },
 }

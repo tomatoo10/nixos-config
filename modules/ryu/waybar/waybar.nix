@@ -1,170 +1,226 @@
-{pkgs, ...}: let
-  # minimal-brown, gruvbox
-  theme = "gruvbox";
-  pythonWithMyLibs = pkgs.python3.withPackages (ps:
-    with ps; [
-      pyquery
-    ]);
-in {
-  programs.waybar = {
-    enable = true;
-    style = builtins.readFile ./${theme}/style.css;
-    settings = [
-      {
-        layer = "top"; # Waybar at top layer
-        height = 24; # Waybar height (to be removed for auto height)
-        spacing = 4; # Gaps between modules (4px)
+{
+  config,
+  ...
+}:
+let
+  colors = config.lib.stylix.colors;
 
-        modules-left = [
-          "hyprland/workspaces"
-          "cava"
-          "hyprland/submap" # Normal mode or resize mode TODO: NEED Tweaks
-        ];
-
-        modules-center = [
-          "clock"
-          "mpris"
-        ];
-
-        modules-right = [
-          "cpu"
-          "memory"
-          "disk"
-          "wireplumber" # Audio control
-          # "custom/weather" # change to wttrbar
-        ];
-
-        disk = {
-          format = "{percentage_used}% 󰋊";
-        };
-
-        "custom/weather" = {
-          exec = "${pythonWithMyLibs}/bin/python3 ${./scripts/weather.py}";
-          "restart-interval" = 300;
-          "return-type" = "json";
-          # "on-click" = "xdg-open https://weather.com/en-IN/weather/today/l/$(location_id)";
-          # "format-alt" = "{alt}";
-        };
-
-        # Modules configuration
-        "hyprland/workspaces" = {
-          "all-outputs" = true;
-          "warp-on-scroll" = false;
-          "enable-bar-scroll" = true;
-          "disable-scroll-wraparound" = true;
-          format = "{icon}";
-
-          "format-icons" = {
-            "1" = "一";
-            "2" = "二";
-            "3" = "三";
-            "4" = "四";
-            "5" = "五";
-            "6" = "六";
-            "7" = "七";
-            "8" = "八";
-            "9" = "九";
-            "10" = "十";
-          };
-
-          "persistent-workspaces" = {
-            "1" = [];
-            "2" = [];
-            "3" = [];
-            "4" = [];
-            "5" = [];
-            "6" = [];
-            "7" = [];
-            "8" = [];
-            "9" = [];
-            "10" = [];
-          };
-        };
-
-        "hyprland/window" = {
-          format = "{title}";
-          "max-length" = 40;
-          "all-outputs" = true;
-        };
-
-        cava = {
-          framerate = 30;
-          autosens = 1;
-          bars = 14;
-          lower_cutoff_freq = 50;
-          higher_cutoff_freq = 10000;
-          method = "pipewire";
-          source = "auto";
-          stereo = true;
-          bar_delimiter = 0;
-          noise_reduction = 0.77;
-          input_delay = 2;
-          hide_on_silence = true;
-          "format-icons" = ["▁" "▂" "▃" "▄" "▅" "▆" "▇" "█"];
-          actions = {
-            "on-click-right" = "mode";
-          };
-        };
-
-        mpris = {
-          format = "{status_icon} {dynamic}";
-          interval = 1;
-          "dynamic-len" = 40;
-          "status-icons" = {
-            paused = "▶";
-            playing = "⏸";
-            stopped = "";
-          };
-          "dynamic-order" = ["title" "artist"];
-          "ignored-players" = ["brave" "firefox"];
-        };
-
-        cpu = {
-          interval = 1;
-          format = "{usage:>2}% {icon0} {icon1} {icon2} {icon3}";
-          "format-icons" = [
-            "<span color='#8ec07c'>▁</span>" # Aqua
-            "<span color='#8ec07c'>▂</span>" # Aqua
-            "<span color='#b8bb26'>▃</span>" # Green
-            "<span color='#b8bb26'>▄</span>" # Green
-            "<span color='#fabd2f'>▅</span>" # Yellow
-            "<span color='#fabd2f'>▆</span>" # Yellow
-            "<span color='#fe8019'>▇</span>" # Orange
-            "<span color='#fb4934'>█</span>" # Red
-          ];
-        };
-
-        clock = {
-          timezone = "America/Sao_Paulo";
-          format = "{:%H:%M 󰃭 %a, %d %b %Y}";
-          "format-alt" = "{:%Y-%m-%d}";
-        };
-
-        memory = {
-          format = "{used}% ";
-        };
-
-        wireplumber = {
-          "scroll-step" = 5; # %, can be a float
-          format = "{icon} {volume}%";
-          "format-bluetooth" = "{icon} {volume}% ";
-          "format-bluetooth-muted" = " {icon}";
-          "format-muted" = "";
-          "format-icons" = {
-            headphone = "";
-            "hands-free" = "";
-            headset = "";
-            phone = "";
-            portable = "";
-            car = "";
-            default = ["" "" ""];
-          };
-          "on-click" = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-        };
-      }
-    ];
+  customColors = {
+    fg-main = colors.base05;
+    fg-unactive = colors.base05;
+    bg-main = colors.base00;
+    bg-second = colors.base01;
+    bg-third = colors.base02;
+    bg-third2 = colors.base02;
+    bg-hover = colors.base01;
+    bg-tooltip = colors.base01;
+    border-main = colors.base05;
+    warning_color = colors.base0A;
+    bluetooth_on_color = "6f7dd8";
+    bluetooth_off_color = "565858";
+  };
+in
+{
+  xdg.configFile."waybar/config" = {
+    source = ./binary/config;
   };
 
-  # Weather
-  xdg.configFile."waybar/scripts/weather.py".source = ./scripts/weather.py;
+  programs.waybar = {
+    enable = true;
+    style = ''
+      * {
+        all: unset;
+        font-family: "JetBrainsMono Nerd Font", "Fira Mono";
+        font-weight: 700;
+        font-size: 15.5px;
+      }
+
+      window#waybar {
+        /* Corrected: Use individual RGB components as the attribute names have changed */
+        background: rgba(${toString colors.base00-rgb-r}, ${toString colors.base00-rgb-g}, ${toString colors.base00-rgb-b}, 0);
+        color: #${customColors.fg-main};
+      }
+
+      tooltip {
+        background: #${customColors.bg-tooltip};
+        border-radius: 5px;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #${customColors.border-main};
+      }
+      tooltip label {
+        color: #${customColors.fg-main};
+      }
+
+      #custom-swaync {
+        font-family: "JetBrainsMono Nerd Font";
+        font-size: 1px;
+        color: #${customColors.fg-main};
+        background-color: #${customColors.bg-main};
+        min-width: 20px;
+        padding-left: 12px;
+        padding-right: 12px;
+        margin-left: 10px;
+        margin-right: 5px;
+        transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+        border: 2px solid #${customColors.border-main};
+        border-radius: 10px;
+      }
+
+      #workspaces {
+        color: transparent;
+        margin-right: 1.5px;
+        margin-left: 1.5px;
+        border-radius: 12px;
+        border: 2px solid #${customColors.border-main};
+        background-color: #${customColors.bg-main};
+        padding: 0px 20px
+      }
+      #workspaces button {
+        color: #${customColors.fg-unactive};
+        padding: 2px 10px;
+        margin: 3px 4px;
+        background-color: #${customColors.bg-third};
+        border-radius: 10px;
+        border-color: #${customColors.bg-main};
+      }
+
+      #workspaces button.active {
+        color: #${customColors.bg-main};
+        border-radius: 8px;
+        background: #${customColors.fg-main};
+        padding: 0px 20px;
+      }
+      #workspaces button.focused {
+        color: #${customColors.bg-second};
+      }
+      #workspaces button.urgent {
+        background: rgba(255, 200, 0, 0.35);
+        border-bottom: 0px dashed #${customColors.warning_color};
+        color: #${customColors.warning_color};
+      }
+      #workspaces button:hover {
+        background: #${customColors.fg-main};
+        color: #${customColors.bg-main};
+      }
+
+      #cpu, #disk, #memory {
+        padding: 3px;
+      }
+
+      #window {
+        border-radius: 10px;
+        margin-left: 20px;
+        margin-right: 20px;
+      }
+
+      #bluetooth {
+        padding: 0px 10px;
+        font-size: 14px;
+        font-family: "Fira Code";
+      }
+
+      #bluetooth.disabled, #bluetooth.off {
+        color: #${customColors.bluetooth_off_color};
+      }
+      #bluetooth.on, #bluetooth.connected {
+        color: #${customColors.bluetooth_on_color};
+      }
+
+      #custom-swaync {
+        font-size: 20px;
+        padding: 0px 8px;
+        padding-right: 13px;
+      }
+
+      #power-profiles-daemon {
+        background-color: #${customColors.bg-main};
+        color: #${customColors.fg-main};
+        padding: 0px 5px;
+        padding-left: 10px;
+        font-size: 14px;
+        border-radius: 10px;
+        margin: 2px 6px;
+        transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+      }
+
+      #cpu, #memory, #custom-search, #custom-os_button, #custom-runner, #mpris, #custom-cafein, #cava, #clock {
+        font-family: "Symbols Nerd Font", "JetbrainsMono Nerd Font";
+        background-color: #${customColors.bg-main};
+        font-weight: bold;
+        border-radius: 16px;
+        padding: 0px 10px;
+        border: 0px solid #${customColors.border-main};
+        transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+      }
+
+      #mpris {
+        border: 2px solid #${customColors.border-main};
+        border-radius: 10px;
+        margin: 0px 10px;
+        background-color: #${customColors.bg-main};
+        padding: 0px 10px;
+        padding-left: 2px;
+      }
+
+      #custom-swaync:hover, #tray > widget:hover, #custom-search:hover, #custom-os_button:hover, #custom-runner:hover, #mpris:hover, #custom-cafein:hover, #clock:hover, #power-profiles-daemon:hover {
+        background-color: #${customColors.bg-hover};
+      }
+
+      #hardware {
+        background-color: #${customColors.bg-second};
+        font-weight: bold;
+        padding: 0px 10px;
+        margin: 2px 0px;
+        border-radius: 10px;
+      }
+
+      #cpu, #memory {
+        background-color: unset;
+      }
+
+      #bluetooth {
+        font-size: 15px;
+      }
+
+      #leftSide {
+        border: 2px solid #${customColors.border-main};
+        border-radius: 10px;
+        margin: 0px 10px;
+        background-color: #${customColors.bg-main};
+        padding: 0px 10px;
+      }
+
+      #rightSide {
+        border: 2px solid #${customColors.border-main};
+        border-radius: 10px;
+        margin: 0px 10px;
+        background-color: #${customColors.bg-main};
+        padding: 0px 10px;
+        padding-left: 2px;
+      }
+
+      #clock {
+        font-size: 14px;
+        padding: 0px 6px;
+        margin: 0px 4px;
+      }
+
+      #controlCenter {
+        background-color: #${customColors.bg-second};
+        border-radius: 15px;
+        padding: 0px 8px;
+        margin: 0px 10px;
+      }
+
+      #controlCenter:hover {
+        background-color: #${customColors.bg-third};
+      }
+
+      #network, #pulseaudio, #battery, #backlight {
+        padding: 0px 6px;
+        font-size: 15px;
+      }
+    '';
+  };
 }

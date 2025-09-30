@@ -2,7 +2,8 @@
   inputs,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     # Configs for ryu workspace
     ../modules/ryu
@@ -57,6 +58,7 @@
     playerctl # mixer ?
     spotify # Music yay
     duf # see disks
+    hwloc
 
     # Screenshoot
     swappy

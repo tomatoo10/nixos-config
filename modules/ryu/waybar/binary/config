@@ -1,0 +1,233 @@
+{
+  "layer": "top",
+    "position": "top",
+    "mod": "dock",
+    "exclusive": true,
+    "gtk-layer-shell": true,
+    "margin-top": 6, "margin-bottom": 0,
+    "passthrough": false,
+    "height": 0,
+
+    "modules-left": [ "group/leftSide"],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right": ["mpris", "group/rightSide", "custom/swaync"],
+
+    "hyprland/language": {
+      "format": "{}",
+    },
+
+    "mpris": {
+      "format": " {status_icon} {dynamic} ",
+      "format-stopped": "Nothing is playing :(",
+      "format-disconnected": "No player available :(",
+
+      "status-icons": {
+        "playing": "",
+        "paused": "",
+      },
+
+      "dynamic-len": "30",
+
+      "dynamic-order": ["title" , "artist"],
+
+      "tooltip": false,
+      "ignored-playes": ["brave-browser", "firefox"]
+    },
+
+    "network": {
+
+      "format-wifi": "{icon}",
+      "format-ethernet": " ",
+      "format-disconnected": "󰌙 ",
+      "tooltip-format": "{icon} {essid}",
+      "format-icons": ["󰤯 ", "󰤟 ", "󰤢 ", "󰤢 ", "󰤨 "],
+    },
+
+    "bluetooth": {
+
+      "format": "",
+      "format-connected": " {device_alias}",
+      "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+
+      "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+      "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+      "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+      "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+
+      "on-click": "blueman-manager"
+    },
+
+
+    "power-profiles-daemon": {
+
+      "format": "{icon}",
+      "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+      "tooltip": true,
+      "format-icons": {
+        "default": " ",
+        "performance": " ",
+        "balanced": " ",
+        "power-saver": " "
+      }
+    },
+
+    "battery": {
+
+
+      "states": {"good": 95, "warning": 30, "critical": 20},
+
+      "format": "{icon}",
+      "format-charging": " ",
+      "format-plugged": " ",
+      "format-alt": "{time} {icon}",
+
+      "format-alt-icons": [
+        "󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+        "format-icons": [" ", " ", " ", " ", " "]
+    },
+
+    "pulseaudio": {
+      "max-volume": 150,
+      "scroll-step": 10,
+
+      "format": "{icon}",
+      "tooltip-format": "{icon}  {volume}%",
+
+      "format-icons": {
+        "headphone": " ",
+        "format-muted": " ",
+        "default": [" ", " "]
+      },
+    },
+
+
+    "backlight": {
+      "device": "intel_backlight",
+      "format": "{icon}",
+      "tooltip-format": "{icon} {percent}%",
+      "format-icons": [" ", " ", " ", " ", " ", " ", " ", " ", " "],
+
+    },
+
+    "custom/swaync": {
+      "tooltip": false,
+      "format": "{icon}",
+      "format-icons": {
+        "notification": "<span foreground='#7b82c6'><sup></sup></span>",
+        "none": "",
+        "dnd-notification": "<span foreground='red'><sup></sup></span>",
+        "dnd-none": "",
+        "inhibited-notification": "<span foreground='red'><sup></sup></span>",
+        "inhibited-none": "",
+        "dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
+        "dnd-inhibited-none": ""
+      },
+
+      "return-type": "json",
+      "exec-if": "which swaync-client",
+      "exec": "swaync-client -swb",
+
+      "on-click": "swaync-client -t -sw",
+      "on-click-right": "swaync-client -d -sw",
+      "escape": true
+    },
+
+    "hyprland/workspaces": {
+
+      "format":"{icon}",
+      "icon-size": 32,
+      "spacing": 16,
+
+      "on-scroll-up": "hyprctl dispatch workspace r+1",
+      "on-scroll-down": "hyprctl dispatch workspace r-1",
+
+      "persistent-workspaces": {
+        "1": [],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [],
+        "6": [],
+        "7": [],
+        "8": [],
+        "9": [],
+        "10": [],
+      },
+
+      "format-icons": {
+        "1": "一",
+        "2": "二",
+        "3": "三",
+        "4": "四",
+        "5": "五",
+        "6": "六",
+        "7": "七",
+        "8": "八",
+        "9": "九",
+        "10": "十",
+
+        "urgent": "",
+      },
+
+    },
+
+    "wlr/taskbar": {
+      "format": "{icon} {title:.18}",
+      "icon-size": 18,
+      "spacing": 3,
+      "on-click-middle": "close",
+      "tooltip-format": "{title}",
+      "ignore-list": [],
+      "on-click": "activate"
+    },
+
+
+    "clock": {
+      "format": " {:%R}",
+      "tooltip-format": " {:%d %B %Y}",
+    },
+
+    "memory": {
+      "format": "󰍛 {}%",
+      "format-alt": "󰍛 {used}/{total} GiB",
+      "interval": 5
+    },
+
+    "cpu": {
+      "format": "󰻠 {usage}%",
+      "format-alt": "󰻠 {avg_frequency} GHz",
+      "interval": 5
+    },
+
+    "disk": {
+      "format": "{percentage_used}% 󰋊" ,
+    },
+
+    "group/hardware": {
+      "orientation": "horizontal",
+      "modules": ["memory", "cpu", "disk"]
+    },
+
+    "group/controlCenter": {
+      "orientation": "horizontal",
+      "modules": [
+      "pulseaudio",
+      "network",
+      "battery",
+      "backlight"
+      ]
+    },
+
+    "group/leftSide": {
+      "orientation": "horizontal",
+      "modules": [
+        "hyprland/language",
+        "group/hardware"
+      ]
+    },
+
+    "group/rightSide": {
+      "orientation": "horizontal",
+      "modules": ["group/controlCenter","bluetooth","power-profiles-daemon", "clock"]
+    },
+}

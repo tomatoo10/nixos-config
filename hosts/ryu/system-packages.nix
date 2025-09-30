@@ -2,9 +2,12 @@
   inputs,
   pkgs,
   ...
-}: {
+}:
+{
   environment.systemPackages = with pkgs; [
     git
+    sshfs
+    OVMF
 
     # virtualization
     qemu
@@ -16,7 +19,21 @@
   ];
 
   # virtualization
-  virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      ovmf.enable = true;
+      runAsRoot = true; # Often needed for full functionality
+    };
+    defaultNetwork.enable = true;
+    qemuOvmf = true;
+    qemuVerbatimConfig = ''
+      nvram = [
+        "${pkgs.OVMF.fd}/FV/OVMF_CODE.fd:${pkgs.OVMF.fd}/FV/OVMF_VARS.fd"
+      ]
+    '';
+  };
+
   programs.virt-manager.enable = true; # gui
 
   # fish config is manager responsible but shell is installed systemwide
@@ -31,7 +48,8 @@
   programs.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+    portalPackage =
+      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
   };
 
   # enable the xwayland compatibility layer for x11 applications

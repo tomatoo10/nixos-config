@@ -46,7 +46,7 @@ return {
       require("blink.cmp").setup({
         keymap = {
           preset = 'super-tab',
-          ['<C-S-f>'] = { 'select_prev', 'fallback' },
+          ['<C-Tab>'] = { 'select_prev', 'fallback' },
           ['<C-f>'] = { 'select_next', 'fallback' },
           ['<C-x>'] = { function(cmp) cmp.show() end },
         },

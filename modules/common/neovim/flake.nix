@@ -70,6 +70,7 @@
               with pkgs.vimPlugins;
               (builtins.getAttr (categories.colorscheme or "onedark") {
                 "onedark" = onedark-nvim;
+                "sonokai" = sonokai;
                 "catppuccin" = catppuccin-nvim;
                 "catppuccin-mocha" = catppuccin-nvim;
                 "tokyonight" = tokyonight-nvim;
@@ -91,6 +92,7 @@
 
               fzf-lua # Fuzzy finder
               pkgs.neovimPlugins.multicursor # Multicursor feature, maybe i change it to vim-multi bc of update on insert
+              no-neck-pain-nvim
 
               nvim-lspconfig # Configure LSPs
               lualine-nvim # Cool line
@@ -131,7 +133,7 @@
               general = true;
               deps = true;
               themer = true;
-              colorscheme = "gruvbox";
+              colorscheme = "sonokai";
             };
           };
       };

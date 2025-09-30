@@ -14,9 +14,9 @@ return {
     require("mini.files").setup()
     require("mini.bracketed").setup()
     require("mini.clue").setup()
+    require("mini.basics").setup()
 
     -- Appearance
     require("mini.icons").setup()
-    require("mini.statusline").setup()
   end,
 }

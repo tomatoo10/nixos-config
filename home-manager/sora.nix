@@ -2,7 +2,8 @@
   inputs,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     # Configuration of applications used by sora workspace.
     ../modules/sora
