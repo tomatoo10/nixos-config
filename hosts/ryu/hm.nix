@@ -25,6 +25,7 @@
     nerd-fonts.gohufont
     nerd-fonts.ubuntu-sans
     nerd-fonts.jetbrains-mono
+    nerd-fonts.caskaydia-cove
     hachimarupop
 
     lazygit
@@ -60,9 +61,9 @@
     swappy
     grim
     slurp
+    vlc
 
     # Desktop
-    hyprpaper # wallpaper
     hyprpicker # color picker
     hyprsunset # night filter
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default # cursor

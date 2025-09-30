@@ -4,15 +4,14 @@
   inputs,
   ...
 }:
-let
-  walls = ../../wallpapers;
-in
 {
   wayland.windowManager.hyprland = {
     enable = true;
+
     package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
     portalPackage =
       inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+
     systemd = {
       enable = true;
       variables = [ "--all" ];
@@ -37,23 +36,17 @@ in
         "QT_QPA_PLATFORMTHEME,qt6ct"
         "QT_AUTO_SCREEN_SCALE_FACTOR,1"
         "WLR_RENDERER_ALLOW_SOFTWARE,1"
-        "NIXPKGS_ALLOW_UNFREE,1"
       ];
 
       exec-once = [
-        "${lib.getExe pkgs.hyprpaper}"
         "${lib.getExe pkgs.waybar}"
-        # "[workspace 5 silent] brave"
-        # "[workspace 0 silent] spotify"
       ];
 
       input = {
         kb_layout = "us";
         kb_options = "caps:swapescape";
-
         follow_mouse = 1;
-
-        sensitivity = 0; # -1.0 - 1.0, 0 means no modification.
+        sensitivity = 0;
       };
 
       general = {
@@ -98,11 +91,6 @@ in
       };
 
       xwayland.force_zero_scaling = false;
-
-      gestures = {
-        workspace_swipe = true;
-        workspace_swipe_fingers = 3;
-      };
 
       dwindle = {
         pseudotile = true;
@@ -158,8 +146,8 @@ in
 
         # Resize mode
         "$mainMod, R, submap, resize"
-        "$mainMod, a, togglespecialworkspace"
-        "$mainMod SHIFT, a, movetoworkspace, special"
+        "$mainMod, A, togglespecialworkspace"
+        "$mainMod SHIFT, A, movetoworkspace, special"
 
         # Functional keybinds
         ",xf86Sleep, exec, systemctl suspend" # Put computer into sleep mode
@@ -171,6 +159,7 @@ in
         ",xf86AudioPrev,exec,playerctl previous" # go to previous media
 
         # Utils
+        # TODO: hyprplugin
         "$mainMod, S, exec, ${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp})\" - | ${lib.getExe' pkgs.wl-clipboard "wl-copy"} --type image/png"
         "$mainMod SHIFT, S, exec, ${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp})\" \"/home/akame/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png\" && hyprctl notify 2 5000 \"rgb(a6e3a1)\" \"Screenshot Saved\""
         "$mainMod, C, exec, ${lib.getExe pkgs.hyprpicker} | ${lib.getExe' pkgs.wl-clipboard "wl-copy"}"
@@ -259,21 +248,6 @@ in
 
       # End the submap definition
       submap = reset
-    '';
-  };
-
-  # Hyprpaper
-  xdg.configFile."hypr/hyprpaper.conf" = {
-    text = ''
-      preload = ${walls}/light_anm07.png
-      preload = ${walls}/dark_anm08.png
-      preload = ${walls}/light_anm04.jpg
-      preload = ${walls}/robot_light_girl.png
-      preload = ${walls}/lucy-red-background.png
-      wallpaper = , ${walls}/light_anm07.png
-      # wallpaper = , ${walls}/lucy-red-background.png
-      # wallpaper = , ${walls}/robot_light_girl.png
-      # wallpaper = , ${walls}/light_anm04.jpg
     '';
   };
 }

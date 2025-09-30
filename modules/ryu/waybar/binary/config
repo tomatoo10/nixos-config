@@ -6,11 +6,11 @@
     "gtk-layer-shell": true,
     "margin-top": 6, "margin-bottom": 0,
     "passthrough": false,
-    "height": 0,
+    "height": 32,
 
-    "modules-left": [ "group/leftSide"],
-    "modules-center": ["hyprland/workspaces"],
-    "modules-right": ["mpris", "group/rightSide", "custom/swaync"],
+    "modules-left": ["group/leftSide"],
+    "modules-center": ["group/center"],
+    "modules-right": ["group/rightSide"],
 
     "hyprland/language": {
       "format": "{}",
@@ -35,7 +35,6 @@
     },
 
     "network": {
-
       "format-wifi": "{icon}",
       "format-ethernet": " ",
       "format-disconnected": "󰌙 ",
@@ -59,7 +58,6 @@
 
 
     "power-profiles-daemon": {
-
       "format": "{icon}",
       "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
       "tooltip": true,
@@ -72,10 +70,7 @@
     },
 
     "battery": {
-
-
       "states": {"good": 95, "warning": 30, "critical": 20},
-
       "format": "{icon}",
       "format-charging": " ",
       "format-plugged": " ",
@@ -133,10 +128,8 @@
     },
 
     "hyprland/workspaces": {
-
       "format":"{icon}",
-      "icon-size": 32,
-      "spacing": 16,
+      "spacing": 4,
 
       "on-scroll-up": "hyprctl dispatch workspace r+1",
       "on-scroll-down": "hyprctl dispatch workspace r-1",
@@ -183,8 +176,7 @@
 
 
     "clock": {
-      "format": " {:%R}",
-      "tooltip-format": " {:%d %B %Y}",
+      "format": " {:%d %B %R}",
     },
 
     "memory": {
@@ -200,7 +192,7 @@
     },
 
     "disk": {
-      "format": "{percentage_used}% 󰋊" ,
+      "format": "󰋊 {percentage_used}%" ,
     },
 
     "group/hardware": {
@@ -214,20 +206,28 @@
       "pulseaudio",
       "network",
       "battery",
-      "backlight"
+      "backlight",
+      "bluetooth"
       ]
     },
 
     "group/leftSide": {
       "orientation": "horizontal",
       "modules": [
-        "hyprland/language",
-        "group/hardware"
+        "hyprland/workspaces",
+        "mpris",
       ]
     },
 
     "group/rightSide": {
       "orientation": "horizontal",
-      "modules": ["group/controlCenter","bluetooth","power-profiles-daemon", "clock"]
+      "modules": ["group/hardware",  "group/controlCenter", "hyprland/language" ,"power-profiles-daemon", "custom/swaync"]
     },
+
+    "group/center": {
+      "orientation": "horizontal",
+      "modules": [
+        "clock"
+      ]
+    }
 }

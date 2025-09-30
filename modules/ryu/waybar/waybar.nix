@@ -4,7 +4,6 @@
 }:
 let
   colors = config.lib.stylix.colors;
-
   customColors = {
     fg-main = colors.base05;
     fg-unactive = colors.base05;
@@ -30,13 +29,11 @@ in
     style = ''
       * {
         all: unset;
-        font-family: "JetBrainsMono Nerd Font", "Fira Mono";
-        font-weight: 700;
-        font-size: 12.5px;
+        font-family: "CaskaydiaCove Nerd Font Mono";
+        font-size: 12px;
       }
 
       window#waybar {
-        /* Corrected: Use individual RGB components as the attribute names have changed */
         background: rgba(${toString colors.base00-rgb-r}, ${toString colors.base00-rgb-g}, ${toString colors.base00-rgb-b}, 0);
         color: #${customColors.fg-main};
       }
@@ -48,23 +45,18 @@ in
         border-style: solid;
         border-color: #${customColors.border-main};
       }
+
       tooltip label {
         color: #${customColors.fg-main};
       }
 
       #custom-swaync {
-        font-family: "JetBrainsMono Nerd Font";
-        font-size: 1px;
+        font-size: 20px;
         color: #${customColors.fg-main};
         background-color: #${customColors.bg-main};
         min-width: 20px;
         padding-left: 12px;
-        padding-right: 12px;
-        margin-left: 10px;
-        margin-right: 5px;
         transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
-        border: 2px solid #${customColors.border-main};
-        border-radius: 10px;
       }
 
       #workspaces {
@@ -72,10 +64,9 @@ in
         margin-right: 1.5px;
         margin-left: 1.5px;
         border-radius: 12px;
-        border: 2px solid #${customColors.border-main};
         background-color: #${customColors.bg-main};
-        padding: 0px 20px
       }
+
       #workspaces button {
         color: #${customColors.fg-unactive};
         padding: 2px 10px;
@@ -91,21 +82,20 @@ in
         background: #${customColors.fg-main};
         padding: 0px 20px;
       }
+
       #workspaces button.focused {
         color: #${customColors.bg-second};
       }
+
       #workspaces button.urgent {
         background: rgba(255, 200, 0, 0.35);
         border-bottom: 0px dashed #${customColors.warning_color};
         color: #${customColors.warning_color};
       }
+
       #workspaces button:hover {
         background: #${customColors.fg-main};
         color: #${customColors.bg-main};
-      }
-
-      #cpu, #disk, #memory {
-        padding: 3px;
       }
 
       #window {
@@ -114,23 +104,12 @@ in
         margin-right: 20px;
       }
 
-      #bluetooth {
-        padding: 0px 10px;
-        font-size: 14px;
-        font-family: "Fira Code";
-      }
-
       #bluetooth.disabled, #bluetooth.off {
         color: #${customColors.bluetooth_off_color};
       }
+
       #bluetooth.on, #bluetooth.connected {
         color: #${customColors.bluetooth_on_color};
-      }
-
-      #custom-swaync {
-        font-size: 20px;
-        padding: 0px 8px;
-        padding-right: 13px;
       }
 
       #power-profiles-daemon {
@@ -144,8 +123,7 @@ in
         transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
       }
 
-      #cpu, #memory, #custom-search, #custom-os_button, #custom-runner, #mpris, #custom-cafein, #cava, #clock {
-        font-family: "Symbols Nerd Font", "JetbrainsMono Nerd Font";
+      #cpu, #memory, #custom-search, #custom-os_button, #custom-runner, #custom-cafein, #cava {
         background-color: #${customColors.bg-main};
         font-weight: bold;
         border-radius: 16px;
@@ -155,11 +133,8 @@ in
       }
 
       #mpris {
-        border: 2px solid #${customColors.border-main};
         border-radius: 10px;
-        margin: 0px 10px;
-        background-color: #${customColors.bg-main};
-        padding: 0px 10px;
+        background-color: #${customColors.bg-second};
         padding-left: 2px;
       }
 
@@ -170,8 +145,7 @@ in
       #hardware {
         background-color: #${customColors.bg-second};
         font-weight: bold;
-        padding: 0px 10px;
-        margin: 2px 0px;
+        padding-right: 10px;
         border-radius: 10px;
       }
 
@@ -179,11 +153,20 @@ in
         background-color: unset;
       }
 
-      #bluetooth {
+      #network, #pulseaudio, #battery, #bluetooth {
+        padding: 0px 6px;
         font-size: 15px;
       }
 
       #leftSide {
+        border: 2px solid #${customColors.border-main};
+        border-radius: 10px;
+        margin: 0px 10px;
+        background-color: #${customColors.bg-main};
+        padding: 0px 10px;
+      }
+
+      #center {
         border: 2px solid #${customColors.border-main};
         border-radius: 10px;
         margin: 0px 10px;
@@ -200,12 +183,6 @@ in
         padding-left: 2px;
       }
 
-      #clock {
-        font-size: 14px;
-        padding: 0px 6px;
-        margin: 0px 4px;
-      }
-
       #controlCenter {
         background-color: #${customColors.bg-second};
         border-radius: 15px;
@@ -217,10 +194,6 @@ in
         background-color: #${customColors.bg-third};
       }
 
-      #network, #pulseaudio, #battery, #backlight {
-        padding: 0px 6px;
-        font-size: 15px;
-      }
     '';
   };
 }

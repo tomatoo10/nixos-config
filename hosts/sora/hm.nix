@@ -14,7 +14,6 @@
   # Important apps are at ./modules/*
   home.packages = with pkgs; [
     # Fonts
-    gohufont
     nerd-fonts.gohufont
     nerd-fonts.ubuntu-sans
     nerd-fonts.jetbrains-mono
