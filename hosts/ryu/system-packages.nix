@@ -8,6 +8,7 @@
     git
     sshfs
     OVMF
+    blueman
 
     # virtualization
     qemu

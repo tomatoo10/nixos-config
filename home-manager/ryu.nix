@@ -33,10 +33,14 @@
     gohufont
     nerd-fonts.gohufont
     nerd-fonts.ubuntu-sans
+    nerd-fonts.jetbrains-mono
     hachimarupop
+
+    lazygit
 
     # Testing stuff
     evil-helix
+    swaynotificationcenter
 
     kitty # another terminal emulator if something goes wrong
     tree # display cool things
@@ -69,7 +73,6 @@
     hyprpaper # wallpaper
     hyprpicker # color picker
     hyprsunset # night filter
-    greetd.regreet
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default # cursor
     inputs.nixcats.packages.${pkgs.system}.default # nixcats
   ];

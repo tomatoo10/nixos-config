@@ -1,20 +1,17 @@
+{ ... }:
 {
-  pkgs,
-  config,
-  lib,
-  ...
-}: {
   # Virtualisation, enable guest utilities
   services.qemuGuest.enable = true;
   services.spice-vdagentd.enable = true;
 
-  # File system
+  services.blueman.enable = true;
 
+  # File system
   # Scrubbing - is the process of checking file consistency (for this it may use checksums and/or duplicated copies of data, from raid for example). Scrubbing may be done "online", meaning you don't need to unmount a subvolume to scrub it.
   services.btrfs.autoScrub = {
     enable = true;
     interval = "weekly";
-    fileSystems = ["/"];
+    fileSystems = [ "/" ];
   };
 
   services.snapper = {
@@ -40,20 +37,20 @@
       };
       home = {
         /*
-        Is this optimal? I don't know, my brain think it's
-        [HOURLY]  snapshot from 1 hour ago
-        [HOURLY]  snapshot from 2 hours ago
-        ...
-        [DAILY] snapshot from 1 day ago
-        [DAILY] snapshot from 2 day ago
-        ..
-        [WEEKLY] snapshot from ~2weeks ago
-        [WEEKLY] snapshot from ~3weeks ago
-        ...
-        [MONTHLY] snapshot from ~2 months ago
-        [MONTHLY] snapshot from ~3 months ago
+          Is this optimal? I don't know, my brain think it's
+          [HOURLY]  snapshot from 1 hour ago
+          [HOURLY]  snapshot from 2 hours ago
+          ...
+          [DAILY] snapshot from 1 day ago
+          [DAILY] snapshot from 2 day ago
+          ..
+          [WEEKLY] snapshot from ~2weeks ago
+          [WEEKLY] snapshot from ~3weeks ago
+          ...
+          [MONTHLY] snapshot from ~2 months ago
+          [MONTHLY] snapshot from ~3 months ago
 
-        ( Older than 8months are deleted )
+          ( Older than 8months are deleted )
         */
         SUBVOLUME = "/home";
         TIMELINE_CREATE = true;

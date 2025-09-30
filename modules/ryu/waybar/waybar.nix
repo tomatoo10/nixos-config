@@ -32,7 +32,7 @@ in
         all: unset;
         font-family: "JetBrainsMono Nerd Font", "Fira Mono";
         font-weight: 700;
-        font-size: 15.5px;
+        font-size: 12.5px;
       }
 
       window#waybar {
