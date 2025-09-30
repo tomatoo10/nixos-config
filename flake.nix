@@ -44,11 +44,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Alacritty themes
-    alacritty-theme = {
-      url = "github:alexghr/alacritty-theme.nix";
-    };
-
     # Yazi plugins
     nix-yazi-plugins = {
       url = "github:lordkekz/nix-yazi-plugins";
@@ -82,17 +77,12 @@
     }@inputs:
     let
       inherit (self) outputs;
-      systems = [
-        "x86_64-linux"
-      ];
-      # This is a function that generates an attribute by calling a function you
-      # pass to it, with each system as an argument
-      forAllSystems = nixpkgs.lib.genAttrs systems;
+
     in
     {
       # Formatter for your nix files, available through 'nix fmt'
       # Other options beside 'alejandra' include 'nixpkgs-fmt'
-      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+      formatter = nixpkgs.alejandra;
 
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#hostname'
@@ -122,7 +112,7 @@
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [
             # > Our main home-manager configuration file <
-            ./home-manager/ryu.nix
+            ./hosts/ryu/hm.nix
           ];
         };
 
@@ -131,7 +121,7 @@
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [
             # > Our main home-manager configuration file <
-            ./home-manager/sora.nix
+            ./hosts/sora/hm.nix
           ];
         };
       };

@@ -2,17 +2,14 @@
   pkgs,
   inputs,
   ...
-}: {
+}:
+{
   imports = [
     inputs.stylix.homeModules.stylix
   ];
 
   stylix = {
     enable = true;
-    base16Scheme = ../../themes/red.yaml;
-
-    targets.alacritty.enable = false;
-    targets.fish.enable = false;
-    targets.yazi.enable = false;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
   };
 }

@@ -1,15 +1,21 @@
 {
   pkgs,
   lib,
+  inputs,
   ...
-}: let
+}:
+let
   walls = ../../wallpapers;
-in {
+in
+{
   wayland.windowManager.hyprland = {
     enable = true;
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    portalPackage =
+      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
     systemd = {
       enable = true;
-      variables = ["--all"];
+      variables = [ "--all" ];
     };
 
     settings = {
@@ -130,98 +136,103 @@ in {
       "$fileManager" = "$term --class \"terminalFileManager\" -e yazi";
       "$browser" = "brave";
 
-      bind =
-        [
-          # Night Mode (lower value means warmer temp)
-          "$mainMod, F9, exec, ${lib.getExe pkgs.hyprsunset} --temperature 3500" # good values: 3500, 3000, 250
-          "$mainMod, F10, exec, pkill hyprsunset"
+      bind = [
+        # Night Mode (lower value means warmer temp)
+        "$mainMod, F9, exec, ${lib.getExe pkgs.hyprsunset} --temperature 3500" # good values: 3500, 3000, 250
+        "$mainMod, F10, exec, pkill hyprsunset"
 
-          # Window/Session actions
-          "$mainMod, Q, killactive" # killactive, kill the window on focus
-          "$mainMod, delete, exit" # kill hyperland session
-          "$mainMod SHIFT, SPACE, togglefloating" # toggle the window on focus to float
-          "$mainMod SHIFT, G, togglegroup" # toggle the window on focus to float
-          "$mainMod, T, togglesplit" # Toggle split
-          "$mainMod, F, fullscreen" # toggle the window on focus to fullscreen
+        # Window/Session actions
+        "$mainMod, Q, killactive" # killactive, kill the window on focus
+        "$mainMod, delete, exit" # kill hyperland session
+        "$mainMod SHIFT, SPACE, togglefloating" # toggle the window on focus to float
+        "$mainMod SHIFT, G, togglegroup" # toggle the window on focus to float
+        "$mainMod, T, togglesplit" # Toggle split
+        "$mainMod, F, fullscreen" # toggle the window on focus to fullscreen
 
-          # Applications/Programs
-          "$mainMod, Return, exec, $term"
-          "$mainMod SHIFT, Return, exec, [float;] $term"
-          "$mainMod, E, exec, $fileManager"
-          "$mainMod SHIFT, F, exec, $browser"
-          "$mainMod, D, exec, rofi -no-lazy-grab -show drun" # launch desktop applications
+        # Applications/Programs
+        "$mainMod, Return, exec, $term"
+        "$mainMod SHIFT, Return, exec, [float;] $term"
+        "$mainMod, E, exec, $fileManager"
+        "$mainMod SHIFT, F, exec, $browser"
+        "$mainMod, D, exec, rofi -no-lazy-grab -show drun" # launch desktop applications
 
-          # Resize mode
-          "$mainMod, R, submap, resize"
-          "$mainMod, a, togglespecialworkspace"
-          "$mainMod SHIFT, a, movetoworkspace, special"
+        # Resize mode
+        "$mainMod, R, submap, resize"
+        "$mainMod, a, togglespecialworkspace"
+        "$mainMod SHIFT, a, movetoworkspace, special"
 
-          # Functional keybinds
-          ",xf86Sleep, exec, systemctl suspend" # Put computer into sleep mode
-          ",XF86AudioMicMute,exec,pamixer --default-source -t" # mute mic
-          ",XF86AudioMute,exec,pamixer -t" # mute audio
-          ",XF86AudioPlay,exec,playerctl play-pause" # Play/Pause media
-          ",XF86AudioPause,exec,playerctl play-pause" # Play/Pause media
-          ",xf86AudioNext,exec,playerctl next" # go to next media
-          ",xf86AudioPrev,exec,playerctl previous" # go to previous media
+        # Functional keybinds
+        ",xf86Sleep, exec, systemctl suspend" # Put computer into sleep mode
+        ",XF86AudioMicMute,exec,pamixer --default-source -t" # mute mic
+        ",XF86AudioMute,exec,pamixer -t" # mute audio
+        ",XF86AudioPlay,exec,playerctl play-pause" # Play/Pause media
+        ",XF86AudioPause,exec,playerctl play-pause" # Play/Pause media
+        ",xf86AudioNext,exec,playerctl next" # go to next media
+        ",xf86AudioPrev,exec,playerctl previous" # go to previous media
 
-          # Utils
-          "$mainMod, S, exec, ${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp})\" - | ${lib.getExe' pkgs.wl-clipboard "wl-copy"} --type image/png"
-          "$mainMod SHIFT, S, exec, ${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp})\" \"/home/akame/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png\" && hyprctl notify 2 5000 \"rgb(a6e3a1)\" \"Screenshot Saved\""
-          "$mainMod, C, exec, ${lib.getExe pkgs.hyprpicker} | ${lib.getExe' pkgs.wl-clipboard "wl-copy"}"
+        # Utils
+        "$mainMod, S, exec, ${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp})\" - | ${lib.getExe' pkgs.wl-clipboard "wl-copy"} --type image/png"
+        "$mainMod SHIFT, S, exec, ${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp})\" \"/home/akame/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png\" && hyprctl notify 2 5000 \"rgb(a6e3a1)\" \"Screenshot Saved\""
+        "$mainMod, C, exec, ${lib.getExe pkgs.hyprpicker} | ${lib.getExe' pkgs.wl-clipboard "wl-copy"}"
 
-          # Alt tab with last
-          "ALT, Tab, focuscurrentorlast"
+        # Alt tab with last
+        "ALT, Tab, focuscurrentorlast"
 
-          # Change focus to floating window
-          "$mainMod, Tab, cyclenext"
-          "$mainMod, Tab, bringactivetotop"
+        # Change focus to floating window
+        "$mainMod, Tab, cyclenext"
+        "$mainMod, Tab, bringactivetotop"
 
-          # move to the first empty workspace instantly with mainMod + CTRL + [↓]
-          "$mainMod CTRL, down, workspace, empty"
+        # move to the first empty workspace instantly with mainMod + CTRL + [↓]
+        "$mainMod CTRL, down, workspace, empty"
 
-          # Move focus with mainMod + arrow keys
-          "$mainMod, left, movefocus, l"
-          "$mainMod, right, movefocus, r"
-          "$mainMod, up, movefocus, u"
-          "$mainMod, down, movefocus, d"
+        # Move focus with mainMod + arrow keys
+        "$mainMod, left, movefocus, l"
+        "$mainMod, right, movefocus, r"
+        "$mainMod, up, movefocus, u"
+        "$mainMod, down, movefocus, d"
 
-          # Move focus with mainMod + HJKL keys
-          "$mainMod, h, movefocus, l"
-          "$mainMod, l, movefocus, r"
-          "$mainMod, k, movefocus, u"
-          "$mainMod, j, movefocus, d"
+        # Move focus with mainMod + HJKL keys
+        "$mainMod, h, movefocus, l"
+        "$mainMod, l, movefocus, r"
+        "$mainMod, k, movefocus, u"
+        "$mainMod, j, movefocus, d"
 
-          # Move window with mainMod + arrow keys
-          "$mainMod SHIFT, left, movewindow, l"
-          "$mainMod SHIFT, right, movewindow, r"
-          "$mainMod SHIFT, up, movewindow, u"
-          "$mainMod SHIFT, down, movewindow, d"
+        # Move window with mainMod + arrow keys
+        "$mainMod SHIFT, left, movewindow, l"
+        "$mainMod SHIFT, right, movewindow, r"
+        "$mainMod SHIFT, up, movewindow, u"
+        "$mainMod SHIFT, down, movewindow, d"
 
-          # Move focus with mainMod + HJKL keys
-          "$mainMod SHIFT, h, movewindow, l"
-          "$mainMod SHIFT, l, movewindow, r"
-          "$mainMod SHIFT, k, movewindow, u"
-          "$mainMod SHIFT, j, movewindow, d"
+        # Move focus with mainMod + HJKL keys
+        "$mainMod SHIFT, h, movewindow, l"
+        "$mainMod SHIFT, l, movewindow, r"
+        "$mainMod SHIFT, k, movewindow, u"
+        "$mainMod SHIFT, j, movewindow, d"
 
-          # Scroll through existing workspaces with mainMod + scroll
-          "$mainMod, mouse_down, workspace, e+1"
-          "$mainMod, mouse_up, workspace, e-1"
-        ]
-        ++ (builtins.concatLists (builtins.genList (x: let
-            ws = let
-              c = (x + 1) / 10;
-            in
+        # Scroll through existing workspaces with mainMod + scroll
+        "$mainMod, mouse_down, workspace, e+1"
+        "$mainMod, mouse_up, workspace, e-1"
+      ]
+      ++ (builtins.concatLists (
+        builtins.genList (
+          x:
+          let
+            ws =
+              let
+                c = (x + 1) / 10;
+              in
               builtins.toString (x + 1 - (c * 10));
-          in [
+          in
+          [
             # Go to workspace
             "$mainMod, ${ws}, workspace, ${toString (x + 1)}"
             # Move window and go to workspace
             "$mainMod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
             # Only move window
             "$mainMod CTRL, ${ws}, movetoworkspacesilent, ${toString (x + 1)}"
-          ])
-          10));
+          ]
+        ) 10
+      ));
 
       bindm = [
         # Move/Resize windows with mainMod + LMB/RMB and dragging

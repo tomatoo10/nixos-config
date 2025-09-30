@@ -8,20 +8,15 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./system-packages.nix
+
     ./services.nix
+    ./snapshot.nix
+    ./packages.nix
+
     # Flakes
     inputs.lanzaboote.nixosModules.lanzaboote
     inputs.flake-programs-sqlite.nixosModules.programs-sqlite
   ];
-
-  nixpkgs = {
-    # Configure your nixpkgs instance
-    config = {
-      # Disable if you don't want unfree packages
-      allowUnfree = true;
-    };
-  };
 
   nix =
     let
@@ -61,9 +56,7 @@
         ];
       };
 
-      # Opinionated: disable channels
       channel.enable = false;
-
       # Opinionated: make flake registry and nix path match flake inputs
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
@@ -134,6 +127,7 @@
   # Enable automatic login for the user.
   services.getty.autologinUser = "ak4m3";
   environment.variables.EDITOR = "nvim";
+  nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "25.05"; # Did you read the comment?
 }

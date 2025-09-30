@@ -6,20 +6,11 @@
 {
   imports = [
     # Configs for ryu workspace
-    ../modules/ryu
-    ../modules/common
+    ../../modules/ryu
+    ../../modules/common
   ];
 
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-    };
-  };
-
-  # Overlays
-  nixpkgs.overlays = [
-    inputs.alacritty-theme.overlays.default
-  ];
+  nixpkgs.config.allowUnfree = true;
 
   home = {
     username = "ak4m3";
@@ -37,6 +28,7 @@
     hachimarupop
 
     lazygit
+    git
 
     # Testing stuff
     evil-helix
@@ -77,8 +69,9 @@
     inputs.nixcats.packages.${pkgs.system}.default # nixcats
   ];
 
-  # Enable home-manager
   programs.home-manager.enable = true;
+  programs.git.enable = true;
+  programs.command-not-found.enable = true;
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";

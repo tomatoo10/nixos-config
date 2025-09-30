@@ -12,8 +12,9 @@
     ./disk-config.nix
 
     # System
-    ./system-packages.nix
     ./services.nix
+    ./snapshot.nix
+    ./packages.nix
 
     # Flakes
     inputs.flake-programs-sqlite.nixosModules.programs-sqlite

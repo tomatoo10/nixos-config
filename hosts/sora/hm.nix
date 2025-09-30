@@ -6,21 +6,9 @@
 {
   imports = [
     # Configuration of applications used by sora workspace.
-    ../modules/sora
-    ../modules/common
+    ../../modules/sora
+    ../../modules/common
   ];
-
-  nixpkgs.config.allowUnfree = true;
-
-  # Overlays
-  nixpkgs.overlays = [
-    inputs.alacritty-theme.overlays.default
-  ];
-
-  home = {
-    username = "ak4m3";
-    homeDirectory = "/home/ak4m3";
-  };
 
   # Here lies packages that don't require any configuration/setup whatsoever.
   # Important apps are at ./modules/*
@@ -40,6 +28,9 @@
     tree # display cool things
     fd # find stuff
     eza # print stuff
+
+    lazygit
+    git
 
     wl-clipboard # wayland clipboard
     btop # process monitor
@@ -70,8 +61,18 @@
     inputs.nixcats.packages.${pkgs.system}.default
   ];
 
-  # Enable home-manager
   programs.home-manager.enable = true;
+  programs.git.enable = true;
+  programs.command-not-found.enable = true;
+  programs.ssh.extraConfig = ''
+    AddKeysToAgent yes
+    IdentityFile ~/.ssh/id_ed25519
+  '';
+
+  home = {
+    username = "ak4m3";
+    homeDirectory = "/home/ak4m3";
+  };
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
