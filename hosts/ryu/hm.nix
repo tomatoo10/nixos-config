@@ -30,6 +30,7 @@
 
     lazygit
     git
+    libsForQt5.kolourpaint
 
     # Testing stuff
     evil-helix
@@ -56,6 +57,8 @@
     spotify # Music yay
     duf # see disks
     hwloc
+
+    obsidian
 
     # Screenshoot
     swappy

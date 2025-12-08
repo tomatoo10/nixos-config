@@ -46,6 +46,7 @@
     playerctl # mixer ?
     spotify # Music yay
     duf # see disks
+    obsidian
 
     # Screenshoot
     swappy
