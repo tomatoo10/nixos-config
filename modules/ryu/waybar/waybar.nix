@@ -123,7 +123,7 @@ in
         transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
       }
 
-      #cpu, #memory, #custom-search, #custom-os_button, #custom-runner, #custom-cafein, #cava {
+      #cpu, #memory, #disk {
         background-color: #${customColors.bg-main};
         font-weight: bold;
         border-radius: 16px;
@@ -149,13 +149,13 @@ in
         border-radius: 10px;
       }
 
-      #cpu, #memory {
+      #cpu, #memory, #disk {
         background-color: unset;
       }
 
       #network, #pulseaudio, #battery, #bluetooth {
         padding: 0px 6px;
-        font-size: 15px;
+        font-size: 17px;
       }
 
       #leftSide {
@@ -190,7 +190,7 @@ in
         margin: 0px 10px;
       }
 
-      #controlCenter:hover {
+      #controlCenter:hover, #hardware:hover {
         background-color: #${customColors.bg-third};
       }
 

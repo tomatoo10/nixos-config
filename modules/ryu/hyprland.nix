@@ -161,7 +161,7 @@
         # Utils
         # TODO: hyprplugin
         "$mainMod, S, exec, ${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp})\" - | ${lib.getExe' pkgs.wl-clipboard "wl-copy"} --type image/png"
-        "$mainMod SHIFT, S, exec, ${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp})\" \"/home/akame/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png\" && hyprctl notify 2 5000 \"rgb(a6e3a1)\" \"Screenshot Saved\""
+        "$mainMod SHIFT, S, exec, ${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp})\" \"/home/akame/pics/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png\" && hyprctl notify 2 5000 \"rgb(a6e3a1)\" \"Screenshot Saved\""
         "$mainMod, C, exec, ${lib.getExe pkgs.hyprpicker} | ${lib.getExe' pkgs.wl-clipboard "wl-copy"}"
 
         # Alt tab with last

@@ -38,7 +38,6 @@
       "format-wifi": "{icon}",
       "format-ethernet": " ",
       "format-disconnected": "󰌙 ",
-      "tooltip-format": "{icon} {essid}",
       "format-icons": ["󰤯 ", "󰤟 ", "󰤢 ", "󰤢 ", "󰤨 "],
     },
 
@@ -180,24 +179,25 @@
     },
 
     "memory": {
-      "format": "󰍛 {}%",
-      "format-alt": "󰍛 {used}/{total} GiB",
-      "interval": 5
+      "format": "{}% ",
+      "format-alt": " {used}/{total} GiB",
+      "interval": 1
     },
 
     "cpu": {
-      "format": "󰻠 {usage}%",
-      "format-alt": "󰻠 {avg_frequency} GHz",
-      "interval": 5
+      "format": "{usage}% ",
+      "format-alt": " {avg_frequency} GHz",
+      "interval": 1
     },
 
     "disk": {
-      "format": "󰋊 {percentage_used}%" ,
+      "format": "{free} " ,
+      "unit": "GB",
     },
 
     "group/hardware": {
       "orientation": "horizontal",
-      "modules": ["memory", "cpu", "disk"]
+      "modules": ["cpu", "memory", "disk"]
     },
 
     "group/controlCenter": {
