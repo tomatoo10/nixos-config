@@ -62,13 +62,13 @@
         dim_special = 0.3;
       };
 
-      layerrule = [
-        "ignorezero, rofi"
-        "ignorealpha 0.7, rofi"
-        "ignorezero, swaync-control-center"
-        "ignorezero, swaync-notification-window"
-        "ignorealpha 0.7, swaync-control-center"
-      ];
+      # layerrule = [
+      #   "ignorezero, rofi"
+      #   "ignorealpha 0.7, rofi"
+      #   "ignorezero, swaync-control-center"
+      #   "ignorezero, swaync-notification-window"
+      #   "ignorealpha 0.7, swaync-control-center"
+      # ];
 
       animations = {
         enabled = false;
@@ -105,7 +105,7 @@
 
       windowrule = [
         # Move applications to different workspaces
-        "suppressevent maximize, class: *"
+        # "suppressevent maximize, class: *"
         # "workspace 0, class:^(Spotify)$"
         # "workspace 0, title:(.*)(Spotify)(.*)$"
       ];
