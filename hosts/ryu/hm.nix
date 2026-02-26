@@ -42,6 +42,7 @@
     eza # print stuff
 
     wl-clipboard # wayland clipboard
+    localsend # Airdrop like
     btop # process monitor
     fzf # fuzzy finder to find things
     ripgrep # finder to search for things
@@ -59,6 +60,7 @@
     hwloc
 
     obsidian
+    claude-code
 
     # Screenshoot
     swappy
