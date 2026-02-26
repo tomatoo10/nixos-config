@@ -15,6 +15,8 @@
     "usbhid"
     "usb_storage"
     "sd_mod"
+    # Webcam
+    "uvcvideo"
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
