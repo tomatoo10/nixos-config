@@ -54,6 +54,9 @@
           "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
           "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         ];
+
+        extra-substituters = "https://devenv.cachix.org";
+        extra-trusted-public-keys = "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=";
       };
 
       channel.enable = false;
@@ -69,15 +72,15 @@
   # for now.
   boot.loader.systemd-boot = {
     enable = lib.mkForce false;
-    consoleMode = "max";
-    editor = false;
+    # consoleMode = "max";
+    # editor = false;
 
-    extraEntries = {
-      "windows.conf" = ''
-        title   Windows
-        efi     /EFI/Microsoft/Boot/bootmgfw.efi
-      '';
-    };
+    # extraEntries = {
+    #   "windows.conf" = ''
+    #     title   Windows
+    #     efi     /EFI/Microsoft/Boot/bootmgfw.efi
+    #   '';
+    # };
   };
 
   boot.loader.efi.canTouchEfiVariables = true;
@@ -89,9 +92,32 @@
   # Generation label
   system.nixos.label = "NixOS_${builtins.substring 6 8 config.system.nixos.version}";
 
+  programs.nix-ld.enable = true;
+  programs.command-not-found.enable = true;
+
   # 竜
   networking.hostName = "ryu";
   networking.networkmanager.enable = true;
+  networking.firewall.allowedTCPPorts = [
+    9001
+    9002
+    9003
+    4444
+    8080
+    53317
+  ];
+
+  networking.firewall.allowedUDPPorts = [
+    9001
+    9002
+    9003
+    4444
+    8080
+    53317
+  ];
+
+  environment.etc.hosts.enable = false;
+  environment.etc.hosts.mode = "0700";
 
   # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
@@ -124,10 +150,25 @@
     shell = pkgs.fish;
   };
 
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+  };
+
   # Enable automatic login for the user.
   services.getty.autologinUser = "ak4m3";
   environment.variables.EDITOR = "nvim";
   nixpkgs.config.allowUnfree = true;
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
+  hardware.amdgpu.opencl.enable = true;
 
   system.stateVersion = "25.05"; # Did you read the comment?
 }

@@ -41,45 +41,6 @@
       "format-icons": ["󰤯 ", "󰤟 ", "󰤢 ", "󰤢 ", "󰤨 "],
     },
 
-    "bluetooth": {
-
-      "format": "",
-      "format-connected": " {device_alias}",
-      "format-connected-battery": " {device_alias} {device_battery_percentage}%",
-
-      "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
-      "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
-      "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-      "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
-
-      "on-click": "blueman-manager"
-    },
-
-
-    "power-profiles-daemon": {
-      "format": "{icon}",
-      "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
-      "tooltip": true,
-      "format-icons": {
-        "default": " ",
-        "performance": " ",
-        "balanced": " ",
-        "power-saver": " "
-      }
-    },
-
-    "battery": {
-      "states": {"good": 95, "warning": 30, "critical": 20},
-      "format": "{icon}",
-      "format-charging": " ",
-      "format-plugged": " ",
-      "format-alt": "{time} {icon}",
-
-      "format-alt-icons": [
-        "󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
-        "format-icons": [" ", " ", " ", " ", " "]
-    },
-
     "pulseaudio": {
       "max-volume": 150,
       "scroll-step": 10,
@@ -92,15 +53,6 @@
         "format-muted": " ",
         "default": [" ", " "]
       },
-    },
-
-
-    "backlight": {
-      "device": "intel_backlight",
-      "format": "{icon}",
-      "tooltip-format": "{icon} {percent}%",
-      "format-icons": [" ", " ", " ", " ", " ", " ", " ", " ", " "],
-
     },
 
     "custom/swaync": {
@@ -179,8 +131,8 @@
     },
 
     "memory": {
-      "format": "{}% ",
-      "format-alt": " {used}/{total} GiB",
+      "format": "{}% ",
+      "format-alt": " {used}/{total} GiB",
       "interval": 1
     },
 
@@ -191,7 +143,7 @@
     },
 
     "disk": {
-      "format": "{free} " ,
+      "format": "{free} " ,
       "unit": "GB",
     },
 
@@ -205,9 +157,6 @@
       "modules": [
       "pulseaudio",
       "network",
-      "battery",
-      "backlight",
-      "bluetooth"
       ]
     },
 
@@ -221,7 +170,7 @@
 
     "group/rightSide": {
       "orientation": "horizontal",
-      "modules": ["group/hardware",  "group/controlCenter", "hyprland/language" ,"power-profiles-daemon", "custom/swaync"]
+      "modules": ["group/hardware",  "group/controlCenter", "hyprland/language" , "custom/swaync"]
     },
 
     "group/center": {

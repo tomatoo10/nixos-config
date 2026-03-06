@@ -1,10 +1,12 @@
 {
   # ryu and tora
+  # nix flake update
+  # sudo nixos-rebuild switch --flake .#ryu
   description = "My NixOS config :D";
 
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # Utility for managing filesystems, used it to create luks+brfs+subvolumes layout.
@@ -14,13 +16,13 @@
 
     # Secure boot bc of vanguard
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.4.2";
+      url = "github:nix-community/lanzaboote/v0.4.3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Home manager to manage my dotfiles
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -33,7 +35,7 @@
 
     # Style all my os at once
     stylix = {
-      url = "github:nix-community/stylix/release-25.05";
+      url = "github:nix-community/stylix/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -77,7 +79,6 @@
     }@inputs:
     let
       inherit (self) outputs;
-
     in
     {
       # Formatter for your nix files, available through 'nix fmt'

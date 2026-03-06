@@ -82,10 +82,10 @@
       misc = {
         disable_hyprland_logo = true;
         mouse_move_focuses_monitor = true;
-        # swallow_regex = "^(Alacritty)$";
+        swallow_regex = "^(Alacritty)$";
         # should be used in terminals so don't swallow it plz
-        # swallow_exception_regex = "class:^ueberzugpp_";
-        # enable_swallow = true;
+        swallow_exception_regex = "class:^ueberzugpp_";
+        enable_swallow = true;
         vfr = true; # always keep on
         vrr = 1; # enable variable refresh rate (0=off, 1=on, 2=fullscreen only)
       };
@@ -103,12 +103,12 @@
         mfact = 0.5;
       };
 
-      windowrule = [
-        # Move applications to different workspaces
-        # "suppressevent maximize, class: *"
-        # "workspace 0, class:^(Spotify)$"
-        # "workspace 0, title:(.*)(Spotify)(.*)$"
-      ];
+      # windowrulev2 = [
+      # Move applications to different workspaces
+      # "suppressevent maximize, class: .*"
+      # "workspace 0, class:^(Spotify)$"
+      # "workspace 0, title:(.*)(Spotify)(.*)$"
+      # ];
 
       binde = [
         # Functional keybinds

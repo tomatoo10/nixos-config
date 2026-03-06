@@ -6,7 +6,6 @@
   environment.systemPackages = with pkgs; [
     sshfs
     OVMF
-    blueman
     qemu
     virt-manager
     libvirt

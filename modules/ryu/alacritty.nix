@@ -39,6 +39,19 @@
               mods = "Control|Shift";
               action = "SpawnNewInstance";
             }
+            {
+              key = "Return";
+              mods = "Control";
+              command = {
+                program = "alacritty";
+                args = [
+                  "-e"
+                  "fish"
+                  "--init-command"
+                  "nix develop -c fish"
+                ];
+              };
+            }
           ];
         };
       };

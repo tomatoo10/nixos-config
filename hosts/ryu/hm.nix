@@ -27,13 +27,13 @@
     nerd-fonts.jetbrains-mono
     nerd-fonts.caskaydia-cove
     hachimarupop
+    uv
+    burpsuite
 
     lazygit
     git
-    libsForQt5.kolourpaint
-
-    # Testing stuff
     evil-helix
+    krita
     swaynotificationcenter
 
     kitty # another terminal emulator if something goes wrong
@@ -77,7 +77,6 @@
 
   programs.home-manager.enable = true;
   programs.git.enable = true;
-  programs.command-not-found.enable = true;
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
