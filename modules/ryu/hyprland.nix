@@ -35,7 +35,6 @@
         "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
         "QT_QPA_PLATFORMTHEME,qt6ct"
         "QT_AUTO_SCREEN_SCALE_FACTOR,1"
-        "WLR_RENDERER_ALLOW_SOFTWARE,1"
       ];
 
       exec-once = [
@@ -81,7 +80,7 @@
 
       misc = {
         disable_hyprland_logo = true;
-        mouse_move_focuses_monitor = true;
+        mouse_move_focuses_monitor = false;
         swallow_regex = "^(Alacritty)$";
         # should be used in terminals so don't swallow it plz
         swallow_exception_regex = "class:^ueberzugpp_";
@@ -93,7 +92,7 @@
       xwayland.force_zero_scaling = false;
 
       dwindle = {
-        pseudotile = true;
+        #   pseudotile = true;
         preserve_split = true;
       };
 
@@ -231,8 +230,22 @@
     };
 
     extraConfig = ''
-      # Easily plug in any monitor
-      monitor=,preferred,auto,1
+      monitor=DP-3,1920x1080@144,auto-right,1
+      monitor=HDMI-A-1,1360x768@60,0x0,1,transform,3
+
+
+      # Workspace → monitor mapping
+      workspace=1,monitor:DP-3
+      workspace=2,monitor:DP-3
+      workspace=3,monitor:DP-3
+      workspace=4,monitor:DP-3
+      workspace=5,monitor:DP-3
+      workspace=6,monitor:DP-3
+      workspace=7,monitor:DP-3
+
+      workspace=8,monitor:HDMI-A-1
+      workspace=9,monitor:HDMI-A-1
+      workspace=10,monitor:HDMI-A-1
 
       submap = resize
 

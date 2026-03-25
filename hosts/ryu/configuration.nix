@@ -94,28 +94,41 @@
 
   programs.nix-ld.enable = true;
   programs.command-not-found.enable = true;
+  virtualisation.docker.enable = true;
 
   # 竜
   networking.hostName = "ryu";
   networking.networkmanager.enable = true;
   networking.firewall.allowedTCPPorts = [
+    80
+    135
+    445
+    1080
+    4444
+    5985
+    5986
+    6666
+    8080
     9001
     9002
     9003
-    4444
-    8080
+    9050
+    9389
     53317
   ];
-
   networking.firewall.allowedUDPPorts = [
+    80
+    135
+    445
+    1080
+    4444
+    8080
     9001
     9002
     9003
-    4444
-    8080
+    9050
     53317
   ];
-
   environment.etc.hosts.enable = false;
   environment.etc.hosts.mode = "0700";
 
@@ -142,7 +155,8 @@
       "networkmanager"
       "wheel"
       "libvirtd"
-      "input"
+      "groups"
+      "docker"
     ];
     home = "/home/ak4m3";
     uid = 1000;

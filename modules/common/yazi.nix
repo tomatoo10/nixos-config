@@ -6,6 +6,20 @@
   ];
 
   programs.yazi = {
+    settings = {
+      plugin = {
+        prepend_previewers = [
+          {
+            mime = "image/*";
+            run = "noop";
+          }
+          {
+            mime = "video/*";
+            run = "noop";
+          }
+        ];
+      };
+    };
     enable = true;
     enableFishIntegration = true;
     enableBashIntegration = true;
