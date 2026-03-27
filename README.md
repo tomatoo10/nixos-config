@@ -10,7 +10,7 @@ In this case, this will be better for you, take it: [starter config](https://git
 
 "I don't care i'll use yours anyway fuck it"
 
-Ok then, have fun and if you have any questions feel free to contact me somewhere so i can *try* to help you!!
+Ok then, have fun and if you have any questions feel free to contact me somewhere so i can _try_ to help you!!
 
 Managing this config with one hosts was kinda hard already but now that i have two hosts (With completely different configs) is even harder.
 
@@ -18,19 +18,16 @@ My main desktop (ruy) uses my own config which i made along of the years using l
 
 [binary harbinger hyprdots](https://github.com/BinaryHarbinger/hyprdots)
 
-
 # Tooling
 
--  hyprland (window manager)
--  alacritty (terminal emulator)
--  fish (shell)
--  yazi (file manager)
--  Neovim + kickstart-nix.nvim (text editor)
--  evil-helix (another text editor and yes, i want to migrate to hx. I'm tired of spend my time fixing plugins)
--  waybar (cool funny bar)
--  wofi (cool funny launcher)
--  brave (cool browser)
--  snapper (snapshot manager for btrfs)
+- hyprland (window manager)
+- caelestia-shell
+- ghostty (terminal emulator)
+- fish (shell)
+- yazi (file manager)
+- Neovim + nvf (text editor)
+- evil-helix (another text editor and yes, i want to migrate to hx. I'm tired of spend my time fixing plugins)
+- brave (cool browser)
 
 # Showcase
 
