@@ -1,40 +1,49 @@
-# My NixOS config
+# NixOS config
 
-Here lies the configuration of my working/studying setup using NixOS. ~This config is for a single host (for now) which is my desktop.~
+Here lies the configuration of my system using NixOS, my focus is studying/working on security and programming. This config is for a single host (for now) which is my desktop.
 
-## Disclamer
 
-I'm completely new to nix/nixOS. I migrate from Arch (btw) weeks ago and this is my first config, so if you are here looking for a starter config, bad place go look somewhere else man. I barely know what i am doing :p.
+## Showcase
 
-In this case, this will be better for you, take it: [starter config](https://github.com/Misterio77/nix-starter-configs)
+### Ryu, main desktop:
 
-"I don't care i'll use yours anyway fuck it"
+![showcase-ruy1](./showcase/ryu-showcase-1.png)
 
-Ok then, have fun and if you have any questions feel free to contact me somewhere so i can _try_ to help you!!
+![showcase-ruy2](./showcase/ryu-showcase-2.png)
 
-Managing this config with one hosts was kinda hard already but now that i have two hosts (With completely different configs) is even harder.
+![showcase-ruy3](./showcase/ryu-showcase-3.png)
 
-My main desktop (ruy) uses my own config which i made along of the years using linux. My notebook (sora) is using this guy's config which i thought was kinda cool so i'm copying it. I'm still testing things out so everything is a fucking mess
+### Sora, Laptop
 
-[binary harbinger hyprdots](https://github.com/BinaryHarbinger/hyprdots)
+coming soon
 
-# Tooling
+## Tooling
 
 - hyprland (window manager)
-- caelestia-shell
+- caelestia-shell (desktop shell)
 - ghostty (terminal emulator)
 - fish (shell)
 - yazi (file manager)
 - Neovim + nvf (text editor)
-- evil-helix (another text editor and yes, i want to migrate to hx. I'm tired of spend my time fixing plugins)
-- brave (cool browser)
+- brave (browser)
 
-# Showcase
+## Structure
 
-Ryu, main desktop:
+- `flake.nix` - inputs and host inventory.
+- `hosts/` - per machine `configuration.nix`, `hardware.nix` and secrets.
+- `homes/` - programs specific configuration. (Shell, Terminal, Browser and such)
+- `server-modules/` - Not being used at the moment.
+- `themes/` - themes files created using stylix and imported by the `hosts/var.nix` file. 
+- `homes/programs/nvf/` - neovim + nvf config
 
-[showcase-ruy](./showcase.png)
+hosts:
 
-Sora, thinkpad:
+- `ryu` - main desktop
+- `sora` - thinkpad laptop (will be added later)
+- `server` - my dell laptop which i use as server
 
-[showcase-sora](./showcase-sora.png)
+## Special Thanks
+
+[anotherhadi/nixy](https://github.com/anotherhadi/nixy)
+[harbinger/hyprdots](https://github.com/BinaryHarbinger/hyprdots)
+[gmkonan/flake](https://github.com/GMkonan/flake)
