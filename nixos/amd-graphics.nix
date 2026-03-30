@@ -8,4 +8,5 @@
       libva-vdpau-driver
     ];
   };
+  hardware.amdgpu.opencl.enable = true;
 }

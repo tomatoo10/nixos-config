@@ -62,6 +62,10 @@ in {
     BROWSER = "brave";
   };
 
+  # Allow edit of /etc/hosts bc of HTB machines
+  environment.etc.hosts.enable = true;
+  environment.etc.hosts.mode = "0700";
+
   services.libinput.enable = true;
   programs.dconf.enable = true;
   programs.nix-ld.enable = true;
