@@ -67,9 +67,11 @@
       };
     };
     polarity = "dark";
-    image = pkgs.fetchurl {
-      url = "https://raw.githubusercontent.com/anotherhadi/awesome-wallpapers/refs/heads/main/app/static/wallpapers/aquarium_blue.png";
-      sha256 = "sha256-m6bk/1tQ8+kBr5GnLEUow6ZAFO5sdQYi5/yyiIDawqc=";
-    };
+    image = ./wallpapers/samurai.jpg;
+    # anotherhadi is down
+    # image = pkgs.fetchurl {
+    #   url = "https://raw.githubusercontent.com/anotherhadi/awesome-wallpapers/refs/heads/main/app/static/wallpapers/aquarium_blue.png";
+    #   sha256 = "sha256-m6bk/1tQ8+kBr5GnLEUow6ZAFO5sdQYi5/yyiIDawqc=";
+    # };
   };
 }
