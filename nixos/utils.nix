@@ -63,7 +63,7 @@ in {
   };
 
   # Allow edit of /etc/hosts bc of HTB machines
-  environment.etc.hosts.enable = true;
+  environment.etc.hosts.enable = false;
   environment.etc.hosts.mode = "0700";
 
   services.libinput.enable = true;
