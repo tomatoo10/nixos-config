@@ -66,6 +66,7 @@
       air
       duckdb
       lazydocker
+      nh
 
       # Just cool
       peaclock
