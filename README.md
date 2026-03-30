@@ -2,7 +2,6 @@
 
 Here lies the configuration of my system using NixOS, my focus is studying/working on security and programming. This config is for a single host (for now) which is my desktop.
 
-
 ## Showcase
 
 ### Ryu, main desktop:
@@ -33,7 +32,7 @@ coming soon
 - `hosts/` - per machine `configuration.nix`, `hardware.nix` and secrets.
 - `homes/` - programs specific configuration. (Shell, Terminal, Browser and such)
 - `server-modules/` - Not being used at the moment.
-- `themes/` - themes files created using stylix and imported by the `hosts/var.nix` file. 
+- `themes/` - themes files created using stylix and imported by the `hosts/var.nix` file.
 - `homes/programs/nvf/` - neovim + nvf config
 
 hosts:
@@ -45,5 +44,7 @@ hosts:
 ## Special Thanks
 
 [anotherhadi/nixy](https://github.com/anotherhadi/nixy)
+
 [harbinger/hyprdots](https://github.com/BinaryHarbinger/hyprdots)
+
 [gmkonan/flake](https://github.com/GMkonan/flake)
