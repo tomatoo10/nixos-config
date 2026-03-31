@@ -26,6 +26,8 @@ in {
       # Ctrl+F -> Show suggestions
       bind \cf complete
 
+      bind alt-l 'clear; commandline -f repaint'
+
       # Remove greeting
       set fish_greeting
     '';

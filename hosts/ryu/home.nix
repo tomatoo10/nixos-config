@@ -61,11 +61,15 @@
       docker
       nodejs
       python3
+      uv
       jq
       just
       air
       duckdb
       lazydocker
+      cargo
+      rustc
+      clang
       nh
 
       # Just cool
