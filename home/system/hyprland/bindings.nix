@@ -78,28 +78,18 @@ in {
             }
             {
               key = "m";
-              desc = "Proton Mail";
-              cmd = "${pkgs.brave}/bin/brave 'https://mail.proton.me/u/2/inbox'";
+              desc = "Mail";
+              cmd = "${pkgs.brave}/bin/brave 'https://mail.google.me/u/0/inbox'";
             }
             {
               key = "c";
-              desc = "Proton Calendar";
-              cmd = "${pkgs.brave}/bin/brave 'https://calendar.proton.me/u/2'";
+              desc = "Claude";
+              cmd = "${pkgs.brave}/bin/brave 'https://claude.ai/new'";
             }
             {
-              key = "l";
-              desc = "Proton Lumo";
-              cmd = "${pkgs.brave}/bin/brave 'https://lumo.proton.me/u/2'";
-            }
-            {
-              key = "d";
-              desc = "Proton Drive";
-              cmd = "${pkgs.brave}/bin/brave 'https://drive.proton.me/u/2/'";
-            }
-            {
-              key = "G";
-              desc = "Google Gemini";
-              cmd = "${pkgs.brave}/bin/brave 'https://gemini.google.com/'";
+              key = "w";
+              desc = "WhatsApp";
+              cmd = "${pkgs.brave}/bin/brave 'https://web.whatsapp.com/'";
             }
             {
               key = "g";

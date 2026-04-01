@@ -71,6 +71,9 @@ in {
       ];
 
       workspace = [
+        # 1-9 Primary monitor.
+        "1, monitor:desc:LG ULTRAGEAR, default:true"
+        # 10-12 Secondary monitor.
         "10, monitor:desc:AOC L22W931, default:true"
         "11, monitor:desc:AOC L22W931"
         "12, monitor:desc:AOC L22W931"

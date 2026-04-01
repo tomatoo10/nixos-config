@@ -4,9 +4,8 @@
   modulesPath,
   pkgs,
   ...
-}:
-{
-  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
+}: {
+  imports = [(modulesPath + "/installer/scan/not-detected.nix")];
 
   boot.initrd.availableKernelModules = [
     "nvme"
@@ -18,10 +17,10 @@
     # Webcam
     "uvcvideo"
   ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ ];
-  # boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.initrd.kernelModules = [];
+  boot.kernelModules = ["kvm-amd"];
+  boot.extraModulePackages = [];
+  boot.kernelPackages = pkgs.linuxPackages_zen;
 
   powerManagement.cpuFreqGovernor = "performance";
 

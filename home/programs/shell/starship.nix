@@ -12,47 +12,50 @@ in {
     settings = {
       add_newline = true;
       format = lib.concatStrings [
-        "$nix_shell"
         "$hostname"
+        "$username"
         "$directory"
         "$git_branch"
         "$status"
+        "$nix_shell"
         # "$git_status"
+        "\n"
         "$character"
       ];
-
       directory = {
         style = accent;
         truncation_length = 0;
         truncate_to_repo = false;
       };
-
       character = {
         success_symbol = "[➜](${accent})";
         error_symbol = "[➜](red)";
         vimcmd_symbol = "[➜](cyan)";
       };
+      username = {
+        show_always = true;
+        format = "[$user](bold yellow) in ";
+      };
 
       nix_shell = {
-        format = "[$symbol]($style) ";
-        symbol = "🐚";
-        style = "";
+        format = "- \\[[$name]($style)\\] ";
+        symbol = "";
+        style = "bold blue";
       };
 
       status = {
         disabled = false;
         format = "- \\[[$status]($style)\\] ";
         style = "red";
-        success_symbol = "";
+        success_style = "white";
+        success_symbol = "0";
         symbol = "";
       };
-
       git_branch = {
         symbol = "[](${background-alt}) ";
         style = "fg:${accent} bg:${background-alt}";
         format = "on [$symbol$branch]($style)[](${background-alt}) ";
       };
-
       git_status = {
         format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218)($ahead_behind$stashed)]($style)";
         style = "cyan";
@@ -61,11 +64,6 @@ in {
         deleted = "";
         stashed = "≡";
       };
-
-      # git_state = {
-      #   format = "([$state( $progress_current/$progress_total)]($style)) ";
-      #   style = "bright-black";
-      # };
     };
   };
 }

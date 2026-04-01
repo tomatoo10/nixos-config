@@ -7,6 +7,8 @@
     options = {
       autoindent = true;
       smartindent = true;
+      ignorecase = true;
+      smartcase = true;
       shiftwidth = 2;
       foldlevel = 99;
       foldcolumn = "auto:1";
@@ -30,6 +32,9 @@
       registers = "unnamedplus";
       providers.wl-copy.enable = true;
     };
+    luaConfigRC.clear-search-highlight = ''
+      vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { noremap = true, silent = true })
+    '';
     luaConfigRC.osc52-clipboard = ''
       vim.g.clipboard = {
         name = 'OSC 52',
