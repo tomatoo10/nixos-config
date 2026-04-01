@@ -48,10 +48,11 @@
         },
       }
     '';
+    # https://nvf.notashelf.dev/options.html#option-vim-theme-style
     theme = {
       enable = true;
-      name = lib.mkForce "catppuccin";
-      style = lib.mkForce "mocha";
+      name = lib.mkForce "gruvbox";
+      style = lib.mkForce "dark";
       transparent = lib.mkForce true;
     };
   };
