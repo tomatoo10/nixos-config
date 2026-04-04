@@ -15,6 +15,11 @@
 
     keyboardLayout = "us";
 
+    # Allow edit of /etc/hosts bc of HTB machines
+  environment.etc.hosts.enable = lib.mkForce false;
+  environment.etc.hosts.mode = lib.mkForce "0700";
+
+
     location = "Guapimirim";
     timeZone = "America/Sao_Paulo";
     defaultLocale = "en_US.UTF-8";
