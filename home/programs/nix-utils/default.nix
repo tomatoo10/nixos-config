@@ -1,3 +1,2 @@
 {...}: {
-  # nix-index is slow
 }

@@ -7,6 +7,7 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    disko.url = "github:nix-community/disko";
     stylix.url = "github:danth/stylix";
     nixcord.url = "github:kaylorben/nixcord";
     sops-nix.url = "github:Mic92/sops-nix";
@@ -53,6 +54,22 @@
           inputs.stylix.nixosModules.stylix
           inputs.flake-programs-sqlite.nixosModules.programs-sqlite
           ./hosts/ryu/configuration.nix
+        ];
+      };
+sora = nixpkgs.lib.nixosSystem {
+        modules = [
+          {
+            nixpkgs.overlays = [];
+            _module.args = {
+              inherit inputs;
+            };
+          }
+          inputs.home-manager.nixosModules.home-manager
+          inputs.lanzaboote.nixosModules.lanzaboote
+          inputs.stylix.nixosModules.stylix
+          inputs.flake-programs-sqlite.nixosModules.programs-sqlite
+          inputs.disko.nixosModules.disko
+          ./hosts/sora/configuration.nix
         ];
       };
     };
