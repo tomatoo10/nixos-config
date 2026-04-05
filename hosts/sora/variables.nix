@@ -16,10 +16,6 @@
     keyboardLayout = "us";
     # keyboardLayout = "br-abnt2";
 
-    networking.wireless.enable = false;
-    networking.wireless.iwd.enable = true;
-    networking.networkmanager.wifi.backend = "iwd";
-
     location = "Guapimirim";
     timeZone = "America/Sao_Paulo";
     defaultLocale = "en_US.UTF-8";

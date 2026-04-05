@@ -20,6 +20,11 @@
   hardware.trackpoint.emulateWheel = lib.mkDefault config.hardware.trackpoint.enable;
 
   powerManagement.cpuFreqGovernor = "performance";
+  services.fwupd.enable = true;
+
+  networking.wireless.enable = false;
+  networking.wireless.iwd.enable = true;
+  networking.networkmanager.wifi.backend = "iwd";
 
   networking.useDHCP = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
