@@ -12,15 +12,6 @@
   # for now.
   boot.loader.systemd-boot = {
     enable = lib.mkForce false;
-    # consoleMode = "max";
-    # editor = false;
-
-    # extraEntries = {
-    #   "windows.conf" = ''
-    #     title   Windows
-    #     efi     /EFI/Microsoft/Boot/bootmgfw.efi
-    #   '';
-    # };
   };
 
   boot.loader.efi.canTouchEfiVariables = true;

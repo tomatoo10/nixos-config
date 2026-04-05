@@ -1,13 +1,19 @@
 {
+  config,
+  osConfig,
+  ...
+}: let
+  isThinkpad = osConfig.networking.hostName == "sora";
+in {
   programs.caelestia.settings.bar = {
     clock.showIcon = false;
     popouts.activeWindow = false;
     persistent = true;
     status = {
-      showBattery = false;
+      showBattery = isThinkpad;
       showMicrophone = false;
       showLockStatus = true;
-      showBluetooth = false;
+      showBluetooth = isThinkpad;
       showAudio = true;
       showKbLayout = true;
       showNetwork = true;

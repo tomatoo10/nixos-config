@@ -14,6 +14,7 @@
 
     # You should let those lines as is
     ./hardware-configuration.nix
+    ./disko-config.nix
     ./variables.nix
   ];
 

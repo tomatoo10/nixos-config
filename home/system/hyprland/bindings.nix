@@ -49,6 +49,7 @@ in {
               desc = "Obsidian";
               cmd = "${pkgs.obsidian}/bin/obsidian";
             }
+
             # Changed to localsend
             {
               key = "s";
