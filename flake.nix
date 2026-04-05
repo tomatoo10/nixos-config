@@ -56,7 +56,7 @@
           ./hosts/ryu/configuration.nix
         ];
       };
-sora = nixpkgs.lib.nixosSystem {
+      sora = nixpkgs.lib.nixosSystem {
         modules = [
           {
             nixpkgs.overlays = [];

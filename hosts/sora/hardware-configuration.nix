@@ -13,11 +13,11 @@
   ];
 
   boot.initrd.availableKernelModules = ["nvme" "ehci_pci" "xhci_pci_renesas" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
-  boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-amd" "thinkpad_acpi"];
-  boot.extraModulePackages = [];
-  boot.kernelParams = [ "amd_pstate=active" ];
+  boot.kernelParams = ["amd_pstate=active" "acpi_backlight=native" "psmouse.synaptics_intertouch=0"];
   boot.kernelPackages = pkgs.linuxPackages_zen;
+  hardware.trackpoint.enable = lib.mkDefault true;
+  hardware.trackpoint.emulateWheel = lib.mkDefault config.hardware.trackpoint.enable;
 
   powerManagement.cpuFreqGovernor = "performance";
 
