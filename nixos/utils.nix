@@ -15,8 +15,6 @@ in {
   networking.hostName = hostname;
 
   networking.networkmanager.enable = true;
-  # HTB machines should be able to ping me in a lot of different ports.
-  networking.firewall.enable = false;
   systemd.services.NetworkManager-wait-online.enable = false;
 
   system.autoUpgrade = {

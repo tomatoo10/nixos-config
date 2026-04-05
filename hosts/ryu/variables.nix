@@ -16,9 +16,9 @@
     keyboardLayout = "us";
 
     # Allow edit of /etc/hosts bc of HTB machines
-  environment.etc.hosts.enable = lib.mkForce false;
-  environment.etc.hosts.mode = lib.mkForce "0700";
-
+    environment.etc.hosts.enable = lib.mkForce false;
+    environment.etc.hosts.mode = lib.mkForce "0700";
+    networking.firewall.enaled = false;
 
     location = "Guapimirim";
     timeZone = "America/Sao_Paulo";
