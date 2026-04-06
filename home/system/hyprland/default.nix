@@ -65,18 +65,23 @@ in {
       ];
 
       monitor = [
-        "desc:LG ULTRAGEAR,1920x1080@144,1360x0,1" # LG primary
-        "desc:AOC L22W931,1360x768@60,0x0,1,transform,3" # AOC secondary (portrait)
-        ",preferred,auto,1" # fallback
+        "DP-1, 1920x1080@144, 768x0, 1" # starts at logical width of rotated AOC
+        "HDMI-A-1, 1360x768@60, 0x0, 1, transform, 3"
+        ", preferred, auto, 1"
       ];
-
       workspace = [
-        # 1-9 Primary monitor.
-        "1, monitor:desc:LG ULTRAGEAR, default:true"
-        # 10-12 Secondary monitor.
-        "10, monitor:desc:AOC L22W931, default:true"
-        "11, monitor:desc:AOC L22W931"
-        "12, monitor:desc:AOC L22W931"
+        "1, monitor:DP-1, default:true"
+        "2, monitor:DP-1"
+        "3, monitor:DP-1"
+        "4, monitor:DP-1"
+        "5, monitor:DP-1"
+        "6, monitor:DP-1"
+        "7, monitor:DP-1"
+        "8, monitor:DP-1"
+        "9, monitor:DP-1"
+        "10, monitor:HDMI-A-1, default:true"
+        "11, monitor:HDMI-A-1"
+        "12, monitor:HDMI-A-1"
       ];
 
       env = [
@@ -106,7 +111,7 @@ in {
 
       cursor = {
         no_hardware_cursors = true;
-        default_monitor = "DP-3";
+        default_monitor = "DP-1";
       };
 
       general = {
