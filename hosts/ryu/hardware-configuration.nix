@@ -17,12 +17,13 @@
     # Webcam
     "uvcvideo"
   ];
-  boot.initrd.kernelModules = [];
-  boot.kernelModules = ["kvm-amd"];
-  boot.extraModulePackages = [];
-  boot.kernelPackages = pkgs.linuxPackages_zen;
 
-  powerManagement.cpuFreqGovernor = "performance";
+  boot.kernelModules = ["kvm-amd"];
+  boot.initrd.kernelModules = ["amdgpu"];
+  boot.kernelParams = ["amd_pstate=active"];
+  boot.kernelPackages = pkgs.linuxPackages_zen;
+  # amd_pstate will govern it
+  # powerManagement.cpuFreqGovernor = "performance";
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/663eabbc-eef2-43db-8e7f-cae986188d9d";
@@ -64,5 +65,6 @@
 
   networking.useDHCP = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  hardware.enableRedistributableFirmware = true;
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
