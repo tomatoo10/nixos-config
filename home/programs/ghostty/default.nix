@@ -6,6 +6,7 @@
     settings = {
       window-padding-x = 10;
       confirm-close-surface = false;
+      window-inherit-working-directory = false;
       window-padding-y = 10;
       clipboard-read = "allow";
       clipboard-write = "allow";

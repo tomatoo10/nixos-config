@@ -45,7 +45,7 @@ in {
       e = "exit";
       cd = "z";
       ls = "eza --icons=always --no-quotes";
-      cfg = "cd /etc/nixos/";
+      cfg = "cd ~/.config/nixos/";
       tree = "eza --icons=always --tree --no-quotes";
       sl = "ls";
       open = "${pkgs.xdg-utils}/bin/xdg-open";
