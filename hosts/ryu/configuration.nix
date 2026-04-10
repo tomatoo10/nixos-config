@@ -15,6 +15,7 @@
     ../../nixos/utils.nix
     ../../nixos/hyprland.nix
     ../../nixos/docker.nix
+    ../../nixos/amd-graphics.nix
 
     # You should let those lines as is
     ./hardware-configuration.nix

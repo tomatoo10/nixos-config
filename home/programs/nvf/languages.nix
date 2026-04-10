@@ -101,7 +101,7 @@
         format.type = ["prettierd"];
         extensions = {
           markview-nvim = {
-            enable = true;
+            enable = false;
           };
         };
         extraDiagnostics.enable = true;

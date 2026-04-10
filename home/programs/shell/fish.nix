@@ -52,27 +52,10 @@ in {
       cat = "bat --theme=base16 --color=always --paging=never --tabs=2 --wrap=never --plain";
       mkdir = "mkdir -p";
 
-      # Nix
-      # nhhm = "nh home switch /etc/nixos#homeConfigurations.ak4m3@$1.activationPackage";
-      nhos = "nh os switch /etc/nixos";
-
-      # Servers and Vm's
-      sharedwin = "cd ~/.akame/sharedwin/";
-      mount_server = "sudo sshfs -o allow_other,default_permissions,kernel_cache,cache=yes akame@192.168.1.100:/home/akame/ ~/misc/server/ -p 2222";
-      mount_homeserver = "sudo sshfs -o allow_other,default_permissions,kernel_cache,cache=yes akame@192.168.1.100:/home/shared/ ~/misc/home-server/ -p 2222";
-
-      # Rust ;
-      cargo_build_win = "cargo build --target x86_64-pc-windows-gnu";
-      lint = "./lint.sh";
-      clippy = "cargo clippy -- -A clippy::all";
-
-      obsidian-no-gpu = "env ELECTRON_OZONE_PLATFORM_HINT=auto obsidian --ozone-platform=x11";
-      wireguard-import = "nmcli connection import type wireguard file";
-      df = "duf -hide-fs squashfs";
-
       # Git
       gcl = "git clone";
       gst = "git status";
+      gti = "git";
       checkpoint = "git add . && git commit";
       lola = "git log --graph --pretty=\"format:%C(auto)%h %d %s %C(green)(%ad) %C(cyan) <%an >\" --abbrev-commit --all --date=relative";
 
@@ -92,6 +75,24 @@ in {
 
       gaa = "git add .";
       gcm = "git commit -m";
+
+      # Nix
+      # nhhm = "nh home switch /etc/nixos#homeConfigurations.ak4m3@$1.activationPackage";
+      nhos = "nh os switch /etc/nixos";
+
+      # Servers and Vm's
+      sharedwin = "cd ~/.akame/sharedwin/";
+      mount_server = "sudo sshfs -o allow_other,default_permissions,kernel_cache,cache=yes akame@192.168.1.100:/home/akame/ ~/misc/server/ -p 2222";
+      mount_homeserver = "sudo sshfs -o allow_other,default_permissions,kernel_cache,cache=yes akame@192.168.1.100:/home/shared/ ~/misc/home-server/ -p 2222";
+
+      # Rust ;
+      cargo_build_win = "cargo build --target x86_64-pc-windows-gnu";
+      lint = "./lint.sh";
+      clippy = "cargo clippy -- -A clippy::all";
+
+      obsidian-no-gpu = "env ELECTRON_OZONE_PLATFORM_HINT=auto obsidian --ozone-platform=x11";
+      wireguard-import = "nmcli connection import type wireguard file";
+      df = "duf -hide-fs squashfs";
     };
   };
 }
