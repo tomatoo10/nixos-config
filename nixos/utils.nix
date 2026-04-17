@@ -14,9 +14,6 @@
 in {
   networking.hostName = hostname;
 
-  networking.networkmanager.enable = true;
-  systemd.services.NetworkManager-wait-online.enable = false;
-
   system.autoUpgrade = {
     enable = autoUpgrade;
     dates = "04:00";

@@ -13,18 +13,16 @@
   ];
 
   boot.initrd.availableKernelModules = ["nvme" "ehci_pci" "xhci_pci_renesas" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
-  boot.kernelModules = ["kvm-amd" "thinkpad_acpi"];
-  boot.kernelParams = ["amd_pstate=active" "acpi_backlight=native" "psmouse.synaptics_intertouch=0"];
+  boot.kernelModules = ["kvm-amd" "thinkpad_acpi" "amd-pstate"];
+  boot.kernelParams = ["initcall_blacklist=acpi_cpufreq_init" "amd_pstate=active" "acpi_backlight=native" "psmouse.synaptics_intertouch=0"];
   boot.kernelPackages = pkgs.linuxPackages_zen;
   hardware.trackpoint.enable = lib.mkDefault true;
   hardware.trackpoint.emulateWheel = lib.mkDefault config.hardware.trackpoint.enable;
 
-  powerManagement.cpuFreqGovernor = "performance";
   services.fwupd.enable = true;
 
-  networking.wireless.enable = false;
+  networking.networkmanager.enable = false;
   networking.wireless.iwd.enable = true;
-  networking.networkmanager.wifi.backend = "iwd";
 
   networking.useDHCP = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

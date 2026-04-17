@@ -44,6 +44,7 @@
       notesnook
       element-desktop
       clamtk
+      openvpn
 
       # Dev
       docker
