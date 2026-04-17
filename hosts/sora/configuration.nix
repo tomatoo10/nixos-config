@@ -1,4 +1,8 @@
-{config, ...}: {
+{
+  config,
+  lib,
+  ...
+}: {
   imports = [
     # Mostly system related configuration
     ../../nixos/audio.nix
@@ -22,4 +26,8 @@
 
   # Don't touch this
   system.stateVersion = "24.05";
+
+  environment.etc.hosts.enable = lib.mkForce false;
+  environment.etc.hosts.mode = lib.mkForce "0700";
+  networking.firewall.enable = false;
 }
