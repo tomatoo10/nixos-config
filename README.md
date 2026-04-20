@@ -48,3 +48,7 @@ hosts:
 [harbinger/hyprdots](https://github.com/BinaryHarbinger/hyprdots)
 
 [gmkonan/flake](https://github.com/GMkonan/flake)
+
+### To do
+
+- [ ] tab to accept suggestion nvim

@@ -51,7 +51,8 @@
   wayland.windowManager.hyprland.settings.exec-once = [
     "uwsm app -- caelestia resizer -d"
     "uwsm app -- caelestia shell -d"
-    # "caelestia scheme set -n onedark"
+    # caelestia is behaving weird with colors, sometimes you set the color and nothing changes. You need to change it back and forth to work, that's why we set it to onedark and later to custom.
+    "caelestia scheme set -n onedark"
     "caelestia scheme set -n custom"
   ];
 

@@ -13,8 +13,14 @@
   ];
 
   boot.initrd.availableKernelModules = ["nvme" "ehci_pci" "xhci_pci_renesas" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
+  # enable kernelModule amd-pstate
+  # DIFF: for my understand, t14 gen1 does not have support for cppc which is needed for amd_pstate to work
+  # we set cpufreqgovernor and let acpi handle it
   boot.kernelModules = ["kvm-amd" "thinkpad_acpi" "amd-pstate"];
-  boot.kernelParams = ["initcall_blacklist=acpi_cpufreq_init" "amd_pstate=active" "acpi_backlight=native" "psmouse.synaptics_intertouch=0"];
+  # blacklist acpi_cpufreq and set amd_ptate to active
+  boot.kernelParams = ["amd_pstate=active" "acpi_backlight=native" "psmouse.synaptics_intertouch=0"];
+  powerManagement.cpuFreqGovernor = "performance";
+
   boot.kernelPackages = pkgs.linuxPackages_zen;
   hardware.trackpoint.enable = lib.mkDefault true;
   hardware.trackpoint.emulateWheel = lib.mkDefault config.hardware.trackpoint.enable;
