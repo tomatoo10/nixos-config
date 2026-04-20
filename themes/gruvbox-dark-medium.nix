@@ -67,6 +67,6 @@
       };
     };
     polarity = "dark";
-    image = ./wallpapers/girls-on-cpu.jpg;
+    image = ./wallpapers/another-planet-with-grass_blue.png;
   };
 }

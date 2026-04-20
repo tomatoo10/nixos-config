@@ -25,6 +25,34 @@
         desc = "LSP Hover";
       }
       {
+        key = "]e";
+        mode = "n";
+        silent = true;
+        action = "<cmd>lua vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR, float = true })<cr>";
+        desc = "Next error";
+      }
+      {
+        key = "[e";
+        mode = "n";
+        silent = true;
+        action = "<cmd>lua vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR, float = true })<cr>";
+        desc = "Previous error";
+      }
+      {
+        key = "]w";
+        mode = "n";
+        silent = true;
+        action = "<cmd>lua vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.WARN, float = true })<cr>";
+        desc = "Next warning";
+      }
+      {
+        key = "[w";
+        mode = "n";
+        silent = true;
+        action = "<cmd>lua vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.WARN, float = true })<cr>";
+        desc = "Previous warning";
+      }
+      {
         key = "<leader>]";
         mode = "n";
         silent = true;

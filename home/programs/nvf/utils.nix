@@ -12,6 +12,11 @@
     autocomplete = {
       nvim-cmp = {
         enable = true;
+        mappings = {
+          confirm = "<Tab>";
+          next = "<C-n>";
+          previous = "<C-p>";
+        };
         sources = {
           buffer = "[Buffer]";
           path = "[Path]";
