@@ -12,6 +12,8 @@
     nixcord.url = "github:kaylorben/nixcord";
     sops-nix.url = "github:Mic92/sops-nix";
     nvf.url = "github:notashelf/nvf";
+    codex-cli-nix.url = "github:sadjow/codex-cli-nix";
+    claude-code.url = "github:sadjow/claude-code-nix";
     flake-programs-sqlite = {
       url = "github:wamserma/flake-programs-sqlite";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -39,12 +41,16 @@
     nixarr.url = "github:rasmus-kirk/nixarr";
   };
 
-  outputs = inputs @ {nixpkgs, ...}: {
+  outputs = inputs @ {
+    nixpkgs,
+    claude-code,
+    ...
+  }: {
     nixosConfigurations = {
       ryu = nixpkgs.lib.nixosSystem {
         modules = [
           {
-            nixpkgs.overlays = [];
+            nixpkgs.overlays = [claude-code.overlays.default];
             _module.args = {
               inherit inputs;
             };

@@ -86,7 +86,6 @@
       enableExtraDiagnostics = true;
       enableFormat = true;
       enableTreesitter = true;
-
       python = {
         enable = true;
         lsp = {
@@ -94,8 +93,6 @@
           servers = ["pyright"];
         };
       };
-      astro.enable = true;
-      go.enable = true;
       markdown = {
         enable = true;
         format.type = ["prettierd"];
@@ -110,12 +107,11 @@
         enable = true;
         extensions.ts-error-translator.enable = true;
       };
-      css.enable = true;
-      svelte.enable = true;
+      go.enable = true;
+      rust.enable = true;
       html.enable = true;
       bash.enable = true;
       nix.enable = true;
-      tailwind.enable = true;
     };
     formatter = {
       conform-nvim = {

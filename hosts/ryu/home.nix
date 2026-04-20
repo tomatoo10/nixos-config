@@ -54,6 +54,7 @@
       notesnook
       element-desktop
       clamtk
+      gh
 
       # Dev
       go
