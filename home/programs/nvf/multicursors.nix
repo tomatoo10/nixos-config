@@ -24,7 +24,7 @@
     -- Sublime-like <C-n>: select word under cursor, then find next occurrence
     vim.keymap.set('n', '<C-n>', function()
       local word = vim.fn.expand('<cword>')
-      if word == '' then
+      if #word == 0 then
         vim.cmd('MCunderCursor')
       else
         vim.cmd('MCstart ' .. vim.fn.escape(word, '/\\'))

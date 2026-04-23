@@ -38,8 +38,10 @@
   };
 
   # Kill hostname broadcast protocols
-  services.resolved.llmnr = "false";
-  services.resolved.extraConfig = "MulticastDNS=no";
+  services.resolved.settings.Resolve = {
+    LLMNR = "no";
+    MulticastDNS = "no";
+  };
   services.avahi.enable = lib.mkForce false;
 
   # Tailscale mesh VPN
