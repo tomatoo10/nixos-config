@@ -14,6 +14,7 @@
     nvf.url = "github:notashelf/nvf";
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
     claude-code.url = "github:sadjow/claude-code-nix";
+    vigil.url = "github:tomatoo10/Vigil";
     flake-programs-sqlite = {
       url = "github:wamserma/flake-programs-sqlite";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -75,6 +76,7 @@
           inputs.stylix.nixosModules.stylix
           inputs.flake-programs-sqlite.nixosModules.programs-sqlite
           inputs.disko.nixosModules.disko
+          inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen1
           ./hosts/sora/configuration.nix
         ];
       };
