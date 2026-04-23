@@ -75,6 +75,7 @@ in {
     };
     gvfs.enable = true;
     upower.enable = true;
+    # NOTE: sora overrides this to false (TLP manages power instead)
     power-profiles-daemon.enable = true;
     udisks2.enable = true;
   };
