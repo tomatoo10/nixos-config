@@ -9,6 +9,7 @@
       window-padding-y = 10;
       clipboard-read = "allow";
       clipboard-write = "allow";
+      clipboard-paste-protection = false;
       copy-on-select = "clipboard";
       app-notifications = false;
       keybind = [

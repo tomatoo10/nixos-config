@@ -189,6 +189,43 @@
         desc = "Close";
       }
 
+      # Visual-line movement (respect wrapped lines)
+      {
+        key = "j";
+        mode = ["n" "v"];
+        silent = true;
+        action = "gj";
+        desc = "Move down (visual line)";
+      }
+      {
+        key = "k";
+        mode = ["n" "v"];
+        silent = true;
+        action = "gk";
+        desc = "Move up (visual line)";
+      }
+      {
+        key = "$";
+        mode = ["n" "v"];
+        silent = true;
+        action = "g$";
+        desc = "End of visual line";
+      }
+      {
+        key = "0";
+        mode = ["n" "v"];
+        silent = true;
+        action = "g0";
+        desc = "Start of visual line";
+      }
+      {
+        key = "^";
+        mode = ["n" "v"];
+        silent = true;
+        action = "g^";
+        desc = "First non-blank of visual line";
+      }
+
       # QOL
       {
         key = ">";

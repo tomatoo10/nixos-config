@@ -18,7 +18,7 @@
       signcolumn = "yes";
       tabstop = 2;
       softtabstop = 2;
-      wrap = false;
+      wrap = true;
     };
     globals = {
       navic_silence = true; # navic tries to attach multiple LSPs and fails
