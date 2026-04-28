@@ -170,11 +170,13 @@ in {
       ];
 
       misc = {
-        vfr = true;
         disable_hyprland_logo = true;
         disable_splash_rendering = true;
         focus_on_activate = true;
       };
+      # On current Hyprland main, VFR lives under `debug`, not `misc`.
+      # Despite the namespace, this is a normal runtime tuning knob, not just a developer log flag.
+      debug.vfr = true;
 
       input = {
         kb_layout = keyboardLayout;

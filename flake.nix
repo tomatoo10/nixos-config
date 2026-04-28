@@ -59,7 +59,6 @@
           inputs.home-manager.nixosModules.home-manager
           inputs.lanzaboote.nixosModules.lanzaboote
           inputs.stylix.nixosModules.stylix
-          inputs.flake-programs-sqlite.nixosModules.programs-sqlite
           ./hosts/ryu/configuration.nix
         ];
       };
@@ -74,7 +73,6 @@
           inputs.home-manager.nixosModules.home-manager
           inputs.lanzaboote.nixosModules.lanzaboote
           inputs.stylix.nixosModules.stylix
-          inputs.flake-programs-sqlite.nixosModules.programs-sqlite
           inputs.disko.nixosModules.disko
           inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen1
           ./hosts/sora/configuration.nix

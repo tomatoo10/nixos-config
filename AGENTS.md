@@ -2,6 +2,8 @@
 
 ## Goal
 
+<!-- claude --resume 9e2fd750-16ed-422c-be5b-bd6bd4bb93c8 -->
+
 Migrate home-server from Ubuntu (Docker-based) to NixOS as the third host in this flake.
 The server is an old laptop — minimize compilation, maximize binary cache hits.
 
@@ -13,6 +15,7 @@ The primary stack you want: **Radarr + Sonarr + qBittorrent + Plex** (or Jellyfi
 Most of this is already modeled in `server-modules/arr.nix` via nixarr, though you may choose Docker instead.
 
 The upstream server config imports (for reference):
+
 - `nixos/`: home-manager, nix, users, utils, docker, amd-graphics, **systemd-boot** (NOT lanzaboote)
 - `server-modules/`: SSH, firewall, cloudflared, glance, adguard, arr, stirling-pdf, cyberchef, linkding, mazanoke, nginx, fail2ban, freshrss, default-creds, umami
 - Does NOT import: audio, fonts, hyprland, sddm (headless server)
@@ -70,6 +73,7 @@ hosts/home-server/
 ### 1.3 — configuration.nix
 
 Key differences from desktop hosts:
+
 - NO audio, fonts, hyprland, sddm, lanzaboote (headless)
 - YES docker, amd-graphics (if the old laptop has AMD), server-modules
 - Use `systemd-boot.nix` instead of `lanzaboote.nix` (Secure Boot not needed on a home server)
@@ -159,6 +163,7 @@ This alone will eliminate most local compilation. Unstable packages change daily
 ### 2.2 — Avoid Source-Heavy Inputs
 
 Do NOT import these on the server (they build from source):
+
 - `hyprland` — builds from git with submodules, massive compile
 - `caelestia-shell` / `caelestia-cli` — depends on quickshell, heavy
 - `nvf` — if building neovim plugins from source, consider using a minimal nvim config or just `pkgs.neovim` from stable
@@ -213,12 +218,12 @@ Two approaches, pick one:
 
 The `server-modules/arr.nix` uses the `nixarr` flake input. Cherry-pick what you need:
 
-| Service | Port | What it does |
-|---|---|---|
-| Radarr | 7878 | Movie management |
-| Sonarr | 8989 | TV show management |
-| Prowlarr | 9696 | Indexer manager |
-| Bazarr | 6767 | Subtitles |
+| Service      | Port | What it does                       |
+| ------------ | ---- | ---------------------------------- |
+| Radarr       | 7878 | Movie management                   |
+| Sonarr       | 8989 | TV show management                 |
+| Prowlarr     | 9696 | Indexer manager                    |
+| Bazarr       | 6767 | Subtitles                          |
 | Transmission | 9091 | Torrent client (VPN via WireGuard) |
 
 For Plex: `services.plex.enable = true` (native NixOS, not part of nixarr).
@@ -268,6 +273,7 @@ Use native NixOS for Radarr/Sonarr (well-supported in nixpkgs) and Docker for Pl
 ### Media Storage
 
 Set up a data drive (external or internal) mounted at `/mnt/data`:
+
 - `/mnt/data/media/movies`
 - `/mnt/data/media/tv`
 - `/mnt/data/media/torrents`
@@ -277,17 +283,18 @@ Add the mount to `hardware-configuration.nix` (btrfs with `compress=zstd` recomm
 ### Remote Access
 
 Two options:
+
 1. **Tailscale only** (simplest) — already on ryu/sora, just `tailscale up` on server and access via MagicDNS
 2. **Cloudflare Tunnel** — if you want public access; requires your own domain, tunnel setup, and sops secrets
 
 ### Other Services (cherry-pick from upstream server-modules)
 
-| Service | Worth it? | Notes |
-|---|---|---|
-| AdGuard Home | Yes | Network-wide ad blocking |
-| Fail2Ban | Yes if SSH exposed | Intrusion prevention |
-| Glance | Nice | Dashboard |
-| Others | Optional | Browse `server-modules/` and pick what fits |
+| Service      | Worth it?          | Notes                                       |
+| ------------ | ------------------ | ------------------------------------------- |
+| AdGuard Home | Yes                | Network-wide ad blocking                    |
+| Fail2Ban     | Yes if SSH exposed | Intrusion prevention                        |
+| Glance       | Nice               | Dashboard                                   |
+| Others       | Optional           | Browse `server-modules/` and pick what fits |
 
 ## Phase 4: Secrets Setup
 
@@ -316,6 +323,7 @@ EOF
 ### 4.2 — Required Secrets
 
 For the media stack:
+
 - `wireguard-pia` — WireGuard VPN config for Transmission
 - `recyclarr` — Recyclarr config (quality profiles sync)
 - `cloudflared-token` — Cloudflare tunnel credentials (if using CF tunnel)
@@ -362,29 +370,26 @@ Things to fix before the home-server can work:
 3. **`nix.nix` trusted-users** has `"tomato"` (from upstream) — change to `"ak4m3"`
 4. **`nixarr` and `sops-nix`** are flake inputs but NOT wired into any host's module list — must add to home-server
 
-If reusing upstream `server-modules/`:
-5. **Domain `hadi.diy`** is hardcoded everywhere — grep and replace with your domain
-6. **SSH key in `ssh.nix`** is hadi's — replace with your ed25519 pubkey
-7. **Cloudflare tunnel ID** `f7c8f777-...` is in cloudflared.nix AND arr.nix — create your own
-8. **sops secrets** reference hadi's encrypted files — you need your own age key + re-encrypt
+If reusing upstream `server-modules/`: 5. **Domain `hadi.diy`** is hardcoded everywhere — grep and replace with your domain 6. **SSH key in `ssh.nix`** is hadi's — replace with your ed25519 pubkey 7. **Cloudflare tunnel ID** `f7c8f777-...` is in cloudflared.nix AND arr.nix — create your own 8. **sops secrets** reference hadi's encrypted files — you need your own age key + re-encrypt
 
 ## Quick Reference: What Goes Where
 
-| Want to... | File |
-|---|---|
-| Add a system package (all hosts) | `nixos/utils.nix` → `environment.systemPackages` |
-| Add a user package (per host) | `hosts/<name>/home.nix` → `home.packages` |
-| Add a server service | `server-modules/<name>.nix` + import in `hosts/home-server/configuration.nix` |
-| Change theme | `hosts/<name>/variables.nix` → imports line |
-| Add a cachix cache | `nixos/nix.nix` → `substituters` + `trusted-public-keys` |
+| Want to...                         | File                                                                                     |
+| ---------------------------------- | ---------------------------------------------------------------------------------------- |
+| Add a system package (all hosts)   | `nixos/utils.nix` → `environment.systemPackages`                                         |
+| Add a user package (per host)      | `hosts/<name>/home.nix` → `home.packages`                                                |
+| Add a server service               | `server-modules/<name>.nix` + import in `hosts/home-server/configuration.nix`            |
+| Change theme                       | `hosts/<name>/variables.nix` → imports line                                              |
+| Add a cachix cache                 | `nixos/nix.nix` → `substituters` + `trusted-public-keys`                                 |
 | Override a shared setting per-host | Use `lib.mkForce` in the host's config (see sora's TLP overriding power-profiles-daemon) |
-| Add a Hyprland keybind | `home/system/hyprland/bindings.nix` |
-| Add a neovim plugin/language | `home/programs/nvf/<relevant>.nix` |
-| Add a new flake input | `flake.nix` inputs + wire into the host's modules list |
+| Add a Hyprland keybind             | `home/system/hyprland/bindings.nix`                                                      |
+| Add a neovim plugin/language       | `home/programs/nvf/<relevant>.nix`                                                       |
+| Add a new flake input              | `flake.nix` inputs + wire into the host's modules list                                   |
 
 ## Tailscale Network
 
 All three hosts have tailscale enabled:
+
 - **ryu**: `services.tailscale.enable = true` (firewall off for HTB, tailscale0 trusted)
 - **sora**: `services.tailscale.enable = true` (tailscale0 trusted)
 - **home-server**: planned (tailscale0 trusted)

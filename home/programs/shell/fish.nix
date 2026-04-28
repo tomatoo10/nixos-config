@@ -94,5 +94,29 @@ in {
       wireguard-import = "nmcli connection import type wireguard file";
       df = "duf -hide-fs squashfs";
     };
+
+    functions = {
+      mount_server = ''
+        mkdir -p ~/mnt/server
+        sshfs -p 2222 \
+          -o allow_other,default_permissions,kernel_cache,cache=yes,reconnect \
+          akame@192.168.1.100:/home/akame/ ~/mnt/server
+      '';
+
+      mount_share = ''
+        mkdir -p ~/mnt/shared
+        sshfs -p 2222 \
+          -o allow_other,default_permissions,kernel_cache,cache=yes,reconnect \
+          akame@192.168.1.100:/home/shared/ ~/mnt/shared
+      '';
+
+      umount_server = ''
+        fusermount3 -u ~/mnt/server
+      '';
+
+      umount_share = ''
+        fusermount3 -u ~/mnt/shared
+      '';
+    };
   };
 }
