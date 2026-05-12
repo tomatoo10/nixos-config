@@ -16,7 +16,8 @@ in {
     background.enabled = false;
     appearance = {
       transparency = {
-        enable = true;
+        # Caelestia expects `enabled`; `enable` is ignored and shows a warning at startup.
+        enabled = true;
         base = 0.85;
         layers = 0.4;
       };

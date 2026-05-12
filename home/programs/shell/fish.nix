@@ -82,8 +82,6 @@ in {
 
       # Servers and Vm's
       sharedwin = "cd ~/.akame/sharedwin/";
-      mount_server = "sudo sshfs -o allow_other,default_permissions,kernel_cache,cache=yes akame@192.168.1.100:/home/akame/ ~/misc/server/ -p 2222";
-      mount_share = "sudo sshfs -o allow_other,default_permissions,kernel_cache,cache=yes akame@192.168.1.100:/home/shared/ ~/misc/home-server/ -p 2222";
 
       # Rust ;
       cargo_build_win = "cargo build --target x86_64-pc-windows-gnu";
@@ -93,6 +91,28 @@ in {
       obsidian-no-gpu = "env ELECTRON_OZONE_PLATFORM_HINT=auto obsidian --ozone-platform=x11";
       wireguard-import = "nmcli connection import type wireguard file";
       df = "duf -hide-fs squashfs";
+    };
+
+    functions = {
+      mount_server = ''
+        mkdir -p ~/mnt/server
+        sudo sshfs -p 2222 \
+          -o allow_other,default_permissions,kernel_cache,cache=yes,reconnect \
+          akame@192.168.1.100:/home/akame/ ~/mnt/server
+      '';
+
+      mount_share = ''
+        mkdir -p ~/mnt/shared
+          sudo sshfs -o allow_other,default_permissions,kernel_cache,cache=yes,reconnect akame@192.168.1.100:/home/shared/ ~/mnt/shared/ -p 2222
+      '';
+
+      umount_server = ''
+        fusermount3 -u ~/mnt/server
+      '';
+
+      umount_share = ''
+        fusermount3 -u ~/mnt/shared
+      '';
     };
   };
 }

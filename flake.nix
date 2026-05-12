@@ -14,6 +14,7 @@
     nvf.url = "github:notashelf/nvf";
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
     claude-code.url = "github:sadjow/claude-code-nix";
+    vigil.url = "github:tomatoo10/Vigil";
     flake-programs-sqlite = {
       url = "github:wamserma/flake-programs-sqlite";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -39,6 +40,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixarr.url = "github:rasmus-kirk/nixarr";
+    burpsuitepro = {
+      type = "github";
+      owner = "xiv3r";
+      repo = "Burpsuite-Professional";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -58,7 +65,6 @@
           inputs.home-manager.nixosModules.home-manager
           inputs.lanzaboote.nixosModules.lanzaboote
           inputs.stylix.nixosModules.stylix
-          inputs.flake-programs-sqlite.nixosModules.programs-sqlite
           ./hosts/ryu/configuration.nix
         ];
       };
@@ -73,8 +79,8 @@
           inputs.home-manager.nixosModules.home-manager
           inputs.lanzaboote.nixosModules.lanzaboote
           inputs.stylix.nixosModules.stylix
-          inputs.flake-programs-sqlite.nixosModules.programs-sqlite
           inputs.disko.nixosModules.disko
+          inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen1
           ./hosts/sora/configuration.nix
         ];
       };

@@ -42,7 +42,7 @@ in {
             {
               key = "v";
               desc = "Proton VPN";
-              cmd = "${pkgs.protonvpn-gui}/bin/protonvpn-app";
+              cmd = "${pkgs.proton-vpn}/bin/protonvpn-app";
             }
             {
               key = "o";

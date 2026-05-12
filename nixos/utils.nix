@@ -2,6 +2,8 @@
 {
   pkgs,
   config,
+  inputs,
+  lib,
   ...
 }: let
   hostname = config.var.hostname;
@@ -62,7 +64,12 @@ in {
   services.libinput.enable = true;
   programs.dconf.enable = true;
   programs.nix-ld.enable = true;
-  programs.command-not-found.enable = true;
+  programs.command-not-found = {
+    enable = true;
+    # Keep the flake-provided programs.sqlite for fast command-not-found lookups on flake systems.
+    # The built-in NixOS module also sets dbPath now, so this must stay forced to avoid conflicts.
+    dbPath = lib.mkForce inputs.flake-programs-sqlite.packages.${pkgs.stdenv.hostPlatform.system}.programs-sqlite;
+  };
 
   services = {
     dbus = {
@@ -72,6 +79,7 @@ in {
     };
     gvfs.enable = true;
     upower.enable = true;
+    # NOTE: sora overrides this to false (TLP manages power instead)
     power-profiles-daemon.enable = true;
     udisks2.enable = true;
   };

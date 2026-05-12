@@ -5,6 +5,7 @@
 in {
   programs.git = {
     enable = true;
+    signing.format = null;
     ignores = [
       ".cache/"
       ".DS_Store"

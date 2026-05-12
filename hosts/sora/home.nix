@@ -86,5 +86,12 @@
     stateVersion = "24.05";
   };
 
+  wayland.windowManager.hyprland.settings.input.touchpad = {
+    natural_scroll = true;
+    clickfinger_behavior = true;
+    disable_while_typing = true;
+    scroll_factor = 0.4;
+  };
+
   programs.home-manager.enable = true;
 }
