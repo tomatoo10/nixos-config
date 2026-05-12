@@ -17,6 +17,8 @@
     ../../home/programs/nixy
     ../../home/programs/zathura
     ../../home/programs/nightshift
+    ../../home/programs/group/cybersecurity.nix
+    ../../home/programs/mangohud
 
     # System (Desktop environment like stuff)
     ../../home/system/hyprland
@@ -56,6 +58,9 @@
       rustc
       clang
       nh
+
+      # Gaming
+      protonplus # GUI manager for Proton-GE and other compatibility tools
 
       # Just cool
       peaclock

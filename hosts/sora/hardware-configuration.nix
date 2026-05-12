@@ -13,13 +13,13 @@
   ];
 
   boot.initrd.availableKernelModules = ["nvme" "ehci_pci" "xhci_pci_renesas" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
-  # enable kernelModule amd-pstate
-  # DIFF: for my understand, t14 gen1 does not have support for cppc which is needed for amd_pstate to work
-  # we set cpufreqgovernor and let acpi handle it
+  # T14 Gen1 AMD (Renoir/Zen2): amd_pstate=active is passed so the kernel uses it
+  # if firmware CPPC support is present; otherwise acpi_cpufreq takes over.
+  # The CPU frequency governor is owned by power-profiles-daemon (utils.nix);
+  # GameMode requests the performance profile from PPD automatically during gaming,
+  # which saves battery when idle without sacrificing peak throughput.
   boot.kernelModules = ["kvm-amd" "thinkpad_acpi" "amd-pstate"];
-  # blacklist acpi_cpufreq and set amd_ptate to active
   boot.kernelParams = ["amd_pstate=active" "acpi_backlight=native" "psmouse.synaptics_intertouch=0"];
-  powerManagement.cpuFreqGovernor = "performance";
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
   hardware.trackpoint.enable = lib.mkDefault true;
