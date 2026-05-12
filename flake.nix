@@ -40,6 +40,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixarr.url = "github:rasmus-kirk/nixarr";
+    burpsuitepro = {
+      type = "github";
+      owner = "xiv3r";
+      repo = "Burpsuite-Professional";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {

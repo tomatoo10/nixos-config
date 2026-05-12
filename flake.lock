@@ -101,6 +101,26 @@
         "type": "github"
       }
     },
+    "burpsuitepro": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1772862857,
+        "narHash": "sha256-qT/j4fC2GiTfCwYhpmY0ltuPl2NjYK2eDdC7d/wPeH0=",
+        "owner": "xiv3r",
+        "repo": "Burpsuite-Professional",
+        "rev": "417c54a857fd824d83ebc168d423d29fbcfb3d29",
+        "type": "github"
+      },
+      "original": {
+        "owner": "xiv3r",
+        "repo": "Burpsuite-Professional",
+        "type": "github"
+      }
+    },
     "caelestia-cli": {
       "inputs": {
         "caelestia-shell": "caelestia-shell",
@@ -218,11 +238,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1777054843,
-        "narHash": "sha256-aiuiKK6xJu5inj/RTmSl9S3jDC6RzNsKfNJ700MRPNY=",
+        "lastModified": 1777661972,
+        "narHash": "sha256-VmcoQGZ3BNFlsI2jKUQH33MvEgkU6pvdxq4tofVLgmo=",
         "owner": "sadjow",
         "repo": "codex-cli-nix",
-        "rev": "fc382bef14dcb9873769bdcb4d3b943ef2606489",
+        "rev": "828b885b1be90991a2bd1087f2afd722476bfaed",
         "type": "github"
       },
       "original": {
@@ -1468,6 +1488,7 @@
     },
     "root": {
       "inputs": {
+        "burpsuitepro": "burpsuitepro",
         "caelestia-cli": "caelestia-cli",
         "caelestia-shell": "caelestia-shell_2",
         "claude-code": "claude-code",
@@ -1824,11 +1845,11 @@
         "nixpkgs": "nixpkgs_11"
       },
       "locked": {
-        "lastModified": 1776965360,
-        "narHash": "sha256-rnAPulOmNJ59wSJDpaaQqyhkCqm38uAElzAqIGLT1iM=",
+        "lastModified": 1777905946,
+        "narHash": "sha256-3IlVk6idmQ+BgfB1EaPqZkFzJASDdGt3atuZtZLShec=",
         "owner": "tomatoo10",
         "repo": "Vigil",
-        "rev": "c688d8dd93306a22f0ee49f7520e7a8a9ae1a5f1",
+        "rev": "3acb63f1a9896c59ce02ef367b0c1e1af23183e0",
         "type": "github"
       },
       "original": {
