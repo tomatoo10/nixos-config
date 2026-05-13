@@ -1,6 +1,5 @@
 {
-  # Add sora thinkpad configuration later :D
-  description = "My nixos configuration for my main desktop called ryu";
+  description = "NixOS flake for ryu (desktop) and sora (ThinkPad T14 Gen1 AMD)";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";

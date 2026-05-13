@@ -64,26 +64,6 @@ in {
         "dbus-update-activation-environment --systemd --all &"
       ];
 
-      monitor = [
-        "DP-1, 1920x1080@144, 768x0, 1" # starts at logical width of rotated AOC
-        "HDMI-A-1, 1360x768@60, 0x0, 1, transform, 3"
-        ", preferred, auto, 1"
-      ];
-      workspace = [
-        "1, monitor:DP-1, default:true"
-        "2, monitor:DP-1"
-        "3, monitor:DP-1"
-        "4, monitor:DP-1"
-        "5, monitor:DP-1"
-        "6, monitor:DP-1"
-        "7, monitor:DP-1"
-        "8, monitor:DP-1"
-        "9, monitor:DP-1"
-        "10, monitor:HDMI-A-1, default:true"
-        "11, monitor:HDMI-A-1"
-        "12, monitor:HDMI-A-1"
-      ];
-
       env = [
         "XDG_CURRENT_DESKTOP,Hyprland"
         "MOZ_ENABLE_WAYLAND,1"
@@ -97,21 +77,13 @@ in {
         "QT_QPA_PLATFORMTHEME,gtk3"
         "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
         "ELECTRON_OZONE_PLATFORM_HINT,auto"
-        "__GL_GSYNC_ALLOWED,0"
-        "__GL_VRR_ALLOWED,0"
-        "DISABLE_QT5_COMPAT,0"
         "DIRENV_LOG_FORMAT,"
-        "WLR_DRM_NO_ATOMIC,1"
-        "WLR_BACKEND,vulkan"
-        "WLR_RENDERER,vulkan"
-        "WLR_NO_HARDWARE_CURSORS,1"
         "SDL_VIDEODRIVER,wayland"
         "CLUTTER_BACKEND,wayland"
       ];
 
       cursor = {
         no_hardware_cursors = true;
-        default_monitor = "DP-1";
       };
 
       general = {
@@ -174,9 +146,6 @@ in {
         disable_splash_rendering = true;
         focus_on_activate = true;
       };
-      # On current Hyprland main, VFR lives under `debug`, not `misc`.
-      # Despite the namespace, this is a normal runtime tuning knob, not just a developer log flag.
-      debug.vfr = true;
 
       input = {
         kb_layout = keyboardLayout;

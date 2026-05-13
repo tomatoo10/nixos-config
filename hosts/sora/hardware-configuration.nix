@@ -12,9 +12,9 @@
 
   boot.initrd.availableKernelModules = ["nvme" "ehci_pci" "xhci_pci_renesas" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
   boot.kernelModules = ["kvm-amd" "thinkpad_acpi"];
-  # NOTE: no amd_pstate — Zen 2 BIOS lacks CPPC support, falls back to acpi-cpufreq
-  # psmouse.synaptics_intertouch=0 fixes erratic touchpad on this model
-  boot.kernelParams = ["acpi_backlight=native" "psmouse.synaptics_intertouch=0"];
+  # NOTE: no amd_pstate — Zen 2 BIOS lacks CPPC support, falls back to acpi-cpufreq.
+  # acpi_backlight=native and psmouse.synaptics_intertouch=0 are set by the
+  # nixos-hardware lenovo-thinkpad-t14-amd-gen1 module (flake.nix); not repeated here.
   boot.kernelPackages = pkgs.linuxPackages_zen;
   hardware.trackpoint.enable = lib.mkDefault true;
   hardware.trackpoint.emulateWheel = lib.mkDefault config.hardware.trackpoint.enable;
@@ -90,6 +90,7 @@
 
   networking.wireless.enable = false;
   networking.wireless.iwd.enable = true;
+  networking.networkmanager.enable = true;
   networking.networkmanager.wifi.backend = "iwd";
 
   networking.useDHCP = lib.mkDefault true;
