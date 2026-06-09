@@ -12,6 +12,7 @@
     inputs.vigil.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.burpsuitepro.packages.${system}.default
     pkgs.claude-code
+    caido-desktop
     bubblewrap
     # inputs.eleakxir.packages.${stdenv.hostPlatform.system}.leak-utils
   ];
