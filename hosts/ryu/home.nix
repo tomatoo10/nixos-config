@@ -9,18 +9,15 @@
     ../../home/programs/ghostty
     ../../home/programs/nvf
     ../../home/programs/shell
-    ../../home/programs/fetch
     ../../home/programs/git
     ../../home/programs/git/lazygit.nix
     ../../home/programs/git/signing.nix # Change the key or remove this file
     ../../home/programs/spicetify
     ../../home/programs/thunar
-    ../../home/programs/discord
     ../../home/programs/nixy
     ../../home/programs/zathura
     ../../home/programs/nightshift
-    ../../home/programs/group/cybersecurity.nix
-    ../../home/programs/nix-utils
+    ../../home/programs/tools/cybersecurity.nix
 
     # System (Desktop environment like stuff)
     ../../home/system/hyprland
@@ -51,9 +48,6 @@
       calibre # Ebooks
       swappy # Screenshot tool
       pinta # Image editor
-      notesnook
-      element-desktop
-      clamtk
       gh
 
       # Dev
@@ -72,13 +66,6 @@
       rustc
       clang
       nh
-
-      # Just cool
-      peaclock
-      cbonsai
-      pipes
-      cmatrix
-      fastfetch
     ];
 
     inherit (config.var) username;

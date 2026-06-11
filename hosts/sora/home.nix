@@ -9,7 +9,6 @@
     ../../home/programs/ghostty
     ../../home/programs/nvf
     ../../home/programs/shell
-    ../../home/programs/fetch
     ../../home/programs/git
     ../../home/programs/git/lazygit.nix
     ../../home/programs/git/signing.nix # Change the key or remove this file
@@ -35,17 +34,12 @@
       # Apps
       vlc # Video player
       obsidian # Note taking app
-      textpieces # Manipulate texts
-      resources # Ressource monitor
       gnome-clocks # Clocks app
       session-desktop # Session app, private messages
       signal-desktop # Signal app, private messages
       stirling-pdf # PDF Editor
       swappy # Screenshot tool
       pinta # Image editor
-      notesnook
-      element-desktop
-      clamtk
       openvpn
 
       # Dev
@@ -61,13 +55,6 @@
 
       # Gaming
       protonplus # GUI manager for Proton-GE and other compatibility tools
-
-      # Just cool
-      peaclock
-      cbonsai
-      pipes
-      cmatrix
-      fastfetch
     ];
 
     inherit (config.var) username;
@@ -87,7 +74,7 @@
   };
 
   wayland.windowManager.hyprland.settings = {
-    monitor = ["eDP-1, 1920x1080@60.05, 0x0, 1"];
+    monitor = ["eDP-1, 1920x1080@60, 0x0, 1"];
     workspace = [
       "1, monitor:eDP-1, default:true"
       "2, monitor:eDP-1"

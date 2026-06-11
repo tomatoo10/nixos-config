@@ -12,7 +12,6 @@ in {
 
   programs.caelestia.settings = {
     paths.sessionGif = ./session-gif-hacker-cat.gif;
-    # paths.sessionGif = ./lucy.gif;
     background.enabled = false;
     appearance = {
       transparency = {

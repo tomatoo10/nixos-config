@@ -96,10 +96,8 @@ in {
 
   environment.systemPackages = with pkgs; [
     fd
-    bc
     gcc
     file
-    git-ignore
     xdg-utils
     wget
     curl
@@ -107,12 +105,8 @@ in {
     openssl
     vim
     go
-    comma
     zip
     unzip
-    optipng
-    jpegoptim
-    pfetch
     btop
     unrar
     p7zip

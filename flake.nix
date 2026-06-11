@@ -8,11 +8,9 @@
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     disko.url = "github:nix-community/disko";
     stylix.url = "github:danth/stylix";
-    nixcord.url = "github:kaylorben/nixcord";
-    sops-nix.url = "github:Mic92/sops-nix";
+    llm-agents.url = "github:numtide/llm-agents.nix";
     nvf.url = "github:notashelf/nvf";
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
-    claude-code.url = "github:sadjow/claude-code-nix";
     vigil.url = "github:tomatoo10/Vigil";
     flake-programs-sqlite = {
       url = "github:wamserma/flake-programs-sqlite";
@@ -38,25 +36,22 @@
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixarr.url = "github:rasmus-kirk/nixarr";
-    burpsuitepro = {
-      type = "github";
-      owner = "xiv3r";
-      repo = "Burpsuite-Professional";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+
+    # sops-nix.url = "github:Mic92/sops-nix";
+    # nixarr.url = "github:rasmus-kirk/nixarr";
+    # burpsuitepro = {
+    #   type = "github";
+    #   owner = "xiv3r";
+    #   repo = "Burpsuite-Professional";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
-  outputs = inputs @ {
-    nixpkgs,
-    claude-code,
-    ...
-  }: {
+  outputs = inputs @ {nixpkgs, ...}: {
     nixosConfigurations = {
       ryu = nixpkgs.lib.nixosSystem {
         modules = [
           {
-            nixpkgs.overlays = [claude-code.overlays.default];
             _module.args = {
               inherit inputs;
             };

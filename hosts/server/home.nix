@@ -10,7 +10,6 @@
     # Programs
     ../../home/programs/nvf
     ../../home/programs/shell
-    ../../home/programs/fetch
     ../../home/programs/git
     ../../home/programs/git/lazygit.nix
     ../../home/programs/nixy
