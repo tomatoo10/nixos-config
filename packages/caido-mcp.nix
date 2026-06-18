@@ -1,8 +1,4 @@
-{
-  pkgs,
-  lib,
-  ...
-}:
+{pkgs, ...}:
 pkgs.buildGoModule {
   pname = "caido-mcp-server";
   version = "unstable";
@@ -10,8 +6,8 @@ pkgs.buildGoModule {
     owner = "c0tton-fluff";
     repo = "caido-mcp-server";
     rev = "main";
-    hash = lib.fakeHash;
+    hash = "sha256-e6TZAb8JJqWZQilJDHuep3wPZ/NqKobITBvMPSNna4o=";
   };
-  vendorHash = lib.fakeHash;
+  vendorHash = "sha256-s1jCJaG087oPmPUTM00RI+4QU0YcGX/I41lfmIHUZwk=";
   subPackages = ["cmd/mcp"];
 }

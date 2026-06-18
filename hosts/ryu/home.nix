@@ -49,6 +49,8 @@
       swappy # Screenshot tool
       pinta # Image editor
       gh
+      alacritty
+      localsend
 
       # Dev
       go
