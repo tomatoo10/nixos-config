@@ -11,12 +11,10 @@ in {
   home.packages = with pkgs; [
     thunar
     xfconf
-    tumbler
     thunar-archive-plugin
     thunar-volman
     thunar-media-tags-plugin
     p7zip
-    xarchiver
     papirus-icon-theme
     material-icons
     material-design-icons
@@ -46,38 +44,6 @@ in {
     QS_ICON_THEME = "Papirus";
     QT_STYLE_OVERRIDE = lib.mkForce "Fusion";
   };
-
-  home.file.".config/xarchiver/xarchiverrc".text = ''
-    [xarchiver]
-    preferred_format=0
-    prefer_unzip=true
-    confirm_deletion=true
-    sort_filename_content=false
-    advanced_isearch=true
-    auto_expand=true
-    store_output=false
-    icon_size=2
-    show_archive_comment=false
-    show_sidebar=true
-    show_location_bar=true
-    show_toolbar=true
-    preferred_custom_cmd=
-    preferred_temp_dir=/tmp
-    preferred_extract_dir=./
-    allow_sub_dir=0
-    ensure_directory=true
-    overwrite=false
-    full_path=2
-    touch=false
-    fresh=false
-    update=false
-    store_path=false
-    updadd=true
-    freshen=false
-    recurse=true
-    solid_archive=false
-    remove_files=false
-  '';
 
   home.file.".config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml" = {
     text = ''
@@ -142,17 +108,6 @@ in {
           <patterns>*</patterns>
           <startup-notify/>
           <directories/>
-      </action>
-      <action>
-          <icon></icon>
-          <name>Extract here</name>
-          <submenu></submenu>
-          <unique-id>1689618425925956-3</unique-id>
-          <command>xarchiver -x . %f</command>
-          <description>Extracts the archive into the directory it is located in.</description>
-          <range>*</range>
-          <patterns>*.tar.bz2;*.tar.gz;*.tar.xz;*.tar.Z;*.tar;*.taz;*.tb2;*.tbz;*.tbz2;*.tgz;*.txz;*.zip;*.bz2;*.docx;*.apk;*.gz;*.odt;</patterns>
-          <other-files/>
       </action>
       <action>
         <icon>package-x-generic</icon>

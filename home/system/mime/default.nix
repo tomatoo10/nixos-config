@@ -14,14 +14,13 @@ with lib; let
     ];
     code = ["nvim-ghostty.desktop"];
     image = ["imv-dir.desktop"];
-    audio = ["mpv.desktop"];
-    video = ["mpv.desktop"];
+    audio = ["vlc.desktop"];
+    video = ["vlc.desktop"];
     directory = ["thunar.desktop"];
     office = ["libreoffice.desktop"];
-    pdf = ["zathura.desktop"];
+    pdf = ["brave.desktop"];
     terminal = ["ghostty.desktop"];
     discord = ["discord.desktop"];
-    archive = ["xarchiver.desktop"];
   };
 
   mimeMap = {
@@ -113,12 +112,6 @@ with lib; let
     ];
     pdf = ["application/pdf"];
     terminal = ["terminal"];
-    archive = [
-      "application/zip"
-      "application/rar"
-      "application/7z"
-      "application/*tar"
-    ];
     discord = ["x-scheme-handler/discord"];
   };
 

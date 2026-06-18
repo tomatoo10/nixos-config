@@ -6,6 +6,7 @@
   imports = [
     # Programs
     ../../home/programs/brave
+    ../../alacritty.nix
     ../../home/programs/ghostty
     ../../home/programs/nvf
     ../../home/programs/shell
@@ -14,9 +15,8 @@
     ../../home/programs/git/signing.nix # Change the key or remove this file
     ../../home/programs/thunar
     ../../home/programs/nixy
-    ../../home/programs/zathura
     ../../home/programs/nightshift
-    ../../home/programs/group/cybersecurity.nix
+    ../../home/programs/tools/cybersecurity.nix
     ../../home/programs/mangohud
 
     # System (Desktop environment like stuff)
@@ -34,12 +34,7 @@
       # Apps
       vlc # Video player
       obsidian # Note taking app
-      resources # Ressource monitor
-      gnome-clocks # Clocks app
-      session-desktop # Session app, private messages
-      signal-desktop # Signal app, private messages
       swappy # Screenshot tool
-      pinta # Image editor
       openvpn
 
       # Dev
@@ -96,4 +91,5 @@
   };
 
   programs.home-manager.enable = true;
+  programs.man.enable = false;
 }

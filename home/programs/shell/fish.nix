@@ -6,7 +6,7 @@
   ...
 }: let
 in {
-  home.packages = with pkgs; [bat ripgrep tldr witr];
+  home.packages = with pkgs; [bat ripgrep];
 
   programs.fish = {
     enable = true;
