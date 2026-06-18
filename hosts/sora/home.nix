@@ -34,10 +34,10 @@
       # Apps
       vlc # Video player
       obsidian # Note taking app
+      resources # Ressource monitor
       gnome-clocks # Clocks app
       session-desktop # Session app, private messages
       signal-desktop # Signal app, private messages
-      stirling-pdf # PDF Editor
       swappy # Screenshot tool
       pinta # Image editor
       openvpn
@@ -47,7 +47,6 @@
       python3
       uv
       jq
-      just
       cargo
       rustc
       clang
