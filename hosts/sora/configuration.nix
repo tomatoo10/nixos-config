@@ -53,6 +53,19 @@
   services.tailscale.enable = true;
   networking.firewall.trustedInterfaces = ["tailscale0"];
 
+  # Idle hibernate and suspend-then-hibernate for lid close.
+  services.logind.settings.Login = {
+    IdleAction = "hibernate";
+    IdleActionSec = "90min";
+    HandleLidSwitch = "suspend-then-hibernate";
+    HandleLidSwitchExternalPower = "suspend-then-hibernate";
+  };
+
+  systemd.sleep.settings.Sleep = {
+    AllowSuspendThenHibernate = true;
+    HibernateDelaySec = "2h";
+  };
+
   # Don't touch this
   system.stateVersion = "24.05";
 

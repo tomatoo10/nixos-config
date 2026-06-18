@@ -11,6 +11,7 @@
   ];
 
   boot.initrd.availableKernelModules = ["nvme" "ehci_pci" "xhci_pci_renesas" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
+  boot.initrd.systemd.enable = true;
   boot.kernelModules = ["kvm-amd" "thinkpad_acpi"];
   # NOTE: no amd_pstate — Zen 2 BIOS lacks CPPC support, falls back to acpi-cpufreq.
   # acpi_backlight=native and psmouse.synaptics_intertouch=0 are set by the
@@ -18,6 +19,17 @@
   boot.kernelPackages = pkgs.linuxPackages_zen;
   hardware.trackpoint.enable = lib.mkDefault true;
   hardware.trackpoint.emulateWheel = lib.mkDefault config.hardware.trackpoint.enable;
+
+  # Managed Btrfs swapfile so hibernation works without repartitioning.
+  # systemd-hibernate-resume can recover the exact swapfile location from the
+  # UEFI HibernateLocation variable on the next boot.
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 14336; # 14 GiB for the T14's RAM size
+      discardPolicy = "both";
+    }
+  ];
 
   services.fwupd.enable = true;
 
@@ -55,9 +67,10 @@
       DISK_APM_LEVEL_ON_AC = "254";
       DISK_APM_LEVEL_ON_BAT = "128";
 
-      # Battery charge thresholds (ThinkPad specific, preserves battery longevity)
-      START_CHARGE_THRESH_BAT0 = 60;
-      STOP_CHARGE_THRESH_BAT0 = 85;
+      # Keep the pack away from sustained high state-of-charge while still
+      # leaving enough headroom for portable use.
+      START_CHARGE_THRESH_BAT0 = 40;
+      STOP_CHARGE_THRESH_BAT0 = 80;
     };
   };
 
