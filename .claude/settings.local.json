@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:wiki.archlinux.org)",
+      "Bash(git -C /home/ak4m3/.config/nixos status)",
+      "Bash(git -C /home/ak4m3/.config/nixos diff)"
+    ]
+  }
+}

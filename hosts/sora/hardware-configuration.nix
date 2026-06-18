@@ -76,22 +76,23 @@
         query = "/proc/acpi/ibm/fan";
       }
     ];
-    # [fan_level low_temp high_temp] — tune after checking `sensors` output
+    # [fan_level low_temp high_temp] — aggressive curve for gaming; hits full speed by 67°C
     levels = [
-      [0 0 55]
-      [1 48 60]
-      [2 53 65]
-      [3 58 70]
-      [6 63 75]
-      [7 68 80]
-      ["level auto" 75 32767]
+      [0 0 45]
+      [1 40 52]
+      [2 48 58]
+      [3 54 63]
+      [6 60 67]
+      [7 65 32767]
     ];
   };
 
   networking.wireless.enable = false;
   networking.wireless.iwd.enable = true;
-  networking.networkmanager.enable = true;
-  networking.networkmanager.wifi.backend = "iwd";
+  networking.networkmanager = {
+    enable = true;
+    wifi.backend = "iwd";
+  };
 
   networking.useDHCP = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

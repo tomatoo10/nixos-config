@@ -12,6 +12,11 @@
   };
   hardware.amdgpu.opencl.enable = true;
   environment.variables.AMD_VULKAN_ICD = "RADV";
+  # From https://nixos.wiki/wiki/Steam
+  amdgpu.amdvlk = {
+    enable = true;
+    support32Bit.enable = true;
+  };
 
   environment.systemPackages = with pkgs; [
     clinfo
