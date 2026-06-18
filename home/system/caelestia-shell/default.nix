@@ -60,4 +60,5 @@
     enable = true;
     allowImages = true;
   };
+
 }

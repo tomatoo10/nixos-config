@@ -4,27 +4,31 @@
   ...
 }: {
   programs.alacritty = let
-    # Change to Jetbrains
-    font_family = lib.mkForce "GohuFont 14 Nerd Font Mono";
+    fontFamily = "GohuFont 14 Nerd Font Mono";
   in {
     enable = true;
     settings = {
-      terminal.shell = "${pkgs.fish}/bin/fish";
+      general.import = ["${pkgs.alacritty-theme}/share/alacritty-theme/gruvbox_dark.toml"];
+
+      terminal.shell = {
+        program = "${pkgs.fish}/bin/fish";
+      };
+
       font = {
         normal = {
-          family = font_family;
+          family = lib.mkForce fontFamily;
           style = "Regular";
         };
         bold = {
-          family = font_family;
+          family = lib.mkForce fontFamily;
           style = "Bold";
         };
         italic = {
-          family = font_family;
+          family = lib.mkForce fontFamily;
           style = "Italic";
         };
         bold_italic = {
-          family = font_family;
+          family = lib.mkForce fontFamily;
           style = "Bold Italic";
         };
         size = lib.mkForce 11;
@@ -35,20 +39,7 @@
           {
             key = "Return";
             mods = "Control|Shift";
-            action = "SpawnNewInstance";
-          }
-          {
-            key = "Return";
-            mods = "Control";
-            command = {
-              program = "alacritty";
-              args = [
-                "-e"
-                "fish"
-                "--init-command"
-                "nix develop -c fish"
-              ];
-            };
+            action = "CreateNewWindow";
           }
         ];
       };
