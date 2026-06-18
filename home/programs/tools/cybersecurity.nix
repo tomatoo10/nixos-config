@@ -15,7 +15,7 @@ in {
     inputs.vigil.packages.${pkgs.stdenv.hostPlatform.system}.default
     caido
     bubblewrap
-    inputs.burpsuitepro.packages.${system}.default
+    burpsuite
     # inputs.eleakxir.packages.${stdenv.hostPlatform.system}.leak-utils
   ];
 }
