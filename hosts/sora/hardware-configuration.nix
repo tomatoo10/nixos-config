@@ -10,6 +10,123 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
+  environment.systemPackages = [
+    (pkgs.writeShellApplication {
+      name = "power-mode";
+      runtimeInputs = with pkgs; [coreutils gnugrep tlp];
+      text = ''
+        set -euo pipefail
+
+        require_root() {
+          if [ "$(id -u)" -ne 0 ]; then
+            echo "power-mode must run as root. Use: sudo power-mode <performance|balanced|low-power|status>" >&2
+            exit 1
+          fi
+        }
+
+        set_platform_profile() {
+          local profile="$1"
+          local profile_path="/sys/firmware/acpi/platform_profile"
+
+          if [ -w "$profile_path" ]; then
+            echo "$profile" > "$profile_path"
+          fi
+        }
+
+        set_governor() {
+          local governor="$1"
+
+          for governor_path in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do
+            [ -w "$governor_path" ] || continue
+            echo "$governor" > "$governor_path"
+          done
+        }
+
+        set_boost() {
+          local enabled="$1"
+          local boost_path="/sys/devices/system/cpu/cpufreq/boost"
+
+          if [ -w "$boost_path" ]; then
+            echo "$enabled" > "$boost_path"
+          fi
+        }
+
+        show_status() {
+          printf "platform_profile: "
+          cat /sys/firmware/acpi/platform_profile 2>/dev/null || echo "unavailable"
+
+          printf "governor: "
+          cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor 2>/dev/null || echo "unavailable"
+
+          printf "boost: "
+          cat /sys/devices/system/cpu/cpufreq/boost 2>/dev/null || echo "unavailable"
+
+          printf "temperature: "
+          if [ -r /proc/acpi/ibm/thermal ]; then
+            grep -oE -- "-?[0-9]+" /proc/acpi/ibm/thermal | head -n1 | tr -d "\n"
+            echo " C"
+          else
+            echo "unavailable"
+          fi
+
+          printf "fan: "
+          if [ -r /proc/acpi/ibm/fan ]; then
+            grep -E "^(level|speed):" /proc/acpi/ibm/fan | tr "\n" " "
+            echo
+          else
+            echo "unavailable"
+          fi
+        }
+
+        mode="''${1:-status}"
+
+        case "$mode" in
+          performance)
+            require_root
+            tlp ac >/dev/null 2>&1 || true
+            set_platform_profile performance
+            set_governor performance
+            set_boost 1
+            ;;
+          balanced)
+            require_root
+            set_platform_profile balanced
+            set_governor schedutil
+            set_boost 1
+            ;;
+          low-power)
+            require_root
+            set_platform_profile low-power
+            set_governor powersave
+            set_boost 0
+            ;;
+          status)
+            show_status
+            exit 0
+            ;;
+          *)
+            echo "Usage: power-mode <performance|balanced|low-power|status>" >&2
+            exit 2
+            ;;
+        esac
+
+        show_status
+      '';
+    })
+  ];
+
+  security.sudo.extraRules = [
+    {
+      users = [config.var.username];
+      commands = [
+        {
+          command = "/run/current-system/sw/bin/power-mode";
+          options = ["NOPASSWD"];
+        }
+      ];
+    }
+  ];
+
   boot.initrd.availableKernelModules = ["nvme" "ehci_pci" "xhci_pci_renesas" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
   boot.initrd.systemd.enable = true;
   boot.kernelModules = ["kvm-amd" "thinkpad_acpi"];

@@ -1,4 +1,9 @@
 {
+  osConfig,
+  ...
+}: let
+  isThinkpad = osConfig.networking.hostName == "sora";
+in {
   programs.caelestia.settings = {
     session.commands = {
       shutdown = ["systemctl" "poweroff"];
@@ -95,6 +100,38 @@
           description = "Toggle Night Shift, the blue light filter";
           command = ["nightshift-toggle"];
           enabled = true;
+          dangerous = false;
+        }
+        {
+          name = "Power Mode Performance";
+          icon = "speed";
+          description = "Use maximum CPU and platform performance";
+          command = ["sudo" "power-mode" "performance"];
+          enabled = isThinkpad;
+          dangerous = false;
+        }
+        {
+          name = "Power Mode Balanced";
+          icon = "balance";
+          description = "Use balanced clocks and platform profile";
+          command = ["sudo" "power-mode" "balanced"];
+          enabled = isThinkpad;
+          dangerous = false;
+        }
+        {
+          name = "Power Mode Low Power";
+          icon = "battery_saver";
+          description = "Use low-power profile and disable CPU boost";
+          command = ["sudo" "power-mode" "low-power"];
+          enabled = isThinkpad;
+          dangerous = false;
+        }
+        {
+          name = "Power Mode Status";
+          icon = "monitor_heart";
+          description = "Show current power, temperature, and fan state";
+          command = ["power-mode" "status"];
+          enabled = isThinkpad;
           dangerous = false;
         }
         {
