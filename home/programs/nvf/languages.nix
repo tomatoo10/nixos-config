@@ -38,7 +38,7 @@
     syntaxHighlighting = true;
     treesitter = {
       enable = true;
-      autotagHtml = true;
+      autotagHtml = false;
       context.enable = true;
       highlight.enable = true;
       grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
@@ -93,23 +93,7 @@
           servers = ["pyright"];
         };
       };
-      markdown = {
-        enable = true;
-        format.type = ["prettierd"];
-        extensions = {
-          markview-nvim = {
-            enable = false;
-          };
-        };
-        extraDiagnostics.enable = true;
-      };
-      typescript = {
-        enable = true;
-        extensions.ts-error-translator.enable = true;
-      };
-      go.enable = true;
       rust.enable = true;
-      html.enable = true;
       bash.enable = true;
       nix.enable = true;
     };
