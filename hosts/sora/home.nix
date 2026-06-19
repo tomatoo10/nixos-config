@@ -6,7 +6,7 @@
   imports = [
     # Programs
     ../../home/programs/brave
-    ../../alacritty.nix
+    ../../home/programs/alacritty
     ../../home/programs/ghostty
     ../../home/programs/nvf
     ../../home/programs/shell
