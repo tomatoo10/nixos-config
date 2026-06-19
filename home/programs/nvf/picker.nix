@@ -1,11 +1,10 @@
 {
   programs.nvf.settings.vim = {
     utility = {
-      oil-nvim.enable = true;
       snacks-nvim = {
         setupOpts = {
           picker.enabled = true;
-          explorer.enabled = true;
+          explorer.enabled = false;
         };
       };
     };
@@ -39,21 +38,6 @@
         action = "<cmd>lua Snacks.picker.command_history()<cr>";
         desc = "Command History";
       }
-      {
-        key = "<leader>e";
-        mode = "n";
-        silent = true;
-        action = "<cmd>lua Snacks.explorer()<cr>";
-        desc = "File Explorer";
-      }
-      {
-        key = "-";
-        mode = "n";
-        silent = true;
-        action = "<cmd>Oil<cr>";
-        desc = "Oil";
-      }
-
       # Find
       {
         key = "<leader>fb";

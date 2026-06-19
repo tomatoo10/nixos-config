@@ -34,14 +34,7 @@
     };
     git = {
       enable = true;
-      gitsigns.enable = true;
-    };
-    terminal.toggleterm = {
-      enable = true;
-      lazygit = {
-        enable = true;
-        mappings.open = "<leader>gl";
-      };
+      gitsigns.enable = false;
     };
     visuals = {
       rainbow-delimiters.enable = true;

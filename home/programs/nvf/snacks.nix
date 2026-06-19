@@ -20,7 +20,7 @@
       statuscolumn.enabled = true;
       zen.enabled = true;
       bufdelete.enabled = true;
-      gitsigns.enabled = true;
+      gitsigns.enabled = false;
     };
   };
 }
