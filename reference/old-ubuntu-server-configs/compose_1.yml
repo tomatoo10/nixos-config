@@ -1,0 +1,10 @@
+# Running: sudo docker exec recyclarr recyclarr sync --preview
+services:
+  recyclarr:
+    image: ghcr.io/recyclarr/recyclarr
+    container_name: recyclarr
+    user: 1000:1000
+    volumes:
+      - /home/tomato/recyclarr/config:/config
+    environment:
+      - TZ=America/Sao_Paulo

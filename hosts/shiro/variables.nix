@@ -4,28 +4,27 @@
   ...
 }: {
   imports = [
-    # Choose your theme here:
-    ../../themes/rose-pine.nix
+    ../../themes/gruvbox-dark-medium.nix
   ];
 
   config.var = {
-    hostname = "jack";
-    username = "hadi";
+    hostname = "shiro";
+    username = "tomato";
     configDirectory =
       "/home/"
       + config.var.username
       + "/.config/nixos"; # The path of the nixos configuration directory
 
-    keyboardLayout = "fr";
+    keyboardLayout = "us";
 
-    location = "Paris";
-    timeZone = "Europe/Paris";
+    location = "Guapimirim";
+    timeZone = "America/Sao_Paulo";
     defaultLocale = "en_US.UTF-8";
-    extraLocale = "fr_FR.UTF-8";
+    extraLocale = "pt_BR.UTF-8";
 
     git = {
-      username = "Hadi";
-      email = "112569860+anotherhadi@users.noreply.github.com";
+      username = "akamee666";
+      email = "moraes@akmee.xyz";
     };
 
     autoUpgrade = false;

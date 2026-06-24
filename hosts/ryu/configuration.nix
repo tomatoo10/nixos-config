@@ -31,7 +31,10 @@
   networking.firewall.enable = false;
 
   # Tailscale mesh VPN
-  services.tailscale.enable = true;
+  services.tailscale = {
+    enable = true;
+    extraSetFlags = ["--ssh=true"];
+  };
   networking.firewall.trustedInterfaces = ["tailscale0"];
 
   # Don't touch this

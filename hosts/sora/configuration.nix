@@ -50,7 +50,10 @@
   services.avahi.enable = lib.mkForce false;
 
   # Tailscale mesh VPN
-  services.tailscale.enable = true;
+  services.tailscale = {
+    enable = true;
+    extraSetFlags = ["--ssh=true"];
+  };
   networking.firewall.trustedInterfaces = ["tailscale0"];
 
   # Idle hibernate and suspend-then-hibernate for lid close.

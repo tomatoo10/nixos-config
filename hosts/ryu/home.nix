@@ -10,6 +10,7 @@
     ../../home/programs/ghostty
     ../../home/programs/nvf
     ../../home/programs/shell
+    ../../home/programs/ssh
     ../../home/programs/git
     ../../home/programs/git/lazygit.nix
     ../../home/programs/git/signing.nix # Change the key or remove this file
@@ -59,7 +60,8 @@
 
     # Import a profile picture, used by the caelestia dashboard
     file.".face" = {
-      source = ./profile_picture.png;
+      source = ./profile_picture.jpeg;
+      force = true;
     };
 
     sessionVariables = {

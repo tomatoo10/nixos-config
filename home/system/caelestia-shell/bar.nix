@@ -27,7 +27,7 @@ in {
       occupiedLabel = "󰪥 ";
       # `rounded` was removed upstream; bar rounding is now driven by the shell theme/appearance config.
       showWindows = false;
-      shown = 5;
+      shown = 6;
     };
     entries = [
       {

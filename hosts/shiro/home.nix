@@ -1,19 +1,19 @@
 {
   pkgs,
   config,
+  inputs,
   ...
 }: {
   imports = [
     # Mostly user-specific configuration
     ./variables.nix
 
-    # Programs
-    ../../home/programs/nvf
+    # Programs: use existing shared app configs, but keep plain neovim instead
+    # of NVF to avoid DAP/Rust/debug tooling on the old laptop.
     ../../home/programs/shell
+    ../../home/programs/ssh
     ../../home/programs/git
     ../../home/programs/git/lazygit.nix
-    ../../home/programs/nixy
-    ../../home/programs/nix-utils
   ];
 
   home = {
@@ -22,20 +22,16 @@
 
     packages = with pkgs; [
       # Dev
-      go
-      nodejs
       python3
       jq
-      just
-      pnpm
-      wireguard-tools
-      duckdb
+      nh
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode
 
       # Utils
       zip
       unzip
       btop
-      fastfetch
+      neovim
     ];
 
     # Don't touch this
@@ -43,4 +39,10 @@
   };
 
   programs.home-manager.enable = true;
+  programs.man.enable = false;
+  manual = {
+    html.enable = false;
+    json.enable = false;
+    manpages.enable = false;
+  };
 }
