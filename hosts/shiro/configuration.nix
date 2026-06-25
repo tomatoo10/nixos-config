@@ -42,6 +42,7 @@
     firewall = {
       enable = true;
       allowedTCPPorts = [22];
+      allowedUDPPorts = [6881];
       trustedInterfaces = ["tailscale0"];
     };
     interfaces.wlan0.ipv4.addresses = [
@@ -79,6 +80,87 @@
       enable = true;
       extraSetFlags = ["--ssh=true" "--accept-dns=true"];
     };
+    qbittorrent = {
+      enable = true;
+      group = "media";
+      webuiPort = 8080;
+      torrentingPort = 6881;
+      openFirewall = true;
+      serverConfig = {
+        Application.FileLogger = {
+          Age = 1;
+          AgeType = 1;
+          Backup = true;
+          DeleteOld = true;
+          Enabled = true;
+          MaxSizeBytes = 66560;
+          Path = "/var/lib/qBittorrent/qBittorrent/logs";
+        };
+        AutoRun = {
+          enabled = false;
+          program = "";
+        };
+        BitTorrent.Session = {
+          AddTorrentStopped = false;
+          BTProtocol = "TCP";
+          DefaultSavePath = "/srv/data/torrents";
+          DisableAutoTMMByDefault = false;
+          DisableAutoTMMTriggers.CategorySavePathChanged = false;
+          DisableAutoTMMTriggers.DefaultSavePathChanged = false;
+          ExcludedFileNames = "";
+          GlobalMaxRatio = 4;
+          MaxConnections = -1;
+          MaxConnectionsPerTorrent = -1;
+          MaxUploads = -1;
+          MaxUploadsPerTorrent = -1;
+          PerformanceWarning = true;
+          Port = 6881;
+          Preallocation = true;
+          QueueingSystemEnabled = false;
+          ShareLimitAction = "Stop";
+          TorrentContentLayout = "Subfolder";
+          UseAlternativeGlobalSpeedLimit = false;
+        };
+        Core.AutoDeleteAddedTorrentFile = "IfAdded";
+        LegalNotice.Accepted = true;
+        Network = {
+          PortForwardingEnabled = false;
+          Proxy = {
+            HostnameLookupEnabled = false;
+            Profiles = {
+              BitTorrent = true;
+              Misc = true;
+              RSS = true;
+            };
+          };
+        };
+        Preferences = {
+          Connection = {
+            PortRangeMin = 6881;
+            UPnP = false;
+          };
+          Downloads = {
+            SavePath = "/srv/data/torrents/";
+            TempPath = "/srv/data/torrents/incomplete/";
+          };
+          General = {
+            Locale = "en";
+            StatusbarExternalIPDisplayed = true;
+          };
+          MailNotification.req_auth = true;
+          WebUI = {
+            Address = "*";
+            AuthSubnetWhitelistEnabled = false;
+            LocalHostAuth = false;
+            ServerDomains = "*";
+          };
+        };
+        RSS.AutoDownloader = {
+          DownloadRepacks = true;
+          SmartEpisodeFilter = ''s(\\d+)e(\\d+), (\\d+)x(\\d+), "(\\d{4}[.\\-]\\d{1,2}[.\\-]\\d{1,2})", "(\\d{1,2}[.\\-]\\d{1,2}[.\\-]\\d{4})"'';
+        };
+      };
+    };
     thermald.enable = true;
     fstrim.enable = true;
     btrfs.autoScrub = {
@@ -87,6 +169,30 @@
       fileSystems = ["/"];
     };
   };
+
+  users.groups.media = {};
+  users.users."${config.var.username}".extraGroups = ["media"];
+
+  systemd.tmpfiles.rules = let
+    mediaDir = path: "d ${path} 2775 ${config.var.username} media - -";
+    torrentDir = path: "d ${path} 2775 qbittorrent media - -";
+  in
+    (map mediaDir [
+      "/srv/data"
+      "/srv/data/media"
+      "/srv/data/media/books"
+      "/srv/data/media/movies"
+      "/srv/data/media/music"
+      "/srv/data/media/tv"
+    ])
+    ++ (map torrentDir [
+      "/srv/data/torrents"
+      "/srv/data/torrents/incomplete"
+      "/srv/data/torrents/books"
+      "/srv/data/torrents/movies"
+      "/srv/data/torrents/music"
+      "/srv/data/torrents/tv"
+    ]);
 
   systemd.services.btrfs-balance-shiro = {
     description = "Light Btrfs balance for shiro";
