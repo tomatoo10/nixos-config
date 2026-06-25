@@ -104,7 +104,7 @@ in {
     };
     tailscale = {
       enable = true;
-      extraSetFlags = ["--ssh=true"];
+      extraSetFlags = ["--ssh=true" "--accept-dns=true"];
     };
     thermald.enable = true;
     fstrim.enable = true;

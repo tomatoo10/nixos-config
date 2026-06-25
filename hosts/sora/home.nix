@@ -86,7 +86,9 @@
     input.touchpad = {
       natural_scroll = true;
       clickfinger_behavior = true;
-      disable_while_typing = true;
+      # The touchpad device can exist and buttons can work while cursor motion
+      # is suppressed in Hyprland/libinput. Avoid getting stuck in that state.
+      disable_while_typing = false;
       scroll_factor = 0.4;
     };
   };
