@@ -41,7 +41,7 @@
     };
     firewall = {
       enable = true;
-      allowedTCPPorts = [22];
+      allowedTCPPorts = [22 11011];
       allowedUDPPorts = [6881];
       trustedInterfaces = ["tailscale0"];
     };
@@ -87,6 +87,23 @@
       torrentingPort = 6881;
       openFirewall = true;
     };
+    radarr = {
+      enable = true;
+      group = "media";
+      openFirewall = true;
+      settings.server.bindaddress = "*";
+    };
+    sonarr = {
+      enable = true;
+      group = "media";
+      openFirewall = true;
+      settings.server.bindaddress = "*";
+    };
+    prowlarr = {
+      enable = true;
+      openFirewall = true;
+      settings.server.bindaddress = "*";
+    };
     qui = {
       enable = true;
       openFirewall = true;
@@ -94,10 +111,18 @@
       settings = {
         host = "0.0.0.0";
         port = 7476;
+        authDisabled = true;
+        I_ACKNOWLEDGE_THIS_IS_A_BAD_IDEA = true;
+        authDisabledAllowedCIDRs = [
+          "192.168.18.0/24"
+          "100.64.0.0/10"
+        ];
       };
     };
+
     thermald.enable = true;
     fstrim.enable = true;
+
     btrfs.autoScrub = {
       enable = true;
       interval = "monthly";
@@ -107,6 +132,22 @@
 
   users.groups.media = {};
   users.users."${config.var.username}".extraGroups = ["media"];
+
+  virtualisation.oci-containers.containers.cleanuparr = {
+    image = "ghcr.io/cleanuparr/cleanuparr:latest";
+    ports = ["11011:11011"];
+    volumes = [
+      "/srv/cleanuparr/config:/config"
+      "/srv/data/torrents:/downloads"
+    ];
+    environment = {
+      PORT = "11011";
+      PUID = "1000";
+      PGID = "1000";
+      TZ = config.var.timeZone;
+      UMASK = "002";
+    };
+  };
 
   systemd.tmpfiles.rules = let
     mediaDir = path: "d ${path} 2775 ${config.var.username} media - -";
@@ -120,6 +161,8 @@
       "/srv/data/media/movies"
       "/srv/data/media/music"
       "/srv/data/media/tv"
+      "/srv/cleanuparr"
+      "/srv/cleanuparr/config"
     ])
     ++ (map torrentDir [
       "/srv/data/torrents"
