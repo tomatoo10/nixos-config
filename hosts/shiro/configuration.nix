@@ -3,13 +3,12 @@
   inputs,
   pkgs,
   ...
-}: let
-  sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGX6FvImga1DxWYLX+md5E/LgGsjqT/Qk92pdy+BU94U mooraesz123@gmail.com";
-in {
+}: {
   imports = [
     ../../nixos/home-manager.nix
     ../../nixos/nix.nix
     ../../nixos/systemd-boot.nix
+    ../../nixos/ssh.nix
     ../../nixos/users.nix
     ../../nixos/docker.nix
 
@@ -76,16 +75,6 @@ in {
   console.keyMap = config.var.keyboardLayout;
 
   services = {
-    openssh = {
-      enable = true;
-      settings = {
-        # Keep password login for the bootstrap switch. We can harden this to
-        # false after confirming the flake-managed SSH key login survives reboot.
-        PasswordAuthentication = true;
-        KbdInteractiveAuthentication = true;
-        PermitRootLogin = "no";
-      };
-    };
     tailscale = {
       enable = true;
       extraSetFlags = ["--ssh=true" "--accept-dns=true"];
@@ -119,8 +108,6 @@ in {
       RandomizedDelaySec = "6h";
     };
   };
-
-  users.users."${config.var.username}".openssh.authorizedKeys.keys = [sshKey];
 
   environment.systemPackages = with pkgs; [
     btop

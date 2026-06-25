@@ -11,6 +11,7 @@
     ../../nixos/nix.nix # Flakes, cachix substituters, garbage collection
     ../../nixos/lanzaboote.nix # Secure Boot via lanzaboote (needs /var/lib/sbctl enrolled)
     ../../nixos/sddm.nix
+    ../../nixos/ssh.nix
     ../../nixos/users.nix
     ../../nixos/utils.nix # NetworkManager, power-profiles-daemon (desktop uses this, sora overrides with TLP)
     ../../nixos/hyprland.nix # Hyprland compositor from flake input

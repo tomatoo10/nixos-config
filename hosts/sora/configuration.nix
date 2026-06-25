@@ -49,6 +49,10 @@
   };
   services.avahi.enable = lib.mkForce false;
 
+  # Laptop policy: sora can initiate SSH connections, but should not accept
+  # inbound OpenSSH connections from LAN or tailnet peers.
+  services.openssh.enable = lib.mkForce false;
+
   # Tailscale mesh VPN
   services.tailscale = {
     enable = true;
