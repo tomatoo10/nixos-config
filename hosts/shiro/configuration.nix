@@ -45,31 +45,15 @@ in {
       allowedTCPPorts = [22];
       trustedInterfaces = ["tailscale0"];
     };
-  };
-
-  systemd.network = {
-    enable = true;
-    wait-online.enable = true;
-    networks."10-wifi" = {
-      # Match the active Wi-Fi interface even if udev gives it a different
-      # predictable name after switching Wi-Fi managers/kernel versions.
-      matchConfig.Name = "wl*";
-      address = ["192.168.18.7/24"];
-      gateway = ["192.168.18.1"];
-      dns = ["192.168.18.1" "1.1.1.1"];
-      networkConfig = {
-        IPv6AcceptRA = true;
-        LinkLocalAddressing = "ipv6";
-      };
-    };
-  };
-
-  services.resolved = {
-    enable = true;
-    settings.Resolve = {
-      LLMNR = "no";
-      MulticastDNS = "no";
-    };
+    interfaces.wlan0.ipv4.addresses = [
+      {
+        address = "192.168.18.7";
+        prefixLength = 24;
+      }
+    ];
+    defaultGateway = "192.168.18.1";
+    nameservers = ["100.100.100.100" "1.1.1.1" "8.8.8.8"];
+    search = ["taile3aadf.ts.net"];
   };
 
   time.timeZone = config.var.timeZone;

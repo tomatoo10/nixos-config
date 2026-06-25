@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   config,
   inputs,
@@ -39,6 +40,7 @@
   };
 
   programs.home-manager.enable = true;
+  dconf.enable = lib.mkForce false;
   programs.man.enable = false;
   manual = {
     html.enable = false;

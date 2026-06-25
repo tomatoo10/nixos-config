@@ -36,6 +36,8 @@
     extraSetFlags = ["--ssh=true" "--accept-dns=true"];
   };
   networking.firewall.trustedInterfaces = ["tailscale0"];
+  networking.nameservers = ["100.100.100.100" "1.1.1.1" "8.8.8.8"];
+  networking.search = ["taile3aadf.ts.net"];
 
   # Don't touch this
   system.stateVersion = "24.05";
