@@ -86,79 +86,13 @@
       webuiPort = 8080;
       torrentingPort = 6881;
       openFirewall = true;
-      serverConfig = {
-        Application.FileLogger = {
-          Age = 1;
-          AgeType = 1;
-          Backup = true;
-          DeleteOld = true;
-          Enabled = true;
-          MaxSizeBytes = 66560;
-          Path = "/var/lib/qBittorrent/qBittorrent/logs";
-        };
-        AutoRun = {
-          enabled = false;
-          program = "";
-        };
-        BitTorrent.Session = {
-          AddTorrentStopped = false;
-          BTProtocol = "TCP";
-          DefaultSavePath = "/srv/data/torrents";
-          DisableAutoTMMByDefault = false;
-          DisableAutoTMMTriggers.CategorySavePathChanged = false;
-          DisableAutoTMMTriggers.DefaultSavePathChanged = false;
-          ExcludedFileNames = "";
-          GlobalMaxRatio = 4;
-          MaxConnections = -1;
-          MaxConnectionsPerTorrent = -1;
-          MaxUploads = -1;
-          MaxUploadsPerTorrent = -1;
-          PerformanceWarning = true;
-          Port = 6881;
-          Preallocation = true;
-          QueueingSystemEnabled = false;
-          ShareLimitAction = "Stop";
-          TorrentContentLayout = "Subfolder";
-          UseAlternativeGlobalSpeedLimit = false;
-        };
-        Core.AutoDeleteAddedTorrentFile = "IfAdded";
-        LegalNotice.Accepted = true;
-        Network = {
-          PortForwardingEnabled = false;
-          Proxy = {
-            HostnameLookupEnabled = false;
-            Profiles = {
-              BitTorrent = true;
-              Misc = true;
-              RSS = true;
-            };
-          };
-        };
-        Preferences = {
-          Connection = {
-            PortRangeMin = 6881;
-            UPnP = false;
-          };
-          Downloads = {
-            SavePath = "/srv/data/torrents/";
-            TempPath = "/srv/data/torrents/incomplete/";
-          };
-          General = {
-            Locale = "en";
-            StatusbarExternalIPDisplayed = true;
-          };
-          MailNotification.req_auth = true;
-          WebUI = {
-            Address = "*";
-            AuthSubnetWhitelistEnabled = false;
-            LocalHostAuth = false;
-            ServerDomains = "*";
-          };
-        };
-        RSS.AutoDownloader = {
-          DownloadRepacks = true;
-          SmartEpisodeFilter = ''s(\\d+)e(\\d+), (\\d+)x(\\d+), "(\\d{4}[.\\-]\\d{1,2}[.\\-]\\d{1,2})", "(\\d{1,2}[.\\-]\\d{1,2}[.\\-]\\d{4})"'';
-        };
+    };
+    qui = {
+      enable = true;
+      openFirewall = true;
+      settings = {
+        host = "0.0.0.0";
+        port = 7476;
       };
     };
     thermald.enable = true;
@@ -181,12 +115,14 @@
       "/srv/data"
       "/srv/data/media"
       "/srv/data/media/books"
+      "/srv/data/media/anime"
       "/srv/data/media/movies"
       "/srv/data/media/music"
       "/srv/data/media/tv"
     ])
     ++ (map torrentDir [
       "/srv/data/torrents"
+      "/srv/data/torrents/anime"
       "/srv/data/torrents/incomplete"
       "/srv/data/torrents/books"
       "/srv/data/torrents/movies"
