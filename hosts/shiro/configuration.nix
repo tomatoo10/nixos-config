@@ -90,6 +90,7 @@
     qui = {
       enable = true;
       openFirewall = true;
+      secretFile = "/var/lib/secrets/qui-session.txt";
       settings = {
         host = "0.0.0.0";
         port = 7476;
