@@ -104,6 +104,11 @@
       openFirewall = true;
       settings.server.bindaddress = "*";
     };
+    plex = {
+      enable = true;
+      group = "media";
+      openFirewall = true;
+    };
     qui = {
       enable = true;
       openFirewall = true;
