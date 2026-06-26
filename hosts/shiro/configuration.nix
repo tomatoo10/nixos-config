@@ -78,7 +78,7 @@
   services = {
     tailscale = {
       enable = true;
-      extraSetFlags = ["--ssh=true" "--accept-dns=true"];
+      extraSetFlags = ["--ssh=true"];
     };
     qbittorrent = {
       enable = true;
