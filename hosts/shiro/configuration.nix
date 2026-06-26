@@ -75,6 +75,14 @@
 
   console.keyMap = config.var.keyboardLayout;
 
+  # shiro is an old laptop used as a headless server; closing the lid should not
+  # suspend the machine or make services unreachable.
+  services.logind.settings.Login = {
+    HandleLidSwitch = "ignore";
+    HandleLidSwitchExternalPower = "ignore";
+    HandleLidSwitchDocked = "ignore";
+  };
+
   services = {
     tailscale = {
       enable = true;
@@ -103,6 +111,11 @@
       enable = true;
       openFirewall = true;
       settings.server.bindaddress = "*";
+    };
+    flaresolverr = {
+      enable = true;
+      port = 8191;
+      openFirewall = false;
     };
     plex = {
       enable = true;

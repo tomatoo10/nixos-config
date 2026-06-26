@@ -29,6 +29,8 @@ TRaSH settings still to verify in WebUI:
 - Categories:
   - `movies` → `/srv/data/torrents/movies`
   - `tv` → `/srv/data/torrents/tv`
-  - `anime` → `/srv/data/torrents/anime`
-  - `music` → `/srv/data/torrents/music`
-  - `books` → `/srv/data/torrents/books`
+  - `animes` → `/srv/data/torrents/animes`
+  - `unlinked` → `/srv/data/torrents/unlinked`
+
+The singular torrent category/path `anime` is stale; use `animes` everywhere
+qBittorrent categories are referenced.
