@@ -4,32 +4,39 @@
   ...
 }: {
   imports = [
+    # Browsers
+    ../../home/browsers/brave
+
+    # Terminals
+    ../../home/terminals/alacritty
+    ../../home/terminals/ghostty
+
+    # Editors
+    ../../home/editors/nvf
+
+    # CLI
+    ../../home/cli/shell
+    ../../home/cli/ssh
+    ../../home/cli/git
+    ../../home/cli/git/lazygit.nix
+    ../../home/cli/git/signing.nix # Change the key or remove this file
+    ../../home/cli/tools/cybersecurity.nix
+
+    # Desktop
+    ../../home/desktop/hyprland
+    ../../home/desktop/caelestia-shell
+    ../../home/desktop/hyprpaper
+    ../../home/desktop/mime
+    ../../home/desktop/udiskie
+
     # Programs
-    ../../home/programs/brave
-    ../../home/programs/alacritty
-    ../../home/programs/ghostty
-    ../../home/programs/nvf
-    ../../home/programs/shell
-    ../../home/programs/ssh
-    ../../home/programs/git
-    ../../home/programs/git/lazygit.nix
-    ../../home/programs/git/signing.nix # Change the key or remove this file
     ../../home/programs/thunar
-    ../../home/programs/nixy
     ../../home/programs/nightshift
-    ../../home/programs/tools/cybersecurity.nix
     ../../home/programs/mangohud
 
-    # System (Desktop environment like stuff)
-    ../../home/system/hyprland
-    ../../home/system/caelestia-shell
-    ../../home/system/hyprpaper
-    ../../home/system/mime
-    ../../home/system/udiskie
-
+    # Host-specific
     ./variables.nix # Mostly user-specific configuration
   ];
-
   home = {
     packages = with pkgs; [
       # Apps
