@@ -112,11 +112,6 @@
       openFirewall = true;
       settings.server.bindaddress = "*";
     };
-    flaresolverr = {
-      enable = true;
-      port = 8191;
-      openFirewall = false;
-    };
     plex = {
       enable = true;
       group = "media";
@@ -391,18 +386,9 @@
       };
     };
 
-    flaresolverr-pr1300 = {
-      image = "alexfozor/flaresolverr:pr-1300";
-      ports = ["127.0.0.1:8192:8191"];
-      environment = {
-        LOG_LEVEL = "info";
-        TZ = config.var.timeZone;
-      };
-    };
-
     byparr = {
       image = "ghcr.io/thephaseless/byparr:latest";
-      ports = ["127.0.0.1:8193:8191"];
+      ports = ["127.0.0.1:8191:8191"];
       environment = {
         TZ = config.var.timeZone;
       };

@@ -61,34 +61,23 @@ Sonarr:
 - When adding an anime show, use root folder `/srv/data/media/anime`, profile `Anime - 1080p Remux`, and tag `anime`.
 - If a Sonarr series is missing the expected tag, it may have no eligible download client or may route incorrectly after future changes; check tags when troubleshooting grabs.
 
-Prowlarr and FlareSolverr:
+Prowlarr and Byparr:
 
 - Prowlarr is the source of truth for indexers; avoid manually duplicating Prowlarr-managed indexers in Radarr/Sonarr.
 - App links use localhost URLs on shiro:
   - Prowlarr server URL: `http://localhost:9696`
   - Radarr app URL: `http://localhost:7878`
   - Sonarr app URL: `http://localhost:8989`
-- FlareSolverr is native NixOS service state, not an Arr database object:
-  - Service: `services.flaresolverr`
-  - URL for Prowlarr: `http://localhost:8191`
-  - Firewall should remain closed unless another host must call it directly.
-- Experimental FlareSolverr PR-1300 test instance is a separate container:
-  - Container: `flaresolverr-pr1300`
-  - Image: `alexfozor/flaresolverr:pr-1300`
-  - URL for Prowlarr: `http://localhost:8192`
-  - Bind: `127.0.0.1:8192:8191`, so it is local-only and does not replace the native service.
-- Experimental Byparr test instance is a separate container:
+- Byparr is the only configured Cloudflare/DDoS-GUARD solver service:
   - Container: `byparr`
   - Image: `ghcr.io/thephaseless/byparr:latest`
-  - URL for Prowlarr: `http://localhost:8193`
-  - Bind: `127.0.0.1:8193:8191`, so it is local-only and does not replace the native service.
+  - URL for Prowlarr: `http://localhost:8191`
+  - Bind: `127.0.0.1:8191:8191`, so it is local-only.
 - App sync level should be `fullSync` for both Radarr and Sonarr.
 - Prowlarr app tags are currently empty; do not confuse them with Sonarr download-client routing tags.
 - Radarr sync categories are movie categories (`2000` family).
 - Sonarr sync categories are TV categories (`5000` family), with anime sync category `5070`.
-- Prowlarr FlareSolverr indexer proxy is Prowlarr state: add it under Settings -> Indexers -> Indexer Proxies -> FlareSolverr with host `http://localhost:8191`. Use a proxy tag (for example `flaresolverr`) and add the same tag only to indexers that need Cloudflare/DDoS-GUARD solving.
-- To test PR-1300, add a second Prowlarr FlareSolverr proxy with host `http://localhost:8192` and a distinct tag such as `flaresolverr-pr1300`; tag only the test indexer with that tag.
-- To test Byparr, add another Prowlarr FlareSolverr proxy with host `http://localhost:8193` and a distinct tag such as `byparr`; tag only the test indexer with that tag.
+- Prowlarr Byparr proxy is Prowlarr state: add it under Settings -> Indexers -> Indexer Proxies -> FlareSolverr with host `http://localhost:8191`. Use a proxy tag such as `byparr` and add the same tag only to indexers that need Cloudflare/DDoS-GUARD solving.
 - Indexers themselves are Prowlarr DB/API state. They may require credentials/cookies and should not be committed. Use Prowlarr WebUI or a future API provisioning script; keep Prowlarr as the only place where indexers are manually managed.
 
 Cleanuparr:
@@ -106,7 +95,7 @@ Cleanuparr:
 State vs Git:
 
 - Recyclarr quality profiles and custom formats are declarative in `hosts/shiro/configuration.nix` and sync daily.
-- FlareSolverr service enablement is declarative in `hosts/shiro/configuration.nix`; Prowlarr proxy/indexer rows are stateful.
+- Byparr container enablement is declarative in `hosts/shiro/configuration.nix`; Prowlarr proxy/indexer rows are stateful.
 - qBittorrent exported baseline files live under `hosts/shiro/service-configs/qbittorrent/`, but they are not automatically installed because qBittorrent rewrites its config and WebUI password hashes must not be committed.
 - Radarr, Sonarr, Prowlarr, and Cleanuparr store app state in their own databases/config directories; do not commit SQLite DBs or API keys.
 
