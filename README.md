@@ -29,9 +29,15 @@ coming soon
 ## Structure
 
 - `flake.nix` - inputs and host inventory.
-- `hosts/` - per machine `configuration.nix`, `hardware.nix` and secrets.
+- `hosts/` - per-machine composition, hardware config, and host-specific services.
+- `nixos/` - reusable NixOS modules, grouped by responsibility:
+  - `core/` - Home Manager integration, Nix settings, users, OpenSSH.
+  - `boot/` - bootloader choices (`systemd-boot`, lanzaboote/Secure Boot).
+  - `desktop/` - workstation defaults, Hyprland, SDDM, audio, fonts.
+  - `hardware/` - shared hardware support such as AMD GPU settings.
+  - `virtualisation/` - container/runtime modules.
+  - `gaming/` - Steam/GameMode/Gamescope stack.
 - `homes/` - programs specific configuration. (Shell, Terminal, Browser and such)
-- `server-modules/` - Not being used at the moment.
 - `themes/` - themes files created using stylix and imported by the `hosts/var.nix` file.
 - `homes/programs/nvf/` - neovim + nvf config
 
@@ -39,7 +45,7 @@ hosts:
 
 - `ryu` - main desktop
 - `sora` - thinkpad laptop (will be added later)
-- `server` - my dell laptop which i use as server
+- `shiro` - home server/media stack
 
 ## Special Thanks
 

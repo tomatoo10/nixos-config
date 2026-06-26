@@ -1,16 +1,39 @@
 # Home-Server Migration Plan & Agent Guide
 
-## Goal
-
-<!-- claude --resume 9e2fd750-16ed-422c-be5b-bd6bd4bb93c8 -->
-
-Migrate home-server from Ubuntu (Docker-based) to NixOS as the third host in this flake.
-The server is an old laptop — minimize compilation, maximize binary cache hits.
-Always consider disk usage and local build cost before adding packages or services to `shiro`; avoid source-heavy tools, large desktop stacks, debug adapters, and unnecessary docs unless the user explicitly accepts the cost.
-
 ## Current State
 
 The active homeserver host is `hosts/shiro/`. Older server material and imported configs are **reference material to cherry-pick from**, not working configs to inherit wholesale.
+
+NO HACKS. The user is EXTREMELY concerned about code quality, much more so than immediate results. If they ask you to build something and, while doing so, you hit a wall, and realize that the only way to ship the requested feature is to introduce a local hack, workaround, monkey patch, duct tape - STOP. STOP IMMEDIATELY. Either fix the underlying flaw that blocked you in a ROBUST, WELL DESIGNED, PRODUCTION READY manner, or be honest that the prompt can't be completed without hacks.
+
+To make it very clear:
+
+- DO NOT INTRODUCE HACKS IN THE CODEBASE.
+- DO NOT COMMIT CODE THAT COULD BREAK THINGS LATER.
+- DO NOT COMMIT PARTIAL SOLUTIONS OR WORKAROUNDS.
+
+THIS IS VERY IMPORTANT.
+THIS IS VERY IMPORTANT.
+THIS IS VERY IMPORTANT.
+
+The author appreciates honestly and he WILL be glad and thankful if you respond a request with "I couldn't complete your request because the repository lacked support for X". He will be even happier if you go ahead and update the repo to provide the necessary support in a well designed, robust way. But he will be VERY ANGRY if, while attempting to implement a feature, you introduce a workaround that will potentially break things later.
+
+NEVER introduce hacks in the codebase.
+
+Also assume that none of the code you're working in is in production, so, backwards compatibility is NOT IMPORTANT. If you find something that is poorly designed and fixing it would require breaking existing APIs or behavior, DO SO. Do it properly rather than preserving a flawed design. Prioritize clarity, correctness, and maintainability over compatibility with existing code.
+
+Core values:
+
+- ABSOLUTE code quality over speed of delivery.
+- Correctness over convenience.
+- Clarity over cleverness.
+- Maintainability over short-term productivity.
+- Robust design over quick fixes.
+- Simplicity over complexity.
+- Doing it right over doing it now.
+- Honesty above everything.
+
+After every change you make, provide a clear, honest report on ANY change that you are not confident about and that could be considered a fragile hack.
 
 ### shiro media stack contract
 
@@ -89,21 +112,38 @@ Cleanuparr:
 - Arr instance URLs should point to shiro services:
   - Radarr: `http://192.168.18.7:7878`
   - Sonarr: `http://192.168.18.7:8989`
+- qBittorrent WebUI auth bypass must include Podman's bridge subnet `10.88.0.0/16`, because Cleanuparr reaches qBittorrent from its container IP, not from `192.168.18.7` or `127.0.0.1`.
 - Cleanuparr category-aware rules should use `movies`, `tv`, `animes`, and `unlinked`; never `anime`.
 - Unlinked cleanup should scan `/downloads/movies`, `/downloads/tv`, and `/downloads/animes`, moving/marking unlinked items with target category `unlinked`.
 
 State vs Git:
 
-- Recyclarr quality profiles and custom formats are declarative in `hosts/shiro/configuration.nix` and sync daily.
-- Byparr container enablement is declarative in `hosts/shiro/configuration.nix`; Prowlarr proxy/indexer rows are stateful.
-- qBittorrent exported baseline files live under `hosts/shiro/service-configs/qbittorrent/`, but they are not automatically installed because qBittorrent rewrites its config and WebUI password hashes must not be committed.
+- Recyclarr quality profiles and custom formats are declarative in `hosts/shiro/media/recyclarr.nix` and sync daily.
+- Byparr container enablement is declarative in `hosts/shiro/media/containers.nix`; Prowlarr proxy/indexer rows are stateful.
+- qBittorrent `qBittorrent.conf` is managed declaratively in `hosts/shiro/media/qbittorrent.nix` via `services.qbittorrent.serverConfig`, using the exported live baseline in `hosts/shiro/service-configs/qbittorrent/qBittorrent.conf` as source material. This intentionally includes the current qBittorrent WebUI password hash because the user accepted that trade-off for this LAN/Tailscale-only setup.
+- qBittorrent categories are Nix/Git-owned in `hosts/shiro/service-configs/qbittorrent/categories.json` and installed before qBittorrent starts. Do not edit categories in the WebUI unless you also export/update the JSON file.
 - Radarr, Sonarr, Prowlarr, and Cleanuparr store app state in their own databases/config directories; do not commit SQLite DBs or API keys.
+- User-facing rebuild/reinstall instructions for WebUI-managed state live under `reference/webui-managed/<app>/README.md`.
 
 Reference sources:
 
+- `nixos/core/` — reusable base modules: Home Manager integration, Nix settings, users, OpenSSH.
+- `nixos/boot/` — bootloader modules: `systemd-boot.nix` and `secure-boot.nix`.
+- `nixos/desktop/` — desktop/workstation modules: workstation defaults, PipeWire audio, fonts, Hyprland, SDDM.
+- `nixos/hardware/` — shared hardware support such as AMD GPU acceleration.
+- `nixos/virtualisation/` — container/runtime modules such as Docker.
+- `nixos/gaming/` — Steam/GameMode/Gamescope stack.
 - `hosts/shiro/` — current NixOS host for the new server.
-- `reference/old-ubuntu-server-configs/` — sanitized copies of old Ubuntu/Docker service configs from `~/random/configs`.
-- `server-modules/` — upstream template modules (hadi/jack/French locale/hadi.diy) that may contain useful patterns but are not trusted as-is.
+- `hosts/shiro/networking.nix`, `storage.nix`, and `system.nix` — shiro host networking, storage/tmpfiles/Btrfs, and base system behavior.
+- `hosts/shiro/media/` — shiro media service modules: shared media group, qBittorrent, Arr services, Recyclarr, Plex, containers, and Qui.
+- `hosts/shiro/service-configs/qbittorrent/` — exported qBittorrent baseline files and sanitized template.
+- `reference/webui-managed/` — human setup notes for apps whose important settings live in DB/WebUI state.
+- `reference/webui-managed/` — human setup notes for apps whose important settings live in DB/WebUI state.
+
+Historical migration notes below may still mention old paths such as flat
+`nixos/*.nix` files or `server-modules/`. Treat those as reference material only;
+the active shared module layout is the grouped `nixos/` tree listed above, and
+shiro's active service modules live under `hosts/shiro/`.
 
 ## Project Philosophy: Improve, Don't Blindly Port
 
@@ -480,7 +520,7 @@ systemctl status jellyfin radarr sonarr transmission-daemon
 
 Things to fix before the home-server can work:
 
-1. **`nixos/systemd-boot.nix` does not exist** — must be created (see Phase 1.4)
+1. **`nixos/boot/systemd-boot.nix` exists** — import this path for non-Secure-Boot hosts.
 2. **Server host NOT in flake outputs** — `nixosConfigurations` only has ryu and sora, must add home-server
 3. **`nix.nix` trusted-users** has `"tomato"` (from upstream) — change to `"ak4m3"`
 4. **`nixarr` and `sops-nix`** are flake inputs but NOT wired into any host's module list — must add to home-server
@@ -491,11 +531,11 @@ If reusing upstream `server-modules/`: 5. **Domain `hadi.diy`** is hardcoded eve
 
 | Want to...                         | File                                                                                     |
 | ---------------------------------- | ---------------------------------------------------------------------------------------- |
-| Add a system package (all hosts)   | `nixos/utils.nix` → `environment.systemPackages`                                         |
+| Add a system package (desktop hosts) | `nixos/desktop/workstation-base.nix` → `environment.systemPackages`                    |
 | Add a user package (per host)      | `hosts/<name>/home.nix` → `home.packages`                                                |
-| Add a server service               | `server-modules/<name>.nix` + import in `hosts/home-server/configuration.nix`            |
+| Add a shiro media service          | `hosts/shiro/media/<name>.nix` + import in `hosts/shiro/configuration.nix`               |
 | Change theme                       | `hosts/<name>/variables.nix` → imports line                                              |
-| Add a cachix cache                 | `nixos/nix.nix` → `substituters` + `trusted-public-keys`                                 |
+| Add a cachix cache                 | `nixos/core/nix.nix` → `substituters` + `trusted-public-keys`                            |
 | Override a shared setting per-host | Use `lib.mkForce` in the host's config (see sora's TLP overriding power-profiles-daemon) |
 | Add a Hyprland keybind             | `home/system/hyprland/bindings.nix`                                                      |
 | Add a neovim plugin/language       | `home/programs/nvf/<relevant>.nix`                                                       |
@@ -511,3 +551,18 @@ All three hosts have tailscale enabled:
 
 Use tailscale IPs/MagicDNS to reach the server from ryu/sora without exposing ports to the internet.
 This can replace Cloudflare tunnel for private access.
+
+Current policy after shiro media setup:
+
+- Prefer localhost for services on the same machine (`localhost:7878`, `localhost:8989`, `localhost:9696`, `localhost:8080`).
+- Prefer LAN IPs for same-LAN cross-machine access; use shiro's LAN IP `192.168.18.7` for LAN clients and container-to-host callbacks where localhost is not valid.
+- Use Tailscale only when the peers are not on the same LAN or when SSH over the tailnet is explicitly desired.
+- Do not accept Tailscale DNS by default on ryu/sora/shiro (`--accept-dns=false`) and do not put `100.100.100.100` first in system nameservers. MagicDNS resolves short names like `shiro` to tailnet IPs, which can bypass LAN preference and has caused tailscaled DNS-forwarding overhead.
+
+
+## TODO - NEXT
+
+1. Continue organizing the nixos/ folder, you stopped at the middle of it. (Find a better name for it as well)
+2. Add bazarr application and configure it to find .srt subtitles automatically, if configuration is trough WEBUI, tell the user.
+3. Figure out why trying to watch a movie from web in ryu hosts does not work because plex says we are watching from remote. (Phone app works fine, accessing shiro:84200 works fine, plex.tv does not)
+4. Figure out why subtitles that comes within the movie (in this case whiplash) on the web browser (ryu) create transcoding and if is there a way to avoid that.
