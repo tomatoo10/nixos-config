@@ -72,11 +72,23 @@ Prowlarr and FlareSolverr:
   - Service: `services.flaresolverr`
   - URL for Prowlarr: `http://localhost:8191`
   - Firewall should remain closed unless another host must call it directly.
+- Experimental FlareSolverr PR-1300 test instance is a separate container:
+  - Container: `flaresolverr-pr1300`
+  - Image: `alexfozor/flaresolverr:pr-1300`
+  - URL for Prowlarr: `http://localhost:8192`
+  - Bind: `127.0.0.1:8192:8191`, so it is local-only and does not replace the native service.
+- Experimental Byparr test instance is a separate container:
+  - Container: `byparr`
+  - Image: `ghcr.io/thephaseless/byparr:latest`
+  - URL for Prowlarr: `http://localhost:8193`
+  - Bind: `127.0.0.1:8193:8191`, so it is local-only and does not replace the native service.
 - App sync level should be `fullSync` for both Radarr and Sonarr.
 - Prowlarr app tags are currently empty; do not confuse them with Sonarr download-client routing tags.
 - Radarr sync categories are movie categories (`2000` family).
 - Sonarr sync categories are TV categories (`5000` family), with anime sync category `5070`.
 - Prowlarr FlareSolverr indexer proxy is Prowlarr state: add it under Settings -> Indexers -> Indexer Proxies -> FlareSolverr with host `http://localhost:8191`. Use a proxy tag (for example `flaresolverr`) and add the same tag only to indexers that need Cloudflare/DDoS-GUARD solving.
+- To test PR-1300, add a second Prowlarr FlareSolverr proxy with host `http://localhost:8192` and a distinct tag such as `flaresolverr-pr1300`; tag only the test indexer with that tag.
+- To test Byparr, add another Prowlarr FlareSolverr proxy with host `http://localhost:8193` and a distinct tag such as `byparr`; tag only the test indexer with that tag.
 - Indexers themselves are Prowlarr DB/API state. They may require credentials/cookies and should not be committed. Use Prowlarr WebUI or a future API provisioning script; keep Prowlarr as the only place where indexers are manually managed.
 
 Cleanuparr:
