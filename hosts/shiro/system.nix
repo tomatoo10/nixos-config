@@ -30,10 +30,24 @@
   console.keyMap = config.var.keyboardLayout;
 
   services.logind.settings.Login = {
+    IdleAction = "ignore";
     HandleLidSwitch = "ignore";
     HandleLidSwitchExternalPower = "ignore";
     HandleLidSwitchDocked = "ignore";
   };
+
+  # shiro is a server even though the hardware is laptop-like. Keep it online
+  # with the lid closed and reject accidental/manual sleep requests that would
+  # take media and storage services offline.
+  systemd.sleep.settings.Sleep = {
+    AllowSuspend = false;
+    AllowHibernation = false;
+    AllowSuspendThenHibernate = false;
+    AllowHybridSleep = false;
+  };
+
+  # Prefer predictable plugged-in server performance over laptop power saving.
+  powerManagement.cpuFreqGovernor = "performance";
 
   services.thermald.enable = true;
 
