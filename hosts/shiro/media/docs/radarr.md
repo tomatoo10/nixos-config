@@ -14,8 +14,12 @@ Radarr's database and most WebUI settings are stateful. Recyclarr owns quality p
 
 - Root folder: `/srv/data/media/movies`
 - Do not use `/srv/data`, `/srv/data/torrents`, or any qBittorrent category path as a root folder.
-- Standard profile: `Movies - 1080p Remux`
-- Optional test profile: `Movies - 4K Test`
+- Standard profile: `Movies - 1080p Balanced`
+- Higher-quality 1080p option: `Movies - 1080p Quality HDR`
+- Practical 4K option: `Movies - 2160p Balanced`
+- Quality-first 4K option: `Movies - 2160p Quality`
+- Legacy profiles kept for old behavior: `Movies - 1080p Remux Legacy`,
+  `Movies - 4K Test Legacy`
 
 ## Download client
 

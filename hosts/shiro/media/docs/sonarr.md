@@ -14,10 +14,14 @@ Sonarr's database and most WebUI settings are stateful. Recyclarr owns quality p
 
 | Type | Root folder | Profile | Sonarr tag | qBittorrent category |
 | --- | --- | --- | --- | --- |
-| Normal TV | `/srv/data/media/tv` | `Series - 1080p Remux` | `tv` | `tv` |
-| Anime | `/srv/data/media/anime` | `Anime - 1080p Remux` | `anime` | `animes` |
+| Normal TV | `/srv/data/media/tv` | `Series - 1080p Balanced` | `tv` | `tv` |
+| Anime | `/srv/data/media/anime` | `Anime - 1080p Remux Legacy` | `anime` | `animes` |
 
 The Sonarr tag is singular `anime`; the qBittorrent category is plural `animes`.
+
+Other managed normal-TV options are `Series - 1080p Quality HDR`, `Series - 2160p
+Balanced`, and `Series - 2160p Quality`. `Series - 1080p Remux Legacy` is kept
+for the previous behavior.
 
 ## Download clients
 
