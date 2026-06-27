@@ -62,7 +62,7 @@ Radarr and Sonarr root folders must point at final library folders, not torrent 
 - Module: `hosts/shiro/media/arr.nix`; WebUI: `http://shiro:7878`.
 - Root folder: `/srv/data/media/movies`.
 - qBittorrent download client: `localhost:8080`, category `movies`, no Radarr download-client tags.
-- Recyclarr profiles: `Movies - 1080p Remux`, `Movies - 4K Test`.
+- Recyclarr profiles include `Movies - 1080p Balanced`, `Movies - 1080p Quality HDR`, `Movies - 2160p Balanced`, `Movies - 2160p Quality`, plus legacy profiles for the previous 1080p Remux and 4K test behavior.
 
 ### Sonarr
 
@@ -70,7 +70,7 @@ Radarr and Sonarr root folders must point at final library folders, not torrent 
 - Root folders: `/srv/data/media/tv` and `/srv/data/media/anime`.
 - Tags: `tv` for normal series, `anime` for anime.
 - Download clients: `qBittorrent - TV` category `tv` restricted to tag `tv`; `qBittorrent - Animes` category `animes` restricted to tag `anime`.
-- Recyclarr profiles: `Series - 1080p Remux`, `Anime - 1080p Remux`.
+- Recyclarr profiles include `Series - 1080p Balanced`, `Series - 1080p Quality HDR`, `Series - 2160p Balanced`, `Series - 2160p Quality`, plus legacy profiles for previous series/anime behavior.
 
 ### Bazarr
 
@@ -121,6 +121,8 @@ Stateful/WebUI-owned: Radarr, Sonarr, Prowlarr, Bazarr, Plex, Cleanuparr, and Qu
 
 Ignored local backups: `hosts/shiro/media/config-backups/` stores live databases, API keys, tokens, and cookies and is intentionally ignored.
 
+When investigating problems with the home-server applications, inspect live state on `shiro` over SSH instead of relying only on local backup snapshots. Use the least-invasive live checks available: service logs/status, application APIs, state databases, and container logs. Keep secrets out of responses and Git.
+
 ## Service documentation
 
 Before changing WebUI-managed service state, read the matching guide in `hosts/shiro/media/docs/`: `qbittorrent.md`, `radarr.md`, `sonarr.md`, `bazarr.md`, `prowlarr-byparr.md`, `recyclarr.md`, `plex.md`, `cleanuparr.md`, `qui.md`, and `backups.md`.
@@ -129,7 +131,7 @@ Before changing WebUI-managed service state, read the matching guide in `hosts/s
 
 After repository changes, run the smallest relevant checks: `nix eval .#nixosConfigurations.shiro.config.system.stateVersion`, the matching host evals for ryu/sora when touched, and `git diff --check`.
 
-After shiro media changes, also check live services when appropriate with `systemctl status radarr sonarr prowlarr bazarr qbittorrent plex --no-pager` and `sudo podman ps`.
+After shiro media changes, also check live services when appropriate with `systemctl status radarr sonarr prowlarr bazarr qbittorrent plex podman-cleanuparr --no-pager` and `sudo podman ps`.
 
 ## Commit messages
 

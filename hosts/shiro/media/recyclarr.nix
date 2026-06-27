@@ -15,8 +15,34 @@
 
           quality_profiles = [
             {
+              trash_id = "d1d67249d3890e49bc12e275d989a7e9"; # HD Bluray + WEB
+              name = "Movies - 1080p Balanced";
+              reset_unmatched_scores.enabled = true;
+              min_format_score = -2000;
+            }
+            {
+              # Profilarr/Dictionarry-inspired approximation of 1080p Quality HDR:
+              # prefer efficient 1080p HDR/x265 encodes without allowing Remux sizes.
+              name = "Movies - 1080p Quality HDR";
+              reset_unmatched_scores.enabled = true;
+              upgrade = {
+                allowed = true;
+                until_quality = "Bluray-1080p";
+                until_score = 3000;
+              };
+              min_format_score = -2000;
+              quality_sort = "top";
+              qualities = [
+                {name = "Bluray-1080p";}
+                {
+                  name = "WEB 1080p";
+                  qualities = ["WEBDL-1080p" "WEBRip-1080p"];
+                }
+              ];
+            }
+            {
               trash_id = "9ca12ea80aa55ef916e3751f4b874151"; # Remux + WEB 1080p
-              name = "Movies - 1080p Remux";
+              name = "Movies - 1080p Remux Legacy";
               reset_unmatched_scores.enabled = true;
               upgrade = {
                 allowed = true;
@@ -35,8 +61,34 @@
               ];
             }
             {
+              # Profilarr/Dictionarry-inspired approximation of 2160p Balanced:
+              # prefer practical 4K WEB/Bluray sources without Remux-first sizing.
+              name = "Movies - 2160p Balanced";
+              reset_unmatched_scores.enabled = true;
+              upgrade = {
+                allowed = true;
+                until_quality = "Bluray-2160p";
+                until_score = 3000;
+              };
+              min_format_score = -2000;
+              quality_sort = "top";
+              qualities = [
+                {name = "Bluray-2160p";}
+                {
+                  name = "WEB 2160p";
+                  qualities = ["WEBDL-2160p" "WEBRip-2160p"];
+                }
+              ];
+            }
+            {
               trash_id = "64fb5f9858489bdac2af690e27c8f42f"; # UHD Bluray + WEB
-              name = "Movies - 4K Test";
+              name = "Movies - 4K Test Legacy";
+              reset_unmatched_scores.enabled = true;
+              min_format_score = -2000;
+            }
+            {
+              trash_id = "fd161a61e3ab826d3a22d53f935696dd"; # Remux + WEB 2160p
+              name = "Movies - 2160p Quality";
               reset_unmatched_scores.enabled = true;
               min_format_score = -2000;
             }
@@ -50,8 +102,12 @@
                 "9f6cbff8cfe4ebbc1bde14c7b7bec0de" # IMAX Enhanced
               ];
               assign_scores_to = [
-                {name = "Movies - 1080p Remux";}
-                {name = "Movies - 4K Test";}
+                {name = "Movies - 1080p Balanced";}
+                {name = "Movies - 1080p Quality HDR";}
+                {name = "Movies - 1080p Remux Legacy";}
+                {name = "Movies - 2160p Balanced";}
+                {name = "Movies - 4K Test Legacy";}
+                {name = "Movies - 2160p Quality";}
               ];
             }
             {
@@ -59,8 +115,12 @@
                 "cc444569854e9de0b084ab2b8b1532b2" # Black and White Editions
               ];
               assign_scores_to = [
-                {name = "Movies - 1080p Remux";}
-                {name = "Movies - 4K Test";}
+                {name = "Movies - 1080p Balanced";}
+                {name = "Movies - 1080p Quality HDR";}
+                {name = "Movies - 1080p Remux Legacy";}
+                {name = "Movies - 2160p Balanced";}
+                {name = "Movies - 4K Test Legacy";}
+                {name = "Movies - 2160p Quality";}
               ];
             }
             {
@@ -76,8 +136,12 @@
               ];
               score = -10000;
               assign_scores_to = [
-                {name = "Movies - 1080p Remux";}
-                {name = "Movies - 4K Test";}
+                {name = "Movies - 1080p Balanced";}
+                {name = "Movies - 1080p Quality HDR";}
+                {name = "Movies - 1080p Remux Legacy";}
+                {name = "Movies - 2160p Balanced";}
+                {name = "Movies - 4K Test Legacy";}
+                {name = "Movies - 2160p Quality";}
               ];
             }
             {
@@ -86,8 +150,12 @@
               ];
               score = -10000;
               assign_scores_to = [
-                {name = "Movies - 1080p Remux";}
-                {name = "Movies - 4K Test";}
+                {name = "Movies - 1080p Balanced";}
+                {name = "Movies - 1080p Quality HDR";}
+                {name = "Movies - 1080p Remux Legacy";}
+                {name = "Movies - 2160p Balanced";}
+                {name = "Movies - 4K Test Legacy";}
+                {name = "Movies - 2160p Quality";}
               ];
             }
             {
@@ -100,8 +168,12 @@
               ];
               score = -1500;
               assign_scores_to = [
-                {name = "Movies - 1080p Remux";}
-                {name = "Movies - 4K Test";}
+                {name = "Movies - 1080p Balanced";}
+                {name = "Movies - 1080p Quality HDR";}
+                {name = "Movies - 1080p Remux Legacy";}
+                {name = "Movies - 2160p Balanced";}
+                {name = "Movies - 4K Test Legacy";}
+                {name = "Movies - 2160p Quality";}
               ];
             }
             {
@@ -112,8 +184,12 @@
               ];
               score = -300;
               assign_scores_to = [
-                {name = "Movies - 1080p Remux";}
-                {name = "Movies - 4K Test";}
+                {name = "Movies - 1080p Balanced";}
+                {name = "Movies - 1080p Quality HDR";}
+                {name = "Movies - 1080p Remux Legacy";}
+                {name = "Movies - 2160p Balanced";}
+                {name = "Movies - 4K Test Legacy";}
+                {name = "Movies - 2160p Quality";}
               ];
             }
             {
@@ -125,8 +201,31 @@
               ];
               score = 500;
               assign_scores_to = [
-                {name = "Movies - 1080p Remux";}
-                {name = "Movies - 4K Test";}
+                {name = "Movies - 1080p Balanced";}
+                {name = "Movies - 1080p Quality HDR";}
+                {name = "Movies - 1080p Remux Legacy";}
+                {name = "Movies - 2160p Balanced";}
+                {name = "Movies - 4K Test Legacy";}
+                {name = "Movies - 2160p Quality";}
+              ];
+            }
+            {
+              trash_ids = [
+                "493b6d1dbec3c3364c59d7607f7e3405" # HDR
+                "dc98083864ea246d05a42df0d05f81cc" # x265 (HD)
+              ];
+              score = 500;
+              assign_scores_to = [
+                {name = "Movies - 1080p Quality HDR";}
+              ];
+            }
+            {
+              trash_ids = [
+                "839bea857ed2c0a8e084f3cbdbd65ecb" # x265 (no HDR/DV)
+              ];
+              score = -10000;
+              assign_scores_to = [
+                {name = "Movies - 1080p Quality HDR";}
               ];
             }
           ];
@@ -140,8 +239,35 @@
 
           quality_profiles = [
             {
+              trash_id = "9d142234e45d6143785ac55f5a9e8dc9"; # WEB-1080p (Alternative)
+              name = "Series - 1080p Balanced";
+              reset_unmatched_scores.enabled = true;
+              min_format_score = -2000;
+            }
+            {
+              # Profilarr/Dictionarry-inspired approximation of 1080p Quality HDR:
+              # prefer efficient 1080p HDR/x265 encodes without using Remux as the cutoff.
+              name = "Series - 1080p Quality HDR";
+              reset_unmatched_scores.enabled = true;
+              upgrade = {
+                allowed = true;
+                until_quality = "Bluray-1080p";
+                until_score = 3000;
+              };
+              min_format_score = -2000;
+              quality_sort = "top";
+              qualities = [
+                {name = "Bluray-1080p";}
+                {
+                  name = "WEB 1080p";
+                  qualities = ["WEBDL-1080p" "WEBRip-1080p"];
+                }
+                {name = "HDTV-1080p";}
+              ];
+            }
+            {
               trash_id = "72dae194fc92bf828f32cde7744e51a1"; # WEB-1080p
-              name = "Series - 1080p Remux";
+              name = "Series - 1080p Remux Legacy";
               upgrade = {
                 allowed = true;
                 until_quality = "Bluray-1080p Remux";
@@ -166,8 +292,20 @@
               ];
             }
             {
+              trash_id = "dfa5eaae7894077ad6449169b6eb03e0"; # WEB-2160p (Alternative)
+              name = "Series - 2160p Balanced";
+              reset_unmatched_scores.enabled = true;
+              min_format_score = -2000;
+            }
+            {
+              trash_id = "d1498e7d189fbe6c7110ceaabb7473e6"; # WEB-2160p
+              name = "Series - 2160p Quality";
+              reset_unmatched_scores.enabled = true;
+              min_format_score = -2000;
+            }
+            {
               trash_id = "20e0fc959f1f1704bed501f23bdae76f"; # [Anime] Remux-1080p
-              name = "Anime - 1080p Remux";
+              name = "Anime - 1080p Remux Legacy";
               reset_unmatched_scores.enabled = true;
             }
           ];
@@ -183,8 +321,12 @@
               ];
               score = -10000;
               assign_scores_to = [
-                {name = "Series - 1080p Remux";}
-                {name = "Anime - 1080p Remux";}
+                {name = "Series - 1080p Balanced";}
+                {name = "Series - 1080p Quality HDR";}
+                {name = "Series - 1080p Remux Legacy";}
+                {name = "Series - 2160p Balanced";}
+                {name = "Series - 2160p Quality";}
+                {name = "Anime - 1080p Remux Legacy";}
               ];
             }
             {
@@ -197,7 +339,11 @@
               ];
               score = -1500;
               assign_scores_to = [
-                {name = "Series - 1080p Remux";}
+                {name = "Series - 1080p Balanced";}
+                {name = "Series - 1080p Quality HDR";}
+                {name = "Series - 1080p Remux Legacy";}
+                {name = "Series - 2160p Balanced";}
+                {name = "Series - 2160p Quality";}
               ];
             }
             {
@@ -207,7 +353,11 @@
               ];
               score = -300;
               assign_scores_to = [
-                {name = "Series - 1080p Remux";}
+                {name = "Series - 1080p Balanced";}
+                {name = "Series - 1080p Quality HDR";}
+                {name = "Series - 1080p Remux Legacy";}
+                {name = "Series - 2160p Balanced";}
+                {name = "Series - 2160p Quality";}
               ];
             }
             {
@@ -219,7 +369,30 @@
               ];
               score = 500;
               assign_scores_to = [
-                {name = "Series - 1080p Remux";}
+                {name = "Series - 1080p Balanced";}
+                {name = "Series - 1080p Quality HDR";}
+                {name = "Series - 1080p Remux Legacy";}
+                {name = "Series - 2160p Balanced";}
+                {name = "Series - 2160p Quality";}
+              ];
+            }
+            {
+              trash_ids = [
+                "505d871304820ba7106b693be6fe4a9e" # HDR
+                "47435ece6b99a0b477caf360e79ba0bb" # x265 (HD)
+              ];
+              score = 500;
+              assign_scores_to = [
+                {name = "Series - 1080p Quality HDR";}
+              ];
+            }
+            {
+              trash_ids = [
+                "9b64dff695c2115facf1b6ea59c9bd07" # x265 (no HDR/DV)
+              ];
+              score = -10000;
+              assign_scores_to = [
+                {name = "Series - 1080p Quality HDR";}
               ];
             }
           ];

@@ -18,6 +18,10 @@ Create libraries with these folders:
 
 Do not point Plex libraries at `/srv/data/torrents` or qBittorrent category folders.
 
+Do not create Plex libraries from the `unlinked` qBittorrent category. That path
+is temporary cleanup staging for old public torrent payloads and may be deleted
+by Cleanuparr.
+
 ## Network settings
 
 Recommended Plex preferences:
@@ -27,6 +31,11 @@ Recommended Plex preferences:
 - Publish server on Plex Online: enabled
 
 LAN clients should prefer `192.168.18.7`. Tailscale clients may use `100.110.91.84` or MagicDNS.
+
+If a client can reach the WebUI through one URL but does not show the server in
+the app, check Custom access URLs before changing firewall or Tailscale settings.
+Both LAN and Tailscale URLs should be present so clients choose a direct route
+instead of falling back to relay/remote discovery.
 
 If an iPhone on the same LAN with Tailscale enabled cannot see libraries:
 

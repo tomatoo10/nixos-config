@@ -42,6 +42,18 @@ Effective paths become `/srv/data/torrents/<category>`.
 
 Do not use `anime` as a qBittorrent category.
 
+The `unlinked` category is required for Cleanuparr. It is not an active download
+category for Radarr or Sonarr. Cleanuparr uses it as a holding area for torrent
+payloads that still exist on disk but no longer have hardlinks to active
+Radarr/Sonarr library files, such as old files left after an upgrade. Keep it
+separate from `movies`, `tv`, and `animes`; do not point Arr download clients at
+`unlinked`. The deletion rule for `unlinked` is public-only, but category
+membership alone does not prove a torrent is disposable.
+
+The category list is Git-owned and reinstalled from
+`hosts/shiro/service-configs/qbittorrent/categories.json` when qBittorrent
+starts. Treat WebUI category edits as temporary unless exported back to Git.
+
 ## Updating category state
 
 1. Prefer editing `hosts/shiro/service-configs/qbittorrent/categories.json` in Git.
@@ -50,6 +62,20 @@ Do not use `anime` as a qBittorrent category.
 4. Confirm WebUI categories match the JSON.
 
 If a WebUI category edit is unavoidable, export `/var/lib/qBittorrent/qBittorrent/config/categories.json` back into the repo immediately.
+
+## Cleanup and seeding policy
+
+qBittorrent currently does not set global ratio/time limits. Cleanup policy is
+owned by Radarr/Sonarr completed-download handling plus Cleanuparr rules:
+
+- Radarr/Sonarr remove completed downloads after imports when the client state
+  allows it.
+- Cleanuparr removes public seeded leftovers from `movies`, `tv`, and `animes`
+  after their configured retention windows.
+- Cleanuparr moves post-import orphan payloads to `unlinked`, then the public-only
+  unlinked cleanup rule removes public source files after the shorter review
+  window.
+- Private tracker torrents must remain excluded from aggressive cleanup.
 
 ## Restore notes
 
