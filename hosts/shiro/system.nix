@@ -37,6 +37,16 @@
 
   services.thermald.enable = true;
 
+  # shiro is a low-memory laptop server. Prefer compressed RAM swap before
+  # falling back to the slower disk swap partition during Plex transcodes or
+  # concurrent Arr/Bazarr/Byparr activity.
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 50;
+    priority = 100;
+  };
+
   environment.systemPackages = with pkgs; [
     btop
     curl

@@ -56,7 +56,7 @@
   # Tailscale mesh VPN
   services.tailscale = {
     enable = true;
-    extraSetFlags = ["--ssh=true" "--accept-dns=false"];
+    extraSetFlags = ["--ssh=true" "--accept-dns=true"];
   };
   networking.firewall.trustedInterfaces = ["tailscale0"];
   networking.nameservers = ["1.1.1.1" "8.8.8.8"];

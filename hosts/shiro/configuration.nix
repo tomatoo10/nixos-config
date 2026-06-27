@@ -5,7 +5,6 @@
     ../../modules/core/openssh.nix
     ../../modules/core/users.nix
     ../../modules/boot/systemd-boot.nix
-    ../../modules/virtualisation/docker.nix
 
     ./hardware-configuration.nix
     ./variables.nix
