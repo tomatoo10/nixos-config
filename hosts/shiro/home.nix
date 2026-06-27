@@ -11,10 +11,10 @@
 
     # Programs: use existing shared app configs, but keep plain neovim instead
     # of NVF to avoid DAP/Rust/debug tooling on the old laptop.
-    ../../home/programs/shell
-    ../../home/programs/ssh
-    ../../home/programs/git
-    ../../home/programs/git/lazygit.nix
+    ../../home/cli/shell
+    ../../home/cli/ssh
+    ../../home/cli/git
+    ../../home/cli/git/lazygit.nix
   ];
 
   home = {
