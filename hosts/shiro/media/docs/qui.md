@@ -22,6 +22,15 @@ Do not expose Qui publicly. If the network trust boundary changes, either enable
 
 Keep Qui only if you actively use it instead of qBittorrent's built-in WebUI. It costs memory and expands the trusted-network UI surface.
 
+Qui should point at the same qBittorrent instance and categories documented in
+`qbittorrent.md`. Do not use Qui to create alternate category names or save
+paths; Radarr, Sonarr, and Cleanuparr depend on `movies`, `tv`, `animes`, and
+`unlinked` having their documented meanings.
+
+If Qui is only used for quick inspection, prefer making durable qBittorrent
+category/preference changes through the Git-owned qBittorrent config path and
+then rebuilding/restarting shiro.
+
 ## Restore notes
 
 Restore `/var/lib/qui` from the ignored config backup if needed, then restart `qui.service`.

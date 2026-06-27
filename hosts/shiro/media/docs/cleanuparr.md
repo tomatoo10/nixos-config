@@ -20,6 +20,24 @@ Use shiro LAN URLs because Cleanuparr runs in a Podman container:
 
 qBittorrent WebUI auth bypass must include `10.88.0.0/16` for the Podman bridge.
 
+## Post-install WebUI checklist
+
+After first setup or restore, confirm these stateful settings:
+
+- qBittorrent client points at `http://192.168.18.7:8080/`.
+- Download directory mapping: source `/srv/data/torrents`, target `/downloads`.
+- Radarr instance points at `http://192.168.18.7:7878`.
+- Sonarr instance points at `http://192.168.18.7:8989`.
+- Queue cleaner enabled, currently every 10 minutes.
+- `DownloadingMetadata` max strikes: `6`.
+- Failed imports ignore private torrents and do not delete private data.
+- Seeker search enabled, proactive search disabled.
+- Public seeding rules exist for `movies`, `tv`, and `animes`.
+- Unlinked detection watches `movies`, `tv`, and `animes` and moves matching
+  orphaned payloads to `unlinked`.
+- Public-only deletion exists for category `unlinked` with a `2h` max seed time
+  and source-file deletion enabled.
+
 ## Categories
 
 Rules must use exactly these qBittorrent categories:
@@ -52,17 +70,45 @@ Create separate rules so actions are explainable and safe.
 ### Seeding cleanup
 
 - Scope: categories `movies`, `tv`, `animes`
-- Trigger: imported/completed torrents that have met your retention target.
-- Action: remove from qBittorrent only after Arr import completed.
-- Exclude: torrents not imported yet, torrents with hardlink/import issues, manually protected torrents.
+- Trigger: public qBittorrent torrents that match the rule's ratio/time/seeder
+  criteria.
+- Action: remove from qBittorrent and delete source files once the qBittorrent
+  rule matches.
+- Exclude: private tracker torrents, torrents that still need to be kept for
+  seeding, torrents with import/hardlink problems, and manually protected
+  torrents.
+- Current live public rules: ratio `4.0`, minimum seed time `24h`, maximum seed
+  time `168h`, delete source files enabled, minimum seeders `5`.
+
+These seeding rules are qBittorrent-level cleanup rules; they do not prove that
+Radarr/Sonarr successfully imported a torrent. If imports are failing, pause or
+disable cleanup before the retention window expires.
 
 ### Unlinked cleanup
 
 - Scope: download folders `/downloads/movies`, `/downloads/tv`, `/downloads/animes`
 - Target category: `unlinked`
-- Purpose: identify files no longer linked to Radarr/Sonarr items.
-- Action: move/mark to `unlinked` first; delete only after a review window.
-- Exclude: `/downloads/incomplete`, active category folders for current downloads, and any manually staged files.
+- Purpose: identify torrent payloads that still exist on disk but no longer have
+  hardlinks to active Radarr/Sonarr library files.
+- This is post-import orphan cleanup, not broken-torrent cleanup. A torrent with
+  missing files that cannot seed is a failed/stalled client state, not the normal
+  meaning of `unlinked`.
+- Common cause: Radarr/Sonarr upgrades or deletes a library file, leaving the old
+  torrent's source files behind in qBittorrent.
+- Action: move/mark to `unlinked` first; delete public unlinked source files
+  after the configured review window.
+- Current live review window: `2h` max seed time for the public `Unlinked cleanup`
+  qBittorrent seeding rule.
+- Exclude from detection: `/downloads/incomplete`, files from current in-progress
+  downloads, cross-seed roots, and any manually staged files.
+- Exclude from deletion: private tracker torrents and anything still expected to
+  seed, even if it has been moved to `unlinked`.
+
+Unlinked detection/category reassignment and unlinked deletion are separate
+steps. Detection can move orphaned payloads to the `unlinked` category; the live
+deletion rule is what restricts removal to public torrents. Do not assume every
+torrent in `unlinked` is safe to delete manually without checking privacy and
+seeding requirements.
 
 ### Malware/blocklist rule
 
@@ -76,7 +122,17 @@ Avoid aggressive cleanup on a low-memory home server:
 
 - Run evaluations every 5-15 minutes for lightweight checks.
 - Use multi-hour thresholds for stalled/slow removals.
-- Use at least a day-scale review window before deleting unlinked data.
+- Use a short review window only for disposable public unlinked data. Current
+  live `unlinked` cleanup is intentionally aggressive at `2h` because disk space
+  is tight; keep private trackers excluded.
+
+Current live timing to know about when debugging replacement delays:
+
+- Queue cleaner evaluates every 10 minutes.
+- `DownloadingMetadata` is removed after 6 strikes, so a metadata-only item can
+  sit for about an hour before removal.
+- Seeker replacement search is enabled, but runs on its own cadence after the
+  queue item is removed; it is not immediate at the exact deletion timestamp.
 
 ## Blacklists
 
@@ -85,6 +141,7 @@ When Cleanuparr removes a bad release, blacklist it in Radarr/Sonarr if the rele
 ## Troubleshooting
 
 - Container logs: `sudo podman logs cleanuparr`
+- Systemd unit: `podman-cleanuparr.service`
 - Config/logs: `/srv/cleanuparr/config`
 - If qBittorrent returns 403, check auth bypass and that Cleanuparr uses the LAN URL.
 - If imports break, make rules less aggressive and confirm Arr import status before deletion.

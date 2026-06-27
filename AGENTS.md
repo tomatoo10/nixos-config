@@ -121,6 +121,8 @@ Stateful/WebUI-owned: Radarr, Sonarr, Prowlarr, Bazarr, Plex, Cleanuparr, and Qu
 
 Ignored local backups: `hosts/shiro/media/config-backups/` stores live databases, API keys, tokens, and cookies and is intentionally ignored.
 
+When investigating problems with the home-server applications, inspect live state on `shiro` over SSH instead of relying only on local backup snapshots. Use the least-invasive live checks available: service logs/status, application APIs, state databases, and container logs. Keep secrets out of responses and Git.
+
 ## Service documentation
 
 Before changing WebUI-managed service state, read the matching guide in `hosts/shiro/media/docs/`: `qbittorrent.md`, `radarr.md`, `sonarr.md`, `bazarr.md`, `prowlarr-byparr.md`, `recyclarr.md`, `plex.md`, `cleanuparr.md`, `qui.md`, and `backups.md`.
@@ -129,7 +131,7 @@ Before changing WebUI-managed service state, read the matching guide in `hosts/s
 
 After repository changes, run the smallest relevant checks: `nix eval .#nixosConfigurations.shiro.config.system.stateVersion`, the matching host evals for ryu/sora when touched, and `git diff --check`.
 
-After shiro media changes, also check live services when appropriate with `systemctl status radarr sonarr prowlarr bazarr qbittorrent plex --no-pager` and `sudo podman ps`.
+After shiro media changes, also check live services when appropriate with `systemctl status radarr sonarr prowlarr bazarr qbittorrent plex podman-cleanuparr --no-pager` and `sudo podman ps`.
 
 ## Commit messages
 
