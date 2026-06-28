@@ -12,6 +12,7 @@ Read `AGENTS.md` first for the global contract, then the matching service guide 
 - `bazarr.md` — subtitle profiles, automatic searches, Plex-friendly SRT sidecars.
 - `prowlarr-byparr.md` — indexers, app sync, Byparr/FlareSolverr-compatible proxy.
 - `recyclarr.md` — declarative profile/custom-format ownership.
+- `profilarr.md` — test service notes; Recyclarr remains source of truth.
 - `plex.md` — libraries, access URLs, LAN/Tailscale, subtitles/transcoding.
 - `cleanuparr.md` — cleanup rules, categories, blacklists, timing, exclusions.
 - `qui.md` — optional qBittorrent UI.
@@ -22,6 +23,7 @@ Read `AGENTS.md` first for the global contract, then the matching service guide 
 - Movies library: `/srv/data/media/movies`
 - TV library: `/srv/data/media/tv`
 - Anime library: `/srv/data/media/anime`
+- Profilarr config: `/srv/profilarr/config`
 - Torrents root: `/srv/data/torrents`
 - Incomplete torrents: `/srv/data/torrents/incomplete`
 - qBittorrent categories: `movies`, `tv`, `animes`, `unlinked`

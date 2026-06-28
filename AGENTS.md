@@ -31,6 +31,15 @@ This repository manages the user's NixOS machines and the shiro home-server medi
 
 The active stack is native Radarr, Sonarr, Bazarr, Prowlarr, qBittorrent, Plex, Recyclarr, and Qui, plus Podman containers for Cleanuparr and Byparr. Keep all apps consistent when changing paths, tags, categories, cleanup rules, or download-client routing.
 
+### Playback constraints and client targets
+
+- `shiro` runs on an old compact notebook and must be treated as a **direct-play-first** Plex server.
+- Do not assume `shiro` can handle video transcoding, audio transcoding, or subtitle burn-in at acceptable performance.
+- Avoid media-selection strategies that depend on server-side transcoding for compatibility.
+- Prefer formats that direct play reliably on the main clients: `ryu`, `sora`, the ThinkPad T14 Gen 1 AMD, and iPhone 13.
+- Prefer external `.srt` sidecar subtitles. Embedded bitmap subtitles such as PGS/VobSub are high risk because they often force Plex to burn subtitles into the video.
+- When tuning Recyclarr/Radarr/Sonarr/Bazarr for `shiro`, optimize first for smooth playback and subtitle compatibility, then for absolute quality.
+
 ### Filesystem layout
 
 - Shared data root: `/srv/data`
@@ -87,11 +96,13 @@ Radarr and Sonarr root folders must point at final library folders, not torrent 
 - App sync level should be `fullSync` for both Radarr and Sonarr.
 - Configure Byparr in Prowlarr as a FlareSolverr-compatible indexer proxy tagged `byparr`, and apply that tag only to indexers that need Cloudflare/DDoS-GUARD solving.
 
-### Recyclarr
+### Recyclarr / Profilarr
 
 - Module: `hosts/shiro/media/recyclarr.nix`; schedule: daily.
 - API-key files: `/var/lib/secrets/recyclarr-radarr-api-key` and `/var/lib/secrets/recyclarr-sonarr-api-key`.
 - Owns Radarr/Sonarr quality profiles and custom formats. Port manual profile changes back to Nix or they may be overwritten.
+- Profilarr is a shiro-only test container at `http://shiro:6868` with config in `/srv/profilarr/config`.
+- Recyclarr remains the source of truth; do not rely on Profilarr to manage the same profiles/custom formats or its changes will conflict with, or be overwritten by, Recyclarr.
 
 ### Plex
 
@@ -125,7 +136,7 @@ When investigating problems with the home-server applications, inspect live stat
 
 ## Service documentation
 
-Before changing WebUI-managed service state, read the matching guide in `hosts/shiro/media/docs/`: `qbittorrent.md`, `radarr.md`, `sonarr.md`, `bazarr.md`, `prowlarr-byparr.md`, `recyclarr.md`, `plex.md`, `cleanuparr.md`, `qui.md`, and `backups.md`.
+Before changing WebUI-managed service state, read the matching guide in `hosts/shiro/media/docs/`: `qbittorrent.md`, `radarr.md`, `sonarr.md`, `bazarr.md`, `prowlarr-byparr.md`, `recyclarr.md`, `profilarr.md`, `plex.md`, `cleanuparr.md`, `qui.md`, and `backups.md`.
 
 ## Validation checklist
 

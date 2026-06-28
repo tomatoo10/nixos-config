@@ -12,6 +12,8 @@
 
 Recyclarr is the source of truth for quality profiles and custom formats. Manual profile/custom-format edits in Radarr/Sonarr can be overwritten.
 
+Profilarr is available on shiro only as a test service at `http://shiro:6868` with config at `/srv/profilarr/config`. Do not let Profilarr manage the same profiles or custom formats as Recyclarr; the two will conflict, and Recyclarr-owned settings will win back on the next sync.
+
 ## Managed Radarr profiles
 
 - `Movies - 1080p Balanced` — TRaSH HD Bluray + WEB approximation of

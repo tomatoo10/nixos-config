@@ -1,5 +1,12 @@
 {config, ...}: {
   virtualisation.oci-containers.containers = {
+    profilarr = {
+      image = "ghcr.io/dictionarry-hub/profilarr:latest";
+      ports = ["6868:6868"];
+      volumes = ["/srv/profilarr/config:/config"];
+      environment.TZ = config.var.timeZone;
+    };
+
     cleanuparr = {
       image = "ghcr.io/cleanuparr/cleanuparr:latest";
       ports = ["11011:11011"];
