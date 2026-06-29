@@ -71,7 +71,7 @@ Radarr and Sonarr root folders must point at final library folders, not torrent 
 - Module: `hosts/shiro/media/arr.nix`; WebUI: `http://shiro:7878`.
 - Root folder: `/srv/data/media/movies`.
 - qBittorrent download client: `localhost:8080`, category `movies`, no Radarr download-client tags.
-- Recyclarr profiles include `Movies - 1080p Balanced`, `Movies - 1080p Quality HDR`, `Movies - 2160p Balanced`, `Movies - 2160p Quality`, plus legacy profiles for the previous 1080p Remux and 4K test behavior.
+- Recyclarr is currently disabled while Profilarr is being tested. If re-enabled, it owns only legacy Radarr profiles: `Movies - Legacy 1080p Remux + WEB` and `Movies - Legacy 2160p UHD Bluray + WEB`.
 
 ### Sonarr
 
@@ -79,7 +79,7 @@ Radarr and Sonarr root folders must point at final library folders, not torrent 
 - Root folders: `/srv/data/media/tv` and `/srv/data/media/anime`.
 - Tags: `tv` for normal series, `anime` for anime.
 - Download clients: `qBittorrent - TV` category `tv` restricted to tag `tv`; `qBittorrent - Animes` category `animes` restricted to tag `anime`.
-- Recyclarr profiles include `Series - 1080p Balanced`, `Series - 1080p Quality HDR`, `Series - 2160p Balanced`, `Series - 2160p Quality`, plus legacy profiles for previous series/anime behavior.
+- Recyclarr is currently disabled while Profilarr is being tested. If re-enabled, it owns only legacy Sonarr profiles: `Series - Legacy 1080p Remux + WEB` and `Anime - Legacy 1080p Remux`.
 
 ### Bazarr
 

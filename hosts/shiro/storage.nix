@@ -15,6 +15,8 @@
     (mediaDir "/srv/data/media/tv")
     (mediaDir "/srv/cleanuparr")
     (mediaDir "/srv/cleanuparr/config")
+    (mediaDir "/srv/profilarr")
+    (mediaDir "/srv/profilarr/config")
     (torrentDir "/srv/data/torrents")
     (torrentDir "/srv/data/torrents/animes")
     (torrentDir "/srv/data/torrents/incomplete")

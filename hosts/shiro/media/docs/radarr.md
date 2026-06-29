@@ -8,18 +8,16 @@
 - Service group: `media`
 - Service umask: `0002`
 
-Radarr's database and most WebUI settings are stateful. Recyclarr owns quality profiles and custom formats.
+Radarr's database and most WebUI settings are stateful. Recyclarr is currently
+disabled while Profilarr is being tested; if re-enabled, Recyclarr owns only the
+legacy quality profiles and their custom formats.
 
 ## Required media setup
 
 - Root folder: `/srv/data/media/movies`
 - Do not use `/srv/data`, `/srv/data/torrents`, or any qBittorrent category path as a root folder.
-- Standard profile: `Movies - 1080p Balanced`
-- Higher-quality 1080p option: `Movies - 1080p Quality HDR`
-- Practical 4K option: `Movies - 2160p Balanced`
-- Quality-first 4K option: `Movies - 2160p Quality`
-- Legacy profiles kept for old behavior: `Movies - 1080p Remux Legacy`,
-  `Movies - 4K Test Legacy`
+- Legacy 1080p profile: `Movies - Legacy 1080p Remux + WEB`
+- Legacy 4K profile: `Movies - Legacy 2160p UHD Bluray + WEB`
 
 ## Download client
 

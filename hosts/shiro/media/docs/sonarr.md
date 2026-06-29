@@ -8,20 +8,21 @@
 - Service group: `media`
 - Service umask: `0002`
 
-Sonarr's database and most WebUI settings are stateful. Recyclarr owns quality profiles and custom formats.
+Sonarr's database and most WebUI settings are stateful. Recyclarr is currently
+disabled while Profilarr is being tested; if re-enabled, Recyclarr owns only the
+legacy quality profiles and their custom formats.
 
 ## Root folders and profiles
 
 | Type | Root folder | Profile | Sonarr tag | qBittorrent category |
 | --- | --- | --- | --- | --- |
-| Normal TV | `/srv/data/media/tv` | `Series - 1080p Balanced` | `tv` | `tv` |
-| Anime | `/srv/data/media/anime` | `Anime - 1080p Remux Legacy` | `anime` | `animes` |
+| Normal TV | `/srv/data/media/tv` | `Series - Legacy 1080p Remux + WEB` | `tv` | `tv` |
+| Anime | `/srv/data/media/anime` | `Anime - Legacy 1080p Remux` | `anime` | `animes` |
 
 The Sonarr tag is singular `anime`; the qBittorrent category is plural `animes`.
 
-Other managed normal-TV options are `Series - 1080p Quality HDR`, `Series - 2160p
-Balanced`, and `Series - 2160p Quality`. `Series - 1080p Remux Legacy` is kept
-for the previous behavior.
+Use Profilarr-managed profiles for new behavior; these Recyclarr profile names
+refer only to the preserved legacy options.
 
 ## Download clients
 

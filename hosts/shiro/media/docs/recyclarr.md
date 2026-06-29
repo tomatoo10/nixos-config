@@ -10,41 +10,31 @@
   - `/var/lib/secrets/recyclarr-radarr-api-key`
   - `/var/lib/secrets/recyclarr-sonarr-api-key`
 
-Recyclarr is the source of truth for quality profiles and custom formats. Manual profile/custom-format edits in Radarr/Sonarr can be overwritten.
+Recyclarr is currently disabled while Profilarr is being tested. If re-enabled,
+it owns only the legacy quality profiles and shared custom-format scores below.
+Manual edits to those Radarr/Sonarr profiles can be overwritten.
 
 Profilarr is available on shiro only as a test service at `http://shiro:6868` with config at `/srv/profilarr/config`. Do not let Profilarr manage the same profiles or custom formats as Recyclarr; the two will conflict, and Recyclarr-owned settings will win back on the next sync.
 
 ## Managed Radarr profiles
 
-- `Movies - 1080p Balanced` — TRaSH HD Bluray + WEB approximation of
-  Profilarr/Dictionarry 1080p Balanced; smaller, practical 1080p movies.
-- `Movies - 1080p Quality HDR` — manual Profilarr-inspired approximation for
-  efficient 1080p HDR/x265 encodes without Remux sizing.
-- `Movies - 1080p Remux Legacy` — preserved pre-existing 1080p Remux profile.
-- `Movies - 2160p Balanced` — manual Profilarr-inspired practical 4K WEB/Bluray
-  profile without Remux-first sizing.
-- `Movies - 4K Test Legacy` — preserved pre-existing 4K test profile.
-- `Movies - 2160p Quality` — TRaSH Remux + WEB 2160p quality-first profile.
+- `Movies - Legacy 1080p Remux + WEB` — preserved pre-existing 1080p
+  Remux-first profile with Bluray and WEB fallbacks.
+- `Movies - Legacy 2160p UHD Bluray + WEB` — preserved pre-existing 4K UHD
+  Bluray + WEB test profile.
 
-The `Legacy` profiles keep the old behavior for existing/manual use. The new
-Balanced profiles trade quality for smaller, more Plex-friendly files. The
-Quality profiles are more aggressive and can consume more disk.
+The `Legacy` profiles keep the old behavior for existing/manual use while
+Profilarr is evaluated separately.
 
 ## Managed Sonarr profiles
 
-- `Series - 1080p Balanced` — TRaSH WEB-1080p Alternative approximation of
-  Profilarr/Dictionarry 1080p Balanced.
-- `Series - 1080p Quality HDR` — manual Profilarr-inspired approximation for
-  efficient 1080p HDR/x265 episodes without Remux as the cutoff.
-- `Series - 1080p Remux Legacy` — preserved pre-existing 1080p Remux-like
-  series profile.
-- `Series - 2160p Balanced` — TRaSH WEB-2160p Alternative approximation of
-  Profilarr/Dictionarry 2160p Balanced.
-- `Series - 2160p Quality` — TRaSH WEB-2160p quality-first profile.
-- `Anime - 1080p Remux Legacy` — preserved pre-existing TRaSH anime profile.
+- `Series - Legacy 1080p Remux + WEB` — preserved pre-existing 1080p series
+  profile with Remux, Bluray, WEB, and HDTV fallbacks.
+- `Anime - Legacy 1080p Remux` — preserved pre-existing TRaSH anime Remux
+  profile.
 
-For normal TV, prefer `Series - 1080p Balanced` first. Use 2160p profiles only
-for shows where 4K storage and playback cost are acceptable.
+For normal TV, use Profilarr-managed profiles unless intentionally selecting one
+of these legacy Recyclarr profiles.
 
 ## Changing quality behavior
 
