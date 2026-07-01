@@ -59,6 +59,9 @@
       rustc
       clang
       nh
+      # Test
+      google-chrome
+      firefox
     ];
 
     inherit (config.var) username;
