@@ -8,21 +8,20 @@
 - Service group: `media`
 - Service umask: `0002`
 
-Sonarr's database and most WebUI settings are stateful. Recyclarr is currently
-disabled while Profilarr is being tested; if re-enabled, Recyclarr owns only the
-legacy quality profiles and their custom formats.
+Sonarr's database and most WebUI settings are stateful. Profilarr is the active
+profile-management path for normal series. Recyclarr is disabled, with legacy
+Sonarr config retained in Git for possible selective reuse.
 
 ## Root folders and profiles
 
 | Type | Root folder | Profile | Sonarr tag | qBittorrent category |
 | --- | --- | --- | --- | --- |
-| Normal TV | `/srv/data/media/tv` | `Series - Legacy 1080p Remux + WEB` | `tv` | `tv` |
+| Normal TV | `/srv/data/media/tv` | Profilarr-managed series profile | `tv` | `tv` |
 | Anime | `/srv/data/media/anime` | `Anime - Legacy 1080p Remux` | `anime` | `animes` |
 
 The Sonarr tag is singular `anime`; the qBittorrent category is plural `animes`.
 
-Use Profilarr-managed profiles for new behavior; these Recyclarr profile names
-refer only to the preserved legacy options.
+Do not let Profilarr and Recyclarr both manage the anime profile/custom-format set.
 
 ## Download clients
 
@@ -67,7 +66,7 @@ In Prowlarr's Sonarr app entry:
 ## Add series checklist
 
 1. Choose the correct root folder.
-2. Choose the correct Recyclarr-managed profile.
+2. Choose the correct Profilarr-managed profile for normal TV or the retained anime profile for anime.
 3. Add the matching Sonarr tag.
 4. Confirm the matching qBittorrent client is eligible.
 5. Search/grab and confirm the qBittorrent category.
@@ -76,7 +75,7 @@ If a series has no matching tag, Sonarr may have no eligible download client or 
 
 ## Custom format upgrades
 
-Recyclarr-managed profiles use both quality cutoffs and custom-format score
+Profilarr/Recyclarr-managed profiles use both quality cutoffs and custom-format score
 cutoffs. A series can already have files and still be considered upgradeable if
 the imported file score is below the profile cutoff. Before relaxing a broad
 negative custom format, inspect which custom format matched and whether it is a

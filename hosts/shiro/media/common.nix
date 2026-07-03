@@ -1,3 +1,4 @@
+# shiro media common creates the shared media group so Radarr/Sonarr/Bazarr/qBittorrent/Plex-sidecar workflows can share writable library and torrent paths.
 {
   config,
   ...

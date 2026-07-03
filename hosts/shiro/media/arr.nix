@@ -1,4 +1,7 @@
+# Radarr/Sonarr/Bazarr/Prowlarr run natively for movies, TV/anime, subtitles, and indexer sync; this file owns enablement/firewall/group permissions while root folders, clients, profiles, and indexers are mostly WebUI/Profilarr/Prowlarr-owned.
 {lib, ...}: {
+  # Native Servarr apps. WebUI/API state is still app-owned; Nix owns enablement,
+  # firewall exposure, and shared media-group permissions.
   services.radarr = {
     enable = true;
     group = "media";

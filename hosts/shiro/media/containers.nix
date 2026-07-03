@@ -1,3 +1,4 @@
+# Auxiliary shiro containers run Profilarr, Cleanuparr, and Byparr via Podman-backed OCI; this file owns container wiring while each app's database/rules remain stateful under its documented config path.
 {config, ...}: {
   virtualisation.oci-containers.containers = {
     profilarr = {
@@ -25,4 +26,5 @@
       environment.TZ = config.var.timeZone;
     };
   };
+
 }

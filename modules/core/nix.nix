@@ -6,6 +6,7 @@
 }: let
   autoGarbageCollector = config.var.autoGarbageCollector;
 in {
+  # Allow the host user to run nixos-rebuild without a password; this is the only sudo exception here.
   security.sudo.extraRules = [
     {
       users = [config.var.username];
@@ -32,6 +33,7 @@ in {
       auto-optimise-store = true;
       experimental-features = ["nix-command" "flakes"];
       substituters = [
+        # Keep the binary cache list explicit so trusted substituters/keys stay reviewable.
         # high priority since it's almost always used
         "https://cache.nixos.org?priority=10"
         "https://hyprland.cachix.org"
@@ -47,6 +49,7 @@ in {
         "https://claude-code.cachix.org"
       ];
       trusted-substituters = ["https://hyprland.cachix.org"];
+      # Pair the extra caches above with their public keys here.
       trusted-public-keys = [
         "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
         "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="

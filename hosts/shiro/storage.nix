@@ -1,3 +1,4 @@
+# shiro storage creates the shared media/torrent/book directory layout and schedules light Btrfs maintenance; app-specific databases are backed up separately under the media docs process.
 {
   config,
   pkgs,
@@ -11,6 +12,7 @@
     "d /srv/data 2775 root media - -"
     (mediaDir "/srv/data/media")
     (mediaDir "/srv/data/media/anime")
+    (mediaDir "/srv/data/media/books")
     (mediaDir "/srv/data/media/movies")
     (mediaDir "/srv/data/media/tv")
     (mediaDir "/srv/cleanuparr")
@@ -19,6 +21,7 @@
     (mediaDir "/srv/profilarr/config")
     (torrentDir "/srv/data/torrents")
     (torrentDir "/srv/data/torrents/animes")
+    (torrentDir "/srv/data/torrents/books")
     (torrentDir "/srv/data/torrents/incomplete")
     (torrentDir "/srv/data/torrents/movies")
     (torrentDir "/srv/data/torrents/tv")

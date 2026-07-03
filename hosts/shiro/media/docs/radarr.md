@@ -8,16 +8,15 @@
 - Service group: `media`
 - Service umask: `0002`
 
-Radarr's database and most WebUI settings are stateful. Recyclarr is currently
-disabled while Profilarr is being tested; if re-enabled, Recyclarr owns only the
-legacy quality profiles and their custom formats.
+Radarr's database and most WebUI settings are stateful. Profilarr is the active
+profile-management path for Radarr; Recyclarr must not manage Radarr profiles
+while Profilarr is in use.
 
 ## Required media setup
 
 - Root folder: `/srv/data/media/movies`
 - Do not use `/srv/data`, `/srv/data/torrents`, or any qBittorrent category path as a root folder.
-- Legacy 1080p profile: `Movies - Legacy 1080p Remux + WEB`
-- Legacy 4K profile: `Movies - Legacy 2160p UHD Bluray + WEB`
+- Use the Profilarr-managed movie profile selected for the current library policy.
 
 ## Download client
 
@@ -51,14 +50,14 @@ In Prowlarr's Radarr app entry:
 ## Add movie checklist
 
 1. Choose root folder `/srv/data/media/movies`.
-2. Choose a Recyclarr-managed profile.
+2. Choose the appropriate Profilarr-managed profile.
 3. Monitor the movie.
 4. Search/grab.
 5. Confirm qBittorrent category is `movies`.
 
 ## Custom format upgrades
 
-Recyclarr-managed profiles use both a quality cutoff and a custom-format score
+Profilarr-managed profiles use both a quality cutoff and a custom-format score
 cutoff. A movie can meet the quality cutoff and still remain upgradeable if its
 current file's custom-format score is below the profile cutoff.
 
@@ -82,4 +81,4 @@ torrents should remain excluded from aggressive deletion.
 
 - If imports fail, check `/srv/data/media/movies` permissions and that Radarr is in group `media`.
 - If downloads go to the wrong folder, check Radarr qBittorrent category and qBittorrent category JSON.
-- If profiles disappear/change, check Recyclarr sync logs and port the desired change into `hosts/shiro/media/recyclarr.nix`.
+- If profiles disappear/change, check Profilarr state and avoid re-enabling Recyclarr against Radarr.

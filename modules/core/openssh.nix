@@ -1,6 +1,5 @@
 {config, ...}: {
-  # Shared OpenSSH server policy for machines that intentionally accept inbound
-  # SSH. Laptops that should not accept SSH should not import this module.
+  # Shared OpenSSH policy for hosts that intentionally accept inbound SSH; non-SSH hosts should not import it.
   services.openssh = {
     enable = true;
     settings = {

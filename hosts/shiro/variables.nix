@@ -1,3 +1,4 @@
+# shiro variables define host identity, user, locale, theme, and repo path used by shared modules across this home-server configuration.
 {
   config,
   lib,

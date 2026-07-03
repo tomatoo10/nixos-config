@@ -22,6 +22,7 @@ in {
 
   system.autoUpgrade = {
     enable = autoUpgrade;
+    # Desktop hosts opt into unattended upgrades only when their per-host var says so.
     dates = "04:00";
     flake = "${configDir}";
     flags = ["--update-input" "nixpkgs" "--commit-lock-file"];

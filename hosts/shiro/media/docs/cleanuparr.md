@@ -8,7 +8,9 @@
 - Downloads mount inside container: `/downloads`
 - Host downloads path: `/srv/data/torrents`
 
-Cleanuparr rules, blacklists, app API keys, and UI settings are stateful. The container is declarative; the app config is not.
+The container is declarative. Cleanuparr rules, app API keys, users, sessions,
+notifications, event history, and logs are configured through the WebUI and stored
+in `/srv/cleanuparr/config`.
 
 ## App connections
 
@@ -22,7 +24,7 @@ qBittorrent WebUI auth bypass must include `10.88.0.0/16` for the Podman bridge.
 
 ## Post-install WebUI checklist
 
-After first setup or restore, confirm these stateful settings:
+After first setup or restore, configure/confirm these settings in the WebUI:
 
 - qBittorrent client points at `http://192.168.18.7:8080/`.
 - Download directory mapping: source `/srv/data/torrents`, target `/downloads`.
@@ -37,6 +39,10 @@ After first setup or restore, confirm these stateful settings:
   orphaned payloads to `unlinked`.
 - Public-only deletion exists for category `unlinked` with a `2h` max seed time
   and source-file deletion enabled.
+
+Durable rule changes are made in the Cleanuparr WebUI, then documented here if
+they become part of the expected setup. There is intentionally no database seed or
+template for Cleanuparr rules.
 
 ## Categories
 

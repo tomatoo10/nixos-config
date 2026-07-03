@@ -1,3 +1,4 @@
+# shiro Home Manager config defines the server user's shell, SSH, and operator CLI tools; server services themselves are configured in NixOS host/media modules.
 {
   lib,
   pkgs,

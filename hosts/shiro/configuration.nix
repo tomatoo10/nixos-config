@@ -1,4 +1,6 @@
+# shiro is the headless home server; this file assembles core NixOS modules plus the media/DNS stack, while app databases and most WebUI settings stay stateful and documented under hosts/shiro/media/docs.
 {config, ...}: {
+  # shiro assembles the headless/home-server modules here, including the media stack imports below.
   imports = [
     ../../modules/core/home-manager.nix
     ../../modules/core/nix.nix
@@ -19,6 +21,7 @@
     ./media/plex.nix
     ./media/containers.nix
     ./media/pihole.nix
+    ./media/public-requests.nix
     ./media/qui.nix
   ];
 

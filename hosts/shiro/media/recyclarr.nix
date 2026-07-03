@@ -1,3 +1,4 @@
+# Recyclarr is disabled but retained as legacy Radarr/Sonarr profile config; do not enable it against profiles currently owned by Profilarr without first splitting ownership clearly.
 {
   config,
   lib,

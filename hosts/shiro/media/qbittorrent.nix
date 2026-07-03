@@ -1,3 +1,4 @@
+# qBittorrent is the shared torrent client; this file owns service ports, major WebUI preferences, media-group umask, and Git-owned categories while torrent state and credentials stay under /var/lib/qBittorrent.
 {pkgs, ...}: let
   # Nix owns qBittorrent categories for reproducible rebuilds. Edit this JSON in
   # Git instead of changing categories in the WebUI.

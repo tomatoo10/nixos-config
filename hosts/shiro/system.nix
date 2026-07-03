@@ -1,3 +1,4 @@
+# shiro system settings keep the low-memory home server stable with locale/time, zram, firmware, garbage collection, and lightweight operator packages.
 {
   config,
   pkgs,

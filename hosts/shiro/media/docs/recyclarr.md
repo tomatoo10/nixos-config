@@ -10,11 +10,13 @@
   - `/var/lib/secrets/recyclarr-radarr-api-key`
   - `/var/lib/secrets/recyclarr-sonarr-api-key`
 
-Recyclarr is currently disabled while Profilarr is being tested. If re-enabled,
-it owns only the legacy quality profiles and shared custom-format scores below.
-Manual edits to those Radarr/Sonarr profiles can be overwritten.
+Recyclarr is disabled by default. The full legacy Radarr/Sonarr config is retained
+in Git for reference or selective reuse, but Profilarr is the main
+profile-management path now.
 
-Profilarr is available on shiro only as a test service at `http://shiro:6868` with config at `/srv/profilarr/config`. Do not let Profilarr manage the same profiles or custom formats as Recyclarr; the two will conflict, and Recyclarr-owned settings will win back on the next sync.
+Profilarr is available at `http://shiro:6868` with config at
+`/srv/profilarr/config`. Do not let Profilarr and Recyclarr manage the same
+profile/custom-format set.
 
 ## Managed Radarr profiles
 
@@ -23,18 +25,17 @@ Profilarr is available on shiro only as a test service at `http://shiro:6868` wi
 - `Movies - Legacy 2160p UHD Bluray + WEB` — preserved pre-existing 4K UHD
   Bluray + WEB test profile.
 
-The `Legacy` profiles keep the old behavior for existing/manual use while
-Profilarr is evaluated separately.
-
 ## Managed Sonarr profiles
 
 - `Series - Legacy 1080p Remux + WEB` — preserved pre-existing 1080p series
   profile with Remux, Bluray, WEB, and HDTV fallbacks.
+
 - `Anime - Legacy 1080p Remux` — preserved pre-existing TRaSH anime Remux
   profile.
 
-For normal TV, use Profilarr-managed profiles unless intentionally selecting one
-of these legacy Recyclarr profiles.
+Use Profilarr-managed profiles for active profile management unless intentionally
+re-enabling one legacy Recyclarr profile and confirming ownership does not
+overlap.
 
 ## Changing quality behavior
 

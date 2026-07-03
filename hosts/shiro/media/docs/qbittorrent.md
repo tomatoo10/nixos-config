@@ -36,17 +36,18 @@ Only these categories should exist:
 | `movies` | `movies` |
 | `tv` | `tv` |
 | `animes` | `animes` |
+| `books` | `books` |
 | `unlinked` | `unlinked` |
 
 Effective paths become `/srv/data/torrents/<category>`.
 
-Do not use `anime` as a qBittorrent category.
+Do not use `anime` as a qBittorrent category. The `books` category is scaffolded for possible future use and must not be reused for movies, TV, or anime.
 
 The `unlinked` category is required for Cleanuparr. It is not an active download
 category for Radarr or Sonarr. Cleanuparr uses it as a holding area for torrent
 payloads that still exist on disk but no longer have hardlinks to active
 Radarr/Sonarr library files, such as old files left after an upgrade. Keep it
-separate from `movies`, `tv`, and `animes`; do not point Arr download clients at
+separate from `movies`, `tv`, `animes`, and `books`; do not point Arr download clients at
 `unlinked`. The deletion rule for `unlinked` is public-only, but category
 membership alone does not prove a torrent is disposable.
 
@@ -71,7 +72,7 @@ owned by Radarr/Sonarr completed-download handling plus Cleanuparr rules:
 - Radarr/Sonarr remove completed downloads after imports when the client state
   allows it.
 - Cleanuparr removes public seeded leftovers from `movies`, `tv`, and `animes`
-  after their configured retention windows.
+  after their configured retention windows. Add `books` only after Cleanuparr has an explicit book cleanup rule.
 - Cleanuparr moves post-import orphan payloads to `unlinked`, then the public-only
   unlinked cleanup rule removes public source files after the shorter review
   window.

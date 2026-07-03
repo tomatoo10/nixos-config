@@ -6,17 +6,18 @@
 - WebUI: `http://shiro:7476`
 - State: `/var/lib/qui`
 - Secret file: `/var/lib/secrets/qui-session.txt`
+- Status: configured but disabled
 
-Qui is an optional alternate qBittorrent UI.
+Qui is an optional alternate qBittorrent UI. It is currently disabled because the stock qBittorrent WebUI is enough.
 
 ## Security model
 
-Auth is intentionally disabled only for trusted CIDRs:
+When enabled, auth is intentionally disabled only for trusted CIDRs:
 
 - `192.168.18.0/24`
 - `100.64.0.0/10`
 
-Do not expose Qui publicly. If the network trust boundary changes, either enable auth or remove Qui.
+Do not expose Qui publicly. If the network trust boundary changes, either enable auth or keep Qui disabled.
 
 ## When to keep it
 
