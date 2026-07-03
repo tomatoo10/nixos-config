@@ -56,10 +56,19 @@
   # Tailscale mesh VPN
   services.tailscale = {
     enable = true;
-    extraSetFlags = ["--ssh=true" "--accept-dns=true"];
+    # Let the active network's DHCP DNS win. At home, the router advertises
+    # Pi-hole directly; accepting Tailscale DNS would bypass that path. Away
+    # from home, this avoids pinning DNS to an unreachable home resolver.
+    extraSetFlags = ["--ssh=true" "--accept-dns=false"];
   };
-  networking.firewall.trustedInterfaces = ["tailscale0"];
-  networking.nameservers = ["192.168.18.1"];
+  # sora is a laptop and may join untrusted networks, so keep the firewall on.
+  # Imported modules such as Steam may still open their own required ports; this
+  # host-level policy only prevents a blanket firewall disable. tailscale0 stays
+  # trusted because the tailnet contains only trusted devices.
+  networking.firewall = {
+    enable = true;
+    trustedInterfaces = ["tailscale0"];
+  };
 
   # Idle hibernate and suspend-then-hibernate for lid close.
   services.logind.settings.Login = {
@@ -79,5 +88,4 @@
 
   environment.etc.hosts.enable = lib.mkForce false;
   environment.etc.hosts.mode = lib.mkForce "0700";
-  networking.firewall.enable = false;
 }

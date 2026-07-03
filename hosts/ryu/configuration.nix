@@ -34,10 +34,11 @@
   # Tailscale mesh VPN
   services.tailscale = {
     enable = true;
-    extraSetFlags = ["--ssh=true" "--accept-dns=true"];
+    # Let the active network's DHCP DNS win. At home, the router advertises
+    # Pi-hole directly; accepting Tailscale DNS would bypass that path.
+    extraSetFlags = ["--ssh=true" "--accept-dns=false"];
   };
   networking.firewall.trustedInterfaces = ["tailscale0"];
-  networking.nameservers = ["192.168.18.1"];
 
   # Don't touch this
   system.stateVersion = "24.05";

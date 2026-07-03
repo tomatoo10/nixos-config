@@ -135,7 +135,8 @@ in {
     # userland niceness
     rtkit.enable = true;
 
-    # don't ask for password for wheel group
-    sudo.wheelNeedsPassword = false;
+    # Keep normal sudo password-protected. Host-specific helpers may add narrow
+    # NOPASSWD rules, such as sora's power-mode script.
+    sudo.wheelNeedsPassword = true;
   };
 }

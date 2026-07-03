@@ -1,27 +1,28 @@
 # Qui
 
-## Nix ownership
+## Status
 
-- Module: `hosts/shiro/media/qui.nix`
-- WebUI: `http://shiro:7476`
-- State: `/var/lib/qui`
-- Secret file: `/var/lib/secrets/qui-session.txt`
-- Status: configured but disabled
+Qui is removed from the active NixOS configuration. There is no current
+`hosts/shiro/media/qui.nix` module, WebUI, state directory, or session secret
+requirement.
 
-Qui is an optional alternate qBittorrent UI. It is currently disabled because the stock qBittorrent WebUI is enough.
+Qui was an optional alternate qBittorrent UI. It was removed because the stock
+qBittorrent WebUI is enough and Qui broadened the trusted-network UI surface.
 
 ## Security model
 
-When enabled, auth is intentionally disabled only for trusted CIDRs:
+If Qui is re-added, do not expose it publicly. The old configuration disabled
+auth only for trusted CIDRs:
 
 - `192.168.18.0/24`
 - `100.64.0.0/10`
 
-Do not expose Qui publicly. If the network trust boundary changes, either enable auth or keep Qui disabled.
+If the network trust boundary changes, either enable auth or keep Qui removed.
 
-## When to keep it
+## When to re-add it
 
-Keep Qui only if you actively use it instead of qBittorrent's built-in WebUI. It costs memory and expands the trusted-network UI surface.
+Re-add Qui only if you actively need it instead of qBittorrent's built-in WebUI.
+It costs memory and expands the trusted-network UI surface.
 
 Qui should point at the same qBittorrent instance and categories documented in
 `qbittorrent.md`. Do not use Qui to create alternate category names or save
@@ -32,6 +33,9 @@ If Qui is only used for quick inspection, prefer making durable qBittorrent
 category/preference changes through the Git-owned qBittorrent config path and
 then rebuilding/restarting shiro.
 
-## Restore notes
+## Re-add notes
 
-Restore `/var/lib/qui` from the ignored config backup if needed, then restart `qui.service`.
+Recreate a `hosts/shiro/media/qui.nix` module, add it to
+`hosts/shiro/configuration.nix`, evaluate shiro, rebuild, and then start
+`qui.service`. Restore `/var/lib/qui` from the ignored config backup only if old
+Qui state is still needed.

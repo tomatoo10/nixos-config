@@ -20,7 +20,6 @@ The current backup convention is:
 - Bazarr: `/var/lib/bazarr`
 - qBittorrent: `/var/lib/qBittorrent`
 - Cleanuparr: `/srv/cleanuparr`
-- Qui: `/var/lib/qui`
 - Pi-hole: `/etc/pihole`, `/var/lib/pihole`
 - Plex: `Preferences.xml` and `Plug-in Support/Databases`
 
@@ -56,7 +55,7 @@ Recommended restore order for a full media-stack restore:
 1. qBittorrent
 2. Radarr/Sonarr/Prowlarr/Bazarr
 3. Plex
-4. Profilarr/Cleanuparr/Qui
+4. Profilarr/Cleanuparr
 5. Pi-hole
 
 Pi-hole restore check:
@@ -80,10 +79,9 @@ Typical ownership:
 - Bazarr: `bazarr:media`
 - qBittorrent: `qbittorrent:media`
 - Plex: `plex:media`
-- Qui: `qui:qui`
 - Cleanuparr: preserve backup ownership when possible. If repairing manually, make `/srv/cleanuparr/config` writable by the numeric UID/GID configured in `hosts/shiro/media/containers.nix` as `PUID`/`PGID`; do not assume the group name from the number without checking shiro.
 - Pi-hole: preserve ownership from the live system; keep passwords and query DBs out of Git. Local DNS records are Nix-owned unless moved back to WebUI state later.
 
 ## Git-owned alternatives
 
-For qBittorrent categories and Recyclarr profiles, prefer restoring from Git-owned files and rebuilding shiro instead of copying old state blindly.
+For qBittorrent categories and Pi-hole local DNS records, prefer restoring from Git-owned files and rebuilding shiro instead of copying old state blindly.

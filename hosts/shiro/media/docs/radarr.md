@@ -9,8 +9,7 @@
 - Service umask: `0002`
 
 Radarr's database and most WebUI settings are stateful. Profilarr is the active
-profile-management path for Radarr; Recyclarr must not manage Radarr profiles
-while Profilarr is in use.
+profile-management path for Radarr.
 
 ## Required media setup
 
@@ -81,4 +80,4 @@ torrents should remain excluded from aggressive deletion.
 
 - If imports fail, check `/srv/data/media/movies` permissions and that Radarr is in group `media`.
 - If downloads go to the wrong folder, check Radarr qBittorrent category and qBittorrent category JSON.
-- If profiles disappear/change, check Profilarr state and avoid re-enabling Recyclarr against Radarr.
+- If profiles disappear/change, check Profilarr state before changing Radarr directly.

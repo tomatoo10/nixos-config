@@ -46,7 +46,6 @@
       openvpn
 
       # Dev
-      docker
       python3
       uv
       jq

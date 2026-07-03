@@ -8,5 +8,5 @@ Prioritized follow-ups from the architecture audit:
 4. Consider a central firewall exposure inventory for shiro services.
 5. Stale `hosts/shiro/media/firewall.nix` and `fail2ban.nix` modules were removed; recreate a focused module later only if public services need it.
 6. Remove old live `/srv/pihole` and unused container residue after confirming no active service depends on it.
-7. Qui is configured but disabled. Profilarr stays exposed on LAN/Tailscale because it is the main profile-management experiment.
+7. Qui and Recyclarr were removed. Profilarr stays exposed on LAN/Tailscale because it is the main profile-management experiment.
 8. Overseerr and Cloudflare Tunnel are scaffolded but disabled; finish Cloudflare Access/WAF and Plex login setup before enabling.

@@ -71,7 +71,7 @@
     wget
   ];
 
-  security.sudo.wheelNeedsPassword = false;
+  security.sudo.wheelNeedsPassword = true;
 
   documentation = {
     enable = true;

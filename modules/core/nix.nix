@@ -6,7 +6,8 @@
 }: let
   autoGarbageCollector = config.var.autoGarbageCollector;
 in {
-  # Allow the host user to run nixos-rebuild without a password; this is the only sudo exception here.
+  # Allow the host user to run nixos-rebuild without a password; this is the only
+  # core sudo exception. Normal sudo remains password-protected.
   security.sudo.extraRules = [
     {
       users = [config.var.username];
@@ -18,9 +19,10 @@ in {
       ];
     }
   ];
+
   nixpkgs.config = {
     allowUnfree = true;
-    allowBroken = true;
+    allowBroken = false;
   };
   nix = {
     nixPath = ["nixpkgs=${inputs.nixpkgs}"];

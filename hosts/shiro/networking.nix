@@ -32,7 +32,8 @@
 
   services.tailscale = {
     enable = true;
-    # shiro should not become a Tailscale DNS client; ryu/sora handle that instead.
+    # shiro should not become a Tailscale DNS client; Pi-hole/router DNS is the
+    # home-network source of truth.
     extraSetFlags = ["--ssh=true" "--accept-dns=false"];
   };
 }

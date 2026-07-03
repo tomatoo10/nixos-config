@@ -23,13 +23,13 @@ This repository manages the user's NixOS machines and the shiro home-server medi
 
 ## Host policy
 
-- `ryu`: main desktop. Firewall is disabled for HTB. Tailscale must accept DNS so `shiro` works: `extraSetFlags = ["--ssh=true" "--accept-dns=true"]`.
-- `sora`: laptop. OpenSSH is intentionally disabled. Tailscale must accept DNS so `shiro` works: `extraSetFlags = ["--ssh=true" "--accept-dns=true"]`.
+- `ryu`: main desktop. Firewall is disabled for HTB. Tailscale is enabled but must not accept DNS; home DNS should come from DHCP/Pi-hole: `extraSetFlags = ["--ssh=true" "--accept-dns=false"]`.
+- `sora`: laptop. OpenSSH is intentionally disabled. Tailscale is enabled but must not accept DNS; home DNS should come from DHCP/Pi-hole and away-from-home DNS should come from the active network unless a deliberate conditional/Tailscale DNS design is added later: `extraSetFlags = ["--ssh=true" "--accept-dns=false"]`.
 - `shiro`: home server at LAN IP `192.168.18.7`. Tailscale is enabled but should not accept DNS: `extraSetFlags = ["--ssh=true" "--accept-dns=false"]`. Docker is not enabled. Podman-backed `virtualisation.oci-containers` is used only for auxiliary services. `zramSwap` is intentionally enabled for low-memory resilience. Pi-hole runs natively on `192.168.18.7:53` and `192.168.18.7:8081`.
 
 ## shiro media stack contract
 
-The active stack is native Radarr, Sonarr, Bazarr, Prowlarr, qBittorrent, Plex, and Pi-hole, plus Podman containers for Cleanuparr, Byparr, and Profilarr. Qui is configured but disabled. Readarr is not enabled, but books paths/categories are scaffolded for possible future use. Overseerr and Cloudflare Tunnel are scaffolded but disabled. Keep all apps consistent when changing paths, tags, categories, cleanup rules, DNS, or download-client routing.
+The active stack is native Radarr, Sonarr, Bazarr, Prowlarr, qBittorrent, Plex, and Pi-hole, plus Podman containers for Cleanuparr, Byparr, and Profilarr. Qui and Recyclarr were removed because Profilarr and the stock qBittorrent WebUI are the active paths. Readarr is not enabled, but books paths/categories are scaffolded for possible future use. Overseerr and Cloudflare Tunnel are scaffolded but disabled. Keep all apps consistent when changing paths, tags, categories, cleanup rules, DNS, or download-client routing.
 
 ### Playback constraints and client targets
 
@@ -38,7 +38,7 @@ The active stack is native Radarr, Sonarr, Bazarr, Prowlarr, qBittorrent, Plex, 
 - Avoid media-selection strategies that depend on server-side transcoding for compatibility.
 - Prefer formats that direct play reliably on the main clients: `ryu`, `sora`, the ThinkPad T14 Gen 1 AMD, and iPhone 13.
 - Prefer external `.srt` sidecar subtitles. Embedded bitmap subtitles such as PGS/VobSub are high risk because they often force Plex to burn subtitles into the video.
-- When tuning Recyclarr/Radarr/Sonarr/Bazarr for `shiro`, optimize first for smooth playback and subtitle compatibility, then for absolute quality.
+- When tuning Radarr/Sonarr/Bazarr/Profilarr for `shiro`, optimize first for smooth playback and subtitle compatibility, then for absolute quality.
 
 ### Filesystem layout
 
@@ -56,7 +56,9 @@ Radarr and Sonarr root folders must point at final library folders, not torrent 
 
 - Same-machine app links should use localhost: qBittorrent `localhost:8080`, Radarr `localhost:7878`, Sonarr `localhost:8989`, Prowlarr `localhost:9696`, Byparr `localhost:8191`.
 - Same-LAN clients should use shiro LAN IP `192.168.18.7`.
-- Tailscale clients may use `shiro`/MagicDNS from ryu and sora because they accept Tailscale DNS.
+- Tailscale clients can still reach shiro by Tailscale IP. MagicDNS names such as
+  `shiro` are not guaranteed through the system resolver on ryu/sora because they
+  do not accept Tailscale DNS.
 - Container-to-host callbacks should use `192.168.18.7` unless the container is explicitly configured for host networking.
 - Pi-hole WebUI: `http://192.168.18.7:8081/admin`.
 
@@ -72,7 +74,7 @@ Radarr and Sonarr root folders must point at final library folders, not torrent 
 - Module: `hosts/shiro/media/arr.nix`; WebUI: `http://shiro:7878`.
 - Root folder: `/srv/data/media/movies`.
 - qBittorrent download client: `localhost:8080`, category `movies`, no Radarr download-client tags.
-- Profilarr is the active profile-management path for Radarr. Recyclarr must not manage Radarr profiles while Profilarr is in use.
+- Profilarr is the active profile-management path for Radarr.
 
 ### Sonarr
 
@@ -80,7 +82,7 @@ Radarr and Sonarr root folders must point at final library folders, not torrent 
 - Root folders: `/srv/data/media/tv` and `/srv/data/media/anime`.
 - Tags: `tv` for normal series, `anime` for anime.
 - Download clients: `qBittorrent - TV` category `tv` restricted to tag `tv`; `qBittorrent - Animes` category `animes` restricted to tag `anime`.
-- Profilarr is the active profile-management path for normal series. Recyclarr is disabled, but the legacy Sonarr profile config remains in Git for possible selective reuse.
+- Profilarr is the active profile-management path for normal series.
 
 ### Bazarr
 
@@ -97,12 +99,10 @@ Radarr and Sonarr root folders must point at final library folders, not torrent 
 - App sync level should be `fullSync` for both Radarr and Sonarr.
 - Configure Byparr in Prowlarr as a FlareSolverr-compatible indexer proxy tagged `byparr`, and apply that tag only to indexers that need Cloudflare/DDoS-GUARD solving.
 
-### Profilarr / Recyclarr
+### Profilarr
 
 - Profilarr is the main profile-management experiment for Radarr/Sonarr at `http://shiro:6868` with config in `/srv/profilarr/config`.
-- Recyclarr module: `hosts/shiro/media/recyclarr.nix`; disabled by default. The legacy Radarr/Sonarr config is retained but must not be enabled against profiles that Profilarr owns.
-- API-key file: `/var/lib/secrets/recyclarr-sonarr-api-key`.
-- Do not let Recyclarr and Profilarr manage the same profile/custom-format set.
+- Recyclarr was removed. Re-add it only if Profilarr is no longer managing the same profiles/custom formats.
 
 ### Plex
 
@@ -119,10 +119,9 @@ Radarr and Sonarr root folders must point at final library folders, not torrent 
 - qBittorrent WebUI auth bypass must include `10.88.0.0/16` because Cleanuparr reaches qBittorrent from the Podman bridge.
 - Rules must use categories `movies`, `tv`, `animes`, and `unlinked`; never singular `anime`.
 
-### Qui
+### Removed: Qui
 
-- Module: `hosts/shiro/media/qui.nix`; WebUI: `http://shiro:7476`.
-- Optional alternate qBittorrent UI. Currently disabled because the stock qBittorrent WebUI is enough and auth-disabled mode broadens LAN/Tailscale exposure.
+- Qui was removed because the stock qBittorrent WebUI is enough and Qui's auth-disabled LAN/Tailscale mode broadens exposure. Re-add only if a separate qBittorrent UI is actively needed.
 
 ### Overseerr / Cloudflare Tunnel
 
@@ -132,9 +131,9 @@ Radarr and Sonarr root folders must point at final library folders, not torrent 
 
 ## State vs Git
 
-Git-owned/declarative: NixOS modules, disabled Recyclarr legacy config, qBittorrent major preferences, qBittorrent categories, Pi-hole upstreams/local DNS records, and operator docs.
+Git-owned/declarative: NixOS modules, qBittorrent major preferences, qBittorrent categories, Pi-hole upstreams/local DNS records, and operator docs.
 
-Stateful/WebUI-owned: Radarr, Sonarr, Prowlarr, Bazarr, Plex, Cleanuparr, Qui, and Pi-hole databases/configs; Prowlarr indexers; Plex claim/account/library state; Profilarr profile state; Cleanuparr users/API keys/rules/notifications/event history; Pi-hole password/query DB.
+Stateful/WebUI-owned: Radarr, Sonarr, Prowlarr, Bazarr, Plex, Cleanuparr, and Pi-hole databases/configs; Prowlarr indexers; Plex claim/account/library state; Profilarr profile state; Cleanuparr users/API keys/rules/notifications/event history; Pi-hole password/query DB.
 
 Ignored local backups: `hosts/shiro/media/config-backups/` stores live databases, API keys, tokens, and cookies and is intentionally ignored.
 
@@ -142,7 +141,7 @@ When investigating problems with the home-server applications, inspect live stat
 
 ## Service documentation
 
-Before changing WebUI-managed service state, read the matching guide in `hosts/shiro/media/docs/`: `qbittorrent.md`, `radarr.md`, `sonarr.md`, `bazarr.md`, `prowlarr-byparr.md`, `recyclarr.md`, `profilarr.md`, `plex.md`, `cleanuparr.md`, `qui.md`, `overseerr-cloudflared.md`, `pihole.md`, and `backups.md`.
+Before changing WebUI-managed service state, read the matching guide in `hosts/shiro/media/docs/`: `qbittorrent.md`, `radarr.md`, `sonarr.md`, `bazarr.md`, `prowlarr-byparr.md`, `profilarr.md`, `plex.md`, `cleanuparr.md`, `overseerr-cloudflared.md`, `pihole.md`, and `backups.md`. `recyclarr.md` and `qui.md` are removed-service notes, not active service guides.
 
 ## Validation checklist
 

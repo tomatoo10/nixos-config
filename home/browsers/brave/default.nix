@@ -51,7 +51,9 @@
     BravePlaylistEnabled = 0;
     BraveWebDiscoveryEnabled = 0;
     BraveStatsPingEnabled = 0;
-    DnsOverHttpsMode = "automatic";
+    # Keep DNS on the system resolver so Pi-hole remains authoritative for local
+    # names and filtering. Browser-managed DoH can bypass Pi-hole.
+    DnsOverHttpsMode = "off";
     BraveDarkMode = 1;
   };
 
@@ -88,27 +90,4 @@
       ];
     };
   };
-
-  # =================================================================
-  #  BRAVE SETTINGS (via brave://flags)
-  # =================================================================
-  # TODO:
-  # These need to be set manually in brave://flags on first launch:
-  # - Enable Tab Groups (UI)
-  # - Enable Parallel Downloading
-  # - Enable Reader Mode
-  # - GPU Rasterization: Enabled
-  # - Override software rendering list: Enabled
-  #
-  # Privacy settings (brave://settings/privacy):
-  # - Block trackers & ads: Aggressive
-  # - Block all fingerprinting
-  # - Upgrade connections to HTTPS
-  # - Block scripts: Off (breaks sites, use uBlock instead)
-  # - Block cookies: Only 3rd party
-  #
-  # Appearance (brave://settings/appearance):
-  # - Show home button: Off
-  # - Show bookmarks bar: Only on new tab
-  # - Use wide address bar: On
 }

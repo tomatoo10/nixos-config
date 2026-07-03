@@ -9,8 +9,7 @@
 - Service umask: `0002`
 
 Sonarr's database and most WebUI settings are stateful. Profilarr is the active
-profile-management path for normal series. Recyclarr is disabled, with legacy
-Sonarr config retained in Git for possible selective reuse.
+profile-management path for normal series.
 
 ## Root folders and profiles
 
@@ -21,7 +20,8 @@ Sonarr config retained in Git for possible selective reuse.
 
 The Sonarr tag is singular `anime`; the qBittorrent category is plural `animes`.
 
-Do not let Profilarr and Recyclarr both manage the anime profile/custom-format set.
+If Recyclarr is ever re-added for anime, keep ownership split so Profilarr and
+Recyclarr never manage the same profile/custom-format set.
 
 ## Download clients
 
@@ -75,7 +75,7 @@ If a series has no matching tag, Sonarr may have no eligible download client or 
 
 ## Custom format upgrades
 
-Profilarr/Recyclarr-managed profiles use both quality cutoffs and custom-format score
+Profilarr-managed profiles use both quality cutoffs and custom-format score
 cutoffs. A series can already have files and still be considered upgradeable if
 the imported file score is below the profile cutoff. Before relaxing a broad
 negative custom format, inspect which custom format matched and whether it is a

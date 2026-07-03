@@ -6,9 +6,7 @@
 - Config path: `/srv/profilarr/config`
 - Container image: `ghcr.io/dictionarry-hub/profilarr:latest`
 
-Profilarr is deployed on shiro as the main profile-management experiment for Radarr/Sonarr. Recyclarr is disabled by default; its legacy Radarr/Sonarr config remains in Git but must not be enabled against profiles Profilarr owns.
-
-Do not configure Profilarr to manage the same anime legacy profile/custom formats as Recyclarr if Recyclarr is re-enabled for that profile. Keep ownership split clearly.
+Profilarr is deployed on shiro as the main profile-management experiment for Radarr/Sonarr. Recyclarr has been removed from the active configuration, so Profilarr state is the only profile-management path currently in use.
 
 ## First-time WebUI setup
 
@@ -30,9 +28,7 @@ If container-to-host localhost does not work, use the LAN IP `192.168.18.7`.
 
 ## Ownership rule
 
-Profilarr owns the active Radarr/Sonarr profile experiment. Keep Recyclarr disabled
-unless you are intentionally testing one legacy profile. Never let both tools sync
-the same profile at the same time.
+Profilarr owns the active Radarr/Sonarr profile experiment. If Recyclarr is ever re-added, disable Profilarr ownership for the same profiles before syncing Recyclarr. Never let both tools sync the same profile at the same time.
 
 Safe order if switching ownership later:
 

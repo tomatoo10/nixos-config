@@ -17,12 +17,10 @@
     ./media/common.nix
     ./media/qbittorrent.nix
     ./media/arr.nix
-    ./media/recyclarr.nix
     ./media/plex.nix
     ./media/containers.nix
     ./media/pihole.nix
     ./media/public-requests.nix
-    ./media/qui.nix
   ];
 
   home-manager.users."${config.var.username}" = import ./home.nix;

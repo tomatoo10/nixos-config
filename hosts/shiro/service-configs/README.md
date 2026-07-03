@@ -16,4 +16,4 @@ categories in the qBittorrent WebUI unless you export/update this JSON file too.
 ## Not committed here
 
 - Cleanuparr stores WebUI configuration, users, API keys, JWT keys, and event state in SQLite databases under `/srv/cleanuparr/config`. Those databases should stay persistent state, not Git files.
-- Radarr and Sonarr store most WebUI configuration in SQLite databases under `/var/lib/radarr` and `/var/lib/sonarr`; their `config.xml` files contain API keys. Their quality/profile rules are managed declaratively through Recyclarr in `hosts/shiro/media/recyclarr.nix` instead.
+- Radarr and Sonarr store most WebUI configuration in SQLite databases under `/var/lib/radarr` and `/var/lib/sonarr`; their `config.xml` files contain API keys. Current quality/profile management is handled by Profilarr state, not by files in this directory.
