@@ -59,7 +59,7 @@
     extraSetFlags = ["--ssh=true" "--accept-dns=true"];
   };
   networking.firewall.trustedInterfaces = ["tailscale0"];
-  networking.nameservers = ["1.1.1.1" "8.8.8.8"];
+  networking.nameservers = ["192.168.18.1"];
 
   # Idle hibernate and suspend-then-hibernate for lid close.
   services.logind.settings.Login = {

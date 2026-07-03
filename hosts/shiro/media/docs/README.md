@@ -16,6 +16,7 @@ Read `AGENTS.md` first for the global contract, then the matching service guide 
 - `plex.md` — libraries, access URLs, LAN/Tailscale, subtitles/transcoding.
 - `cleanuparr.md` — cleanup rules, categories, blacklists, timing, exclusions.
 - `qui.md` — optional qBittorrent UI.
+- `pihole.md` — LAN DNS/ad-blocking service, router setup, and local DNS records.
 - `backups.md` — local ignored config backup/restore procedure.
 
 ## Canonical paths
@@ -24,6 +25,7 @@ Read `AGENTS.md` first for the global contract, then the matching service guide 
 - TV library: `/srv/data/media/tv`
 - Anime library: `/srv/data/media/anime`
 - Profilarr config: `/srv/profilarr/config`
+- Pi-hole state: `/var/lib/pihole`
 - Torrents root: `/srv/data/torrents`
 - Incomplete torrents: `/srv/data/torrents/incomplete`
 - qBittorrent categories: `movies`, `tv`, `animes`, `unlinked`

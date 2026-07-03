@@ -18,6 +18,7 @@
     ./media/recyclarr.nix
     ./media/plex.nix
     ./media/containers.nix
+    ./media/pihole.nix
     ./media/qui.nix
   ];
 

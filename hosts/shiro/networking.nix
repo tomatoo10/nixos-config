@@ -23,7 +23,7 @@
       }
     ];
     defaultGateway = "192.168.18.1";
-    nameservers = ["1.1.1.1" "8.8.8.8"];
+    nameservers = ["192.168.18.1"];
   };
 
   services.tailscale = {
