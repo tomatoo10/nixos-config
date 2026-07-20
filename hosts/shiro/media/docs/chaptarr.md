@@ -5,6 +5,7 @@ Chaptarr is the active ebook/books manager experiment. It is alpha-ish and spars
 ## Nix ownership
 
 - Container: `hosts/shiro/media/containers.nix`
+- Autostart: disabled until the Docker Hub image pull is verified on shiro.
 - WebUI: `http://shiro:8789`
 - LAN URL: `http://192.168.18.7:8789`
 - Config: `/srv/chaptarr/config`
@@ -20,6 +21,7 @@ Chaptarr is the active ebook/books manager experiment. It is alpha-ish and spars
 ## Caveats
 
 - Chaptarr is still immature compared with the established Arr stack.
+- Pull/start manually during setup: `sudo podman pull docker.io/robertlordhood/chaptarr:latest`, then `sudo systemctl start podman-chaptarr.service`.
 - Upstream docs are sparse; verify that `/config` persists during first live setup.
 - Do not add public exposure.
 - Do not commit credentials, API keys, or one-off WebUI state.

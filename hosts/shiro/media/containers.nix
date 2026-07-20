@@ -2,6 +2,7 @@
 {config, ...}: {
   virtualisation.oci-containers.containers = {
     chaptarr = {
+      autoStart = false;
       image = "robertlordhood/chaptarr:latest";
       ports = ["8789:8789"];
       # Chaptarr upstream docs are sparse; /config is the persistent state mount to verify during first live setup, and /srv/data gives the app access to book torrent/library paths.
@@ -19,6 +20,7 @@
     };
 
     kavita = {
+      autoStart = false;
       image = "jvmilazz0/kavita:latest";
       ports = ["5000:5000"];
       volumes = ["/srv/kavita/config:/kavita/config" "/srv/data/media/books:/books"];
