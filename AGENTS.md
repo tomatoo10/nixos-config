@@ -27,7 +27,7 @@ This repository manages the user's NixOS machines and the shiro home-server medi
 
 - `ryu`: main desktop. Firewall is disabled for HTB. Tailscale is enabled but must not accept DNS; home DNS should come from DHCP/Pi-hole: `extraSetFlags = ["--ssh=true" "--accept-dns=false"]`.
 - `sora`: laptop. OpenSSH is intentionally disabled. Tailscale is enabled but must not accept DNS; home DNS should come from DHCP/Pi-hole and away-from-home DNS should come from the active network unless a deliberate conditional/Tailscale DNS design is added later: `extraSetFlags = ["--ssh=true" "--accept-dns=false"]`.
-- `shiro`: home server at LAN IP `192.168.18.7`. Tailscale is enabled but should not accept DNS: `extraSetFlags = ["--ssh=true" "--accept-dns=false"]`. Docker is not enabled. Podman-backed `virtualisation.oci-containers` is used only for auxiliary services. `zramSwap` is intentionally enabled for low-memory resilience. Pi-hole runs natively on `192.168.18.7:53` and `192.168.18.7:8081`.
+- `shiro`: home server at LAN IP `192.168.18.7`; use `ssh shiro.lan` for live checks. Tailscale is enabled but should not accept DNS: `extraSetFlags = ["--ssh=true" "--accept-dns=false"]`. Docker is not enabled. Podman-backed `virtualisation.oci-containers` is used only for auxiliary services. `zramSwap` is intentionally enabled for low-memory resilience. Pi-hole runs natively on `192.168.18.7:53` and `192.168.18.7:8081`.
 
 ## shiro media stack contract
 
@@ -146,7 +146,7 @@ Stateful/WebUI-owned: Radarr, Sonarr, Prowlarr, Bazarr, Plex, Cleanuparr, and Pi
 
 Ignored local backups: `hosts/shiro/media/config-backups/` stores live databases, API keys, tokens, and cookies and is intentionally ignored.
 
-When investigating problems with the home-server applications, inspect live state on `shiro` over SSH instead of relying only on local backup snapshots. Use the least-invasive live checks available: service logs/status, application APIs, state databases, and container logs. Keep secrets out of responses and Git.
+When investigating problems with the home-server applications, inspect live state on `shiro` with `ssh shiro.lan` instead of relying only on local backup snapshots. Use the least-invasive live checks available: service logs/status, application APIs, state databases, and container logs. Keep secrets out of responses and Git.
 
 ## Service documentation
 
