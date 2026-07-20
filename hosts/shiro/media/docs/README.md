@@ -11,6 +11,8 @@ Read `AGENTS.md` first for the global contract, then the matching service guide 
 - `sonarr.md` — TV/anime roots, tags, qBittorrent routing, profiles.
 - `bazarr.md` — subtitle profiles, automatic searches, Plex-friendly SRT sidecars.
 - `prowlarr-byparr.md` — indexers, app sync, Byparr/FlareSolverr-compatible proxy.
+- `chaptarr.md` — ebook manager caveats, paths, and client routing.
+- `kavita.md` — ebook library service notes.
 - `recyclarr.md` — removed-service note and re-add guidance.
 - `profilarr.md` — main profile-management experiment.
 - `plex.md` — libraries, access URLs, LAN/Tailscale, subtitles/transcoding.
@@ -28,6 +30,8 @@ Read `AGENTS.md` first for the global contract, then the matching service guide 
 - Anime library: `/srv/data/media/anime`
 - Books library: `/srv/data/media/books`
 - Profilarr config: `/srv/profilarr/config`
+- Chaptarr config: `/srv/chaptarr/config`
+- Kavita config: `/srv/kavita/config`
 - Pi-hole state: `/var/lib/pihole`
 - Pi-hole config: `/etc/pihole`
 - Torrents root: `/srv/data/torrents`
