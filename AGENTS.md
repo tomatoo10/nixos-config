@@ -9,6 +9,8 @@ This repository manages the user's NixOS machines and the shiro home-server medi
 - Backwards compatibility is not important when preserving it would keep a bad design. Fix the design instead.
 - Keep secrets out of Git unless the repository explicitly documents an accepted exception.
 - If the requested result cannot be done cleanly, stop and explain the blocker.
+- If a fix has uncertain side effects, looks workaround-like, or has multiple
+  plausible clean approaches, present the options and ask before applying it.
 - After every change, report anything fragile, uncertain, or workaround-like.
 
 ## Repository layout
@@ -87,7 +89,14 @@ Radarr and Sonarr root folders must point at final library folders, not torrent 
 ### Bazarr
 
 - Module: `hosts/shiro/media/arr.nix`; WebUI: `http://shiro:6767`.
-- Writes `.srt` sidecar subtitles into Radarr/Sonarr library folders.
+- Writes sidecar subtitles into Radarr/Sonarr library folders; prefer SRT for
+  Plex compatibility, but ASS/SSA sidecars are acceptable for anime when useful.
+- Keep embedded subtitles from satisfying wanted sidecar searches; parse
+  embedded audio tracks for profile decisions, but do not rely on embedded
+  subtitle tracks as the only subtitle source.
+- Keep Bazarr's risky built-in auto-sync disabled for dual-audio anime unless a
+  tested reference-stream policy is in place; use the Nix-owned subtitle guard
+  to quarantine impossible sidecar timing.
 - Radarr, Sonarr, and Bazarr use `UMask = "0002"` so the shared `media` group can write sidecars and imports consistently.
 - Prefer SRT sidecars for Plex Web/mobile compatibility.
 
