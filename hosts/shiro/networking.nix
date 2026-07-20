@@ -18,6 +18,12 @@
         prefixLength = 24;
       }
     ];
+    interfaces.wlan0.ipv6.addresses = [
+      {
+        address = "fd7a:c324:7131::7";
+        prefixLength = 64;
+      }
+    ];
     defaultGateway = "192.168.18.1";
     nameservers = ["192.168.18.1"];
 
