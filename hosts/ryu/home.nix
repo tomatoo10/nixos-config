@@ -20,6 +20,7 @@
     ../../home/cli/git
     ../../home/cli/git/lazygit.nix
     ../../home/cli/git/signing.nix # Change the key or remove this file
+    ../../home/cli/tools/ai-memory.nix
     ../../home/cli/tools/cybersecurity.nix
 
     # Desktop

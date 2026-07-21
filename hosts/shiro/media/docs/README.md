@@ -39,3 +39,28 @@ Read `AGENTS.md` first for the global contract, then the matching service guide 
 - qBittorrent categories: `movies`, `tv`, `animes`, `books`, `unlinked`
 
 Do not create or document a singular torrent category named `anime`.
+
+## Quality profile choices
+
+shiro is a direct-play-first Plex server on old laptop hardware and the current
+LAN path has shown only about 6-8 Mbps of stable shiro-to-client throughput in
+some tests. Prefer profiles that keep releases around moderate 1080p bitrates
+instead of chasing remux, 2160p, or HDR-heavy files.
+
+Recommended defaults:
+
+| Library type | Default profile | Higher-quality option | Avoid as default |
+| --- | --- | --- | --- |
+| Anime | `Anime - 1080p Efficient (shiro)` | `Anime - 1080p Remux Legacy` only when quality matters more and playback is tested | high-bitrate HDTV/x264 fallbacks, remux-first anime for routine use |
+| TV series | `1080p Efficient` | `1080p Balanced` for favorites | `1080p Quality`, `1080p Remux`, 2160p profiles |
+| Movies | `1080p Efficient` | `1080p Balanced` for favorites | `1080p Remux`, 2160p profiles, `1080p Quality HDR` as a blanket default |
+
+`1080p Quality HDR` may still grab x265/HEVC releases, but it optimizes for HDR
+quality rather than shiro playback safety. Use it only for titles where HDR is
+intentional and the target Plex client can direct-play that HDR/DV file without
+tone mapping or buffering.
+
+For problematic playback, prefer replacing the release with a smaller efficient
+1080p WEB-DL/Bluray release before changing server-side Plex settings. x265/HEVC
+is useful as a tie-breaker, but not a guarantee: source, bitrate, subtitles, HDR,
+and the playback client still matter.

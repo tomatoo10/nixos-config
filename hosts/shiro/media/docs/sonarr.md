@@ -106,6 +106,13 @@ the imported file score is below the profile cutoff. Before relaxing a broad
 negative custom format, inspect which custom format matched and whether it is a
 real release problem or only an acceptable local exception.
 
+Quality Definitions are also Profilarr-owned through Media Management sync. They
+are hard size gates and run before custom-format scoring. If high-scoring anime
+releases are rejected for minimum/maximum size, first check the Profilarr Sonarr
+Media Management sync state. The intended shiro/Dictionarry Sonarr definitions
+are permissive for efficient HEVC/anime: `minSize = 0`, unlimited `maxSize`, and
+`preferredSize = 990`.
+
 After an episode/season upgrade, old torrent payloads may become
 `unlinked` if they no longer have hardlinks to active library files. Cleanuparr
 can move orphaned payloads to `unlinked`; the live deletion rule then removes

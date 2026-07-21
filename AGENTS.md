@@ -122,10 +122,91 @@ Radarr and Sonarr root folders must point at final library folders, not torrent 
 - App sync level should be `fullSync` for both Radarr and Sonarr.
 - Configure Byparr in Prowlarr as a FlareSolverr-compatible indexer proxy tagged `byparr`, and apply that tag only to indexers that need Cloudflare/DDoS-GUARD solving.
 
+#### July 2026 Arr/Prowlarr search reliability plan
+
+- Current issue: Radarr/Sonarr searches are noisy because Prowlarr has several
+  public indexers that repeatedly fail, become temporarily disabled, and still
+  sync into Arr. This reduces useful candidates and makes searches slower/noisier.
+  Recent long-running failures included `1337x`, `BigFANGroup`, `DaMagNet`,
+  `BTdirectory`, `EZTV`, `Internet Archive`, `kickasstorrents.ws`, and `Uindex`;
+  short-term failures included `Bangumi Moe`, `MegaPeer`, `nekoBT`, and
+  `Tokyo Toshokan`. Tokyo Toshokan showed Cloudflare/origin `522` and parse/error
+  responses; Internet Archive timed out; some others returned forbidden/proxy
+  failures. qBittorrent itself was up, with one metadata-only anime torrent stuck
+  in `metaDL`, so the main reliability problem is indexer quality, not the
+  download client being down.
+- First step is read-only diagnosis, not blind reconfiguration: inspect Prowlarr
+  health/indexer status, proxy/tag settings, app sync settings, and recent logs;
+  inspect Radarr/Sonarr health and synced indexer lists; inspect qBittorrent state.
+  Do not trigger public copyrighted searches, grabs, deletes, or rebuilds while
+  diagnosing.
+- Repair-first direction: classify each failing indexer by failure mode before
+  disabling it. Cloudflare/DDoS-GUARD challenge failures may be fixable by
+  applying the `byparr` tag; rate-limit/noise failures may be improved with
+  per-indexer Query Limit / Grab Limit / Limits Unit settings; parser/site markup
+  failures may need a Prowlarr/Cardigann definition update. Dead origins,
+  persistent 5xx/522 responses, persistent forbidden responses, or semantically
+  broken results are not cleanly fixed by proxying and should be disabled if they
+  keep polluting Arr health after repair attempts.
+- If disabling becomes necessary, disable in Prowlarr, then let Prowlarr full-sync
+  the cleaned indexer set to Radarr and Sonarr. Prefer keeping reliable
+  anime/general sources enabled over keeping a large list of dead public mirrors.
+  Treat this as WebUI/API-owned live state, not Nix-owned configuration.
+- Byparr should not be applied globally. Keep the FlareSolverr-compatible proxy
+  only on indexers that genuinely need Cloudflare/DDoS-GUARD solving. If an
+  indexer fails because its origin is down, banned, forbidden, or semantically
+  broken, proxying it is not a clean fix; disable it instead.
+- Current repair-first action matrix: keep `byparr` on Cloudflare-marked indexers
+  that are still plausibly useful (`1337x`, `BTdirectory`, `EZTV`,
+  `kickasstorrents.ws`, `MegaPeer`, `Uindex`) while testing/tuning them; consider
+  adding `byparr` only if logs show an actual Cloudflare challenge. Do not add
+  `byparr` to `Tokyo Toshokan` unless failures change from origin `522`/parse
+  errors into challenge failures. Avoid blunt low per-day Query Limits on useful
+  TV/anime indexers: a single Sonarr season or episode replacement can generate
+  many alias/category requests, so daily caps can hide candidates later in the
+  day. Prefer app-profile scoping first, and use moderate per-hour Query Limits
+  only for clearly noisy low-value public mirrors. Internet Archive timeout
+  failures should be treated as slow-origin/rate-limit candidates first, but
+  disabled if they continue to time out.
+- Live repair-first tuning applied July 2026: all affected indexers remained
+  enabled, existing `byparr` tags were preserved, Grab Limits stayed unset, and
+  Prowlarr Query Limits were set hourly: `1337x` 60/hour, `EZTV` 60/hour,
+  `kickasstorrents.ws` 60/hour, `MegaPeer` 60/hour, `Uindex` 60/hour,
+  `BTdirectory` 30/hour, `BigFANGroup` 30/hour, `DaMagNet` 30/hour, `nekoBT`
+  30/hour, `Bangumi Moe` 30/hour, `Internet Archive` 12/hour, and
+  `Tokyo Toshokan` 12/hour. Known-good anime sources such as `Nyaa.si`,
+  `SubsPlease`, `Shana Project`, `Mikan`, and `ACG.RIP` were left uncapped.
+  Updating broken indexers through the API may hang if Prowlarr validates/tests
+  the indexer; use `PUT /api/v1/indexer/{id}?forceSave=true` with the full
+  indexer resource when changing only settings such as Query Limit / Limits Unit.
+  `forceSave` avoids the validation path but does not fix broken origins.
+- Preserve Prowlarr as source of truth: do not manually edit duplicated indexers
+  in Radarr/Sonarr except to verify sync results or recover from failed sync.
+  After changing Prowlarr indexers, verify Arr health clears or improves and that
+  synced indexer counts/settings match expectations.
+- Before applying state changes, explain the planned indexer limit/proxy-tag/
+  disable changes to the user and get confirmation. After applying, verify with
+  Prowlarr health/indexer status, Radarr/Sonarr health, and service status. Do
+  not perform automatic searches/grabs as validation unless the user explicitly
+  asks.
+
 ### Profilarr
 
 - Profilarr is the main profile-management experiment for Radarr/Sonarr at `http://shiro:6868` with config in `/srv/profilarr/config`.
-- Profilarr manages/syncs Radarr/Sonarr profiles, custom formats, and scores; it does not itself choose or upgrade releases at download time. Radarr/Sonarr still make grab/import/upgrade decisions from their state and configured profiles.
+- Profilarr manages/syncs Radarr/Sonarr profiles, custom formats, scores, and
+  media-management settings such as naming, media settings, and quality
+  definitions. It does not itself choose or upgrade releases at download time.
+  Radarr/Sonarr still make grab/import/upgrade decisions from their state and
+  configured profiles/quality definitions.
+- Profilarr media-management sync must be enabled and run per Arr instance for
+  quality definitions to apply. In July 2026, Sonarr was rejecting many anime
+  releases for minimum size because Profilarr's Sonarr media-management sync had
+  been effectively stale/manual: Dictionarry's selected `Sonarr` quality
+  definitions were permissive (`minSize = 0`, unlimited `maxSize`,
+  `preferredSize = 990`), but live Sonarr still had strict minimums such as
+  `Bluray-1080p = 50.4 MB/min`. Enabling `on_pull` for Sonarr Media Management
+  and running the Media Management sync queued `arr.sync.mediaManagement`, which
+  updated all 22 Sonarr quality definitions successfully.
 - Recyclarr was removed. Re-add it only if Profilarr is no longer managing the same profiles/custom formats.
 
 ### Plex
