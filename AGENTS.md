@@ -25,6 +25,8 @@ This repository manages the user's NixOS machines and the shiro home-server medi
 
 - `flake.nix` — host inventory, inputs, and NixOS system construction.
 - `hosts/` — host-specific configuration: `ryu`, `sora`, and `shiro`.
+- `hosts/shiro/{networking,system,media}/` — shiro section directories with
+  `default.nix` entrypoints for host composition.
 - `modules/` — reusable NixOS modules grouped into `core`, `boot`, `desktop`, `hardware`, `virtualisation`, and `gaming`.
 - `home/` — Home Manager program and desktop configuration.
 - `themes/` — Stylix theme modules.

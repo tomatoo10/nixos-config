@@ -30,6 +30,8 @@ coming soon
 
 - `flake.nix` - inputs and host inventory.
 - `hosts/` - per-machine composition, hardware config, and host-specific services.
+- `hosts/shiro/networking/`, `hosts/shiro/system/`, `hosts/shiro/media/` - shiro
+  section directories with `default.nix` entrypoints for the host composition.
 - `modules/` - reusable NixOS modules, grouped by responsibility:
   - `core/` - Home Manager integration, Nix settings, users, OpenSSH.
   - `boot/` - bootloader choices (`systemd-boot`, lanzaboote/Secure Boot).

@@ -14,7 +14,7 @@
 in {
   # Native Servarr apps. WebUI/API state is still app-owned; Nix owns enablement
   # and shared media-group permissions here. Firewall exposure is centralized in
-  # hosts/shiro/networking.nix so IPv6/global-address policy stays consistent.
+  # hosts/shiro/networking so IPv6/global-address policy stays consistent.
   services.radarr = {
     enable = true;
     group = "media";

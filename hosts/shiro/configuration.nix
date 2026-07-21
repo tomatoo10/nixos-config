@@ -11,18 +11,10 @@
     ./hardware-configuration.nix
     ./variables.nix
 
-    ./networking.nix
-    ./networking/firewall.nix
+    ./networking
     ./storage.nix
-    ./system.nix
-    ./media/common.nix
-    ./media/qbittorrent.nix
-    ./media/qbittorrent/plex-limiter.nix
-    ./media/arr.nix
-    ./media/plex.nix
-    ./media/containers.nix
-    ./media/pihole.nix
-    ./media/public-requests.nix
+    ./system
+    ./media
   ];
 
   home-manager.users."${config.var.username}" = import ./home.nix;
