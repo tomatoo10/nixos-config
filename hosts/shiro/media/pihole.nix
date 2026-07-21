@@ -4,8 +4,11 @@
     # Native Pi-hole owns DNS/ad-blocking on shiro; the old container setup is no longer the source of truth.
     pihole-ftl = {
       enable = true;
-      openFirewallDNS = true;
-      openFirewallWebserver = true;
+      # Firewall exposure is centralized in hosts/shiro/networking.nix so DNS and
+      # WebUI access stay limited to LAN/Tailscale/Podman sources for both IPv4
+      # and IPv6.
+      openFirewallDNS = false;
+      openFirewallWebserver = false;
       lists = [
         {
           # Keep the default StevenBlack blocklist as the baseline filter set.

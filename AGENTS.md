@@ -4,6 +4,11 @@ This repository manages the user's NixOS machines and the shiro home-server medi
 
 ## Non-negotiable engineering policy
 
+- Do not run `nixos-rebuild build`, `nixos-rebuild switch`, `nh os switch`, or
+  other rebuild/switch commands unless the user explicitly asks for that command
+  to be executed. Validate repository changes with focused `nix eval` checks,
+  `git diff --check`, and reviewable diffs; then give the user the exact remote
+  rebuild/switch command to run.
 - Do not introduce hacks, monkey patches, duct tape, or partial workarounds.
 - Prefer robust, clear, maintainable designs over short-term convenience.
 - Backwards compatibility is not important when preserving it would keep a bad design. Fix the design instead.
@@ -11,6 +16,9 @@ This repository manages the user's NixOS machines and the shiro home-server medi
 - If the requested result cannot be done cleanly, stop and explain the blocker.
 - If a fix has uncertain side effects, looks workaround-like, or has multiple
   plausible clean approaches, present the options and ask before applying it.
+- User requests can be technically wrong or point toward a worse design. When
+  there is a cleaner, safer, or more maintainable approach, push back, explain
+  the tradeoff, and ask before implementing the inferior approach.
 - After every change, report anything fragile, uncertain, or workaround-like.
 
 ## Repository layout
@@ -27,7 +35,7 @@ This repository manages the user's NixOS machines and the shiro home-server medi
 
 - `ryu`: main desktop. Firewall is disabled for HTB. Tailscale is enabled but must not accept DNS; home DNS should come from DHCP/Pi-hole: `extraSetFlags = ["--ssh=true" "--accept-dns=false"]`.
 - `sora`: laptop. OpenSSH is intentionally disabled. Tailscale is enabled but must not accept DNS; home DNS should come from DHCP/Pi-hole and away-from-home DNS should come from the active network unless a deliberate conditional/Tailscale DNS design is added later: `extraSetFlags = ["--ssh=true" "--accept-dns=false"]`.
-- `shiro`: home server at LAN IP `192.168.18.7`; use `ssh shiro.lan` for live checks. Tailscale is enabled but should not accept DNS: `extraSetFlags = ["--ssh=true" "--accept-dns=false"]`. Docker is not enabled. Podman-backed `virtualisation.oci-containers` is used only for auxiliary services. `zramSwap` is intentionally enabled for low-memory resilience. Pi-hole runs natively on `192.168.18.7:53` and `192.168.18.7:8081`.
+- `shiro`: home server at LAN IP `192.168.18.7`; use `ssh shiro.lan` for live checks. The faster USB Wi-Fi adapter with MAC `00:e0:4d:0b:47:8d` is the authoritative LAN path and is renamed to `shiro-lan`; the internal Intel `wlan0`/`iwlwifi` path is intentionally disabled. IPv6 stays enabled: the router advertises ULA `fd7a:c324:7131::/64` and has IPv6 forwarding firewall control enabled, while shiro also source-restricts private service ports in its host firewall. Tailscale is enabled but should not accept DNS: `extraSetFlags = ["--ssh=true" "--accept-dns=false"]`. Docker is not enabled. Podman-backed `virtualisation.oci-containers` is used only for auxiliary services. `zramSwap` is intentionally enabled for low-memory resilience. Pi-hole runs natively on `192.168.18.7:53` and `192.168.18.7:8081`.
 
 ## shiro media stack contract
 

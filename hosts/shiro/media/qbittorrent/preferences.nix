@@ -1,0 +1,106 @@
+let
+  # qBittorrent's config file stores speed limits in KiB/s, while the Web API
+  # uses bytes/s. These values are mirrored in the companion Plex limiter module
+  # so the declarative baseline and runtime limiter stay aligned without hidden
+  # drift.
+  normalDownloadLimitKiB = 14100;
+  normalUploadLimitKiB = 13350;
+in {
+      Application = {
+        "FileLogger\\Age" = "1";
+        "FileLogger\\AgeType" = "1";
+        "FileLogger\\Backup" = "true";
+        "FileLogger\\DeleteOld" = "true";
+        "FileLogger\\Enabled" = "true";
+        "FileLogger\\MaxSizeBytes" = "66560";
+        "FileLogger\\Path" = "/var/lib/qBittorrent/qBittorrent/logs";
+      };
+      AutoRun = {
+        "enabled" = "false";
+        "program" = "";
+      };
+      BitTorrent = {
+        "Session\\AddTorrentStopped" = "false";
+        "Session\\AddTrackersEnabled" = "true";
+        "Session\\AdditionalTrackers" = "http://1337.abcvg.info:80/announce\\nhttp://bt1.archive.org:6969/announce\\nhttp://ipv4announce.sktorrent.eu:6969/announce\\nhttp://nyaa.tracker.wf:7777/announce\\nhttp://torrentsmd.com:8080/announce\\nhttp://tracker.bt4g.com:2095/announce\\nhttp://tracker.dhitechnical.com:6969/announce\\nhttp://tracker.mywaifu.best:6969/announce\\nhttp://tracker.opentrackr.org:1337/announce\\nhttp://tracker.renfei.net:8080/announce\\nhttp://tracker.waaa.moe:6969/announce\\nhttp://tracker.xn--djrq4gl4hvoi.top:80/announce\\nhttp://www.wareztorrent.com:80/announce\\nhttps://021912.xyz:443/announce\\nhttps://1337.abcvg.info:443/announce\\nhttps://banananetwork.qzz.io:443/announce\\nhttps://orgtgju.org:443/announce\\nhttps://t.213891.xyz:443/announce\\nhttps://torrents.tmtime.dev:443/announce\\nhttps://tr.abiir.top:443/announce\\nhttps://tr.zukizuki.org:443/announce\\nhttps://tracker.7471.top:443/announce\\nhttps://tracker.anibt.net:443/announce\\nhttps://tracker.gcrenwp.top:443/announce\\nhttps://tracker.kuroy.me:443/announce\\nhttps://tracker.leechshield.link:443/announce\\nhttps://tracker.manager.v6.navy:443/announce\\nhttps://tracker.nekomi.cn:443/announce\\nhttps://tracker.pmman.tech:443/announce\\nhttps://tracker.zhuqiy.com:443/announce\\nhttps://tracker1.520.jp:443/announce\\nudp://anime-tracker.aruku.kro.kr:8081/announce\\nudp://bittorrent-tracker.e-n-c-r-y-p-t.net:1337/announce\\nudp://coeus.torrentonline.cc:42069/announce\\nudp://evan.im:6969/announce\\nudp://mail.segso.net:6969/announce\\nudp://martin-gebhardt.eu:25/announce\\nudp://ns575949.ip-51-222-82.net:6969/announce\\nudp://open.demonii.com:1337/announce\\nudp://open.ftorrent.com:443/announce\\nudp://open.stealth.si:80/announce\\nudp://open.tracker.ink:6969/announce\\nudp://opentor.org:2710/announce\\nudp://p4p.arenabg.com:1337/announce\\nudp://retracker.hotplug.ru:2710/announce\\nudp://seedpeer.net:6969/announce\\nudp://t.overflow.biz:6969/announce\\nudp://torrentclub.online:1984/announce\\nudp://torrentclub.online:54123/announce\\nudp://torrents.tmtime.dev:6969/announce\\nudp://tr4ck3r.duckdns.org:6969/announce\\nudp://tracker-udp.gbitt.info:80/announce\\nudp://tracker.004430.xyz:1337/announce\\nudp://tracker.aruku.ovh:8081/announce\\nudp://tracker.auctor.tv:6969/announce\\nudp://tracker.bittor.pw:1337/announce\\nudp://tracker.bluefrog.pw:2710/announce\\nudp://tracker.breizh.pm:6969/announce\\nudp://tracker.corpscorp.online:80/announce\\nudp://tracker.dler.com:6969/announce\\nudp://tracker.ducks.party:1984/announce\\nudp://tracker.gmi.gd:6969/announce\\nudp://tracker.hismz.cn:6969/announce\\nudp://tracker.opentorrent.top:6969/announce\\nudp://tracker.opentrackr.org:1337/announce\\nudp://tracker.publictracker.xyz:6969/announce\\nudp://tracker.qu.ax:6969/announce\\nudp://tracker.skyts.net:6969/announce\\nudp://tracker.t-1.org:6969/announce\\nudp://tracker.teambelgium.net:6969/announce\\nudp://tracker.torrent.eu.org:451/announce\\nudp://tracker.trackarr.org:6969/announce\\nudp://tracker.tryhackx.org:6969/announce\\nudp://tracker.wildkat.net:6969/announce\\nudp://yuptracker-eu.gaijinent.com:27022/announce\\nudp://zer0day.ch:1337/announce\\nwss://tracker.openwebtorrent.com:443/announce";
+        "Session\\AdditionalTrackersURL" = "https://cf.trackerslist.com/best.txt";
+        # Alternative limits are kept aligned with the Plex-active limit values
+        # for operator clarity, but qBittorrent's built-in bandwidth scheduler is
+        # disabled below because it can only model fixed clock windows. The
+        # companion Plex limiter module applies limits based on live Plex use.
+        "Session\\AlternativeGlobalDLSpeedLimit" = "1024";
+        "Session\\AlternativeGlobalUPSpeedLimit" = "100";
+        "Session\\BTProtocol" = "TCP";
+        "Session\\BandwidthSchedulerEnabled" = "false";
+        "Session\\DefaultSavePath" = "/srv/data/torrents/";
+        "Session\\DisableAutoTMMByDefault" = "false";
+        "Session\\DisableAutoTMMTriggers\\CategorySavePathChanged" = "false";
+        "Session\\DisableAutoTMMTriggers\\DefaultSavePathChanged" = "false";
+        "Session\\ExcludedFileNames" = "*(sample).*, *sample.avchd, *sample.avi, *sample.mkv, *sample.mov, *sample.mp4, *sample.webm, *sample.wmv, *.000, *.001, *.002, *.004, *.0xe, *.73k, *.73p, *.7z, *.7z.001, *.7z.002, *.89k, *.89z, *.8ck, *.a00, *.a01, *.a02, *.a7r, *.ac, *.acc, *.ace, *.acr, *.actc, *.action, *.actm, *.ade, *.adp, *.afmacro, *.afmacros, *.ahk, *.ai, *.aif, *.ain, *.air, *.alz, *.ana, *.apex, *.api, *.apk, *.app, *.appimage, *.applescript, *.application, *.appx, *.apz, *.ar, *.arc, *.archiver, *.arduboy, *.arh, *.ari, *.arj, *.ark, *.arscript, *.asb, *.asice, *.asp, *.aspx, *.aspx-exe, *.atmx, *.ayt, *.azw2, *.b1, *.b6z, *.b64, *.ba, *.ba_, *.bak, *.bas, *.bash, *.bat, *.bdjo, *.bdmv, *.bdoc, *.beam, *.bh, *.bin, *.bmp, *.bms, *.bndl, *.bns, *.boo, *.bsa, *.btm, *.bundle, *.bz, *.bz2, *.bza, *.bzabw, *.bzip, *.bzip2, *.c, *.c00, *.c01, *.c02, *.c10, *.cab, *.caction, *.car, *.cb7, *.cba, *.cbr, *.cbt, *.cbz, *.cci, *.cda, *.cdb, *.cdz, *.cel, *.celx, *.cfs, *.cgi, *.cheat, *.chm, *.cit, *.ckpt, *.cla, *.class, *.clpi, *.cmd, *.cof, *.coffee, *.com, *.command, *.comppkg.hauptwerk.rar, *.comppkg_hauptwerk_rar, *.conda, *.conf, *.config, *.cp9, *.cpgz, *.cpl, *.cpt, *.crt, *.cs, *.csh, *.csharp, *.csproj, *.css, *.csv, *.ctx, *.ctz, *.cue, *.cur, *.cxarchive, *.cyw, *.czip, *.daemon, *.daf, *.dar, *.dat, *.data-00000-of-00001, *.db, *.dd, *.deamon, *.deb, *.dek, *.dgc, *.dist, *.diz, *.dl_, *.dld, *.dll, *.dmc, *.dmg, *.doc, *.docb, *.docm, *.docx, *.dot, *.dotb, *.dotm, *.drv, *.ds, *.dw, *.dword, *.dxl, *.dz, *.e_e, *.ear, *.ebacmd, *.ebm, *.ebs, *.ebs2, *.ecar, *.ecf, *.ecs, *.ecsbx, *.edz, *.efw, *.egg, *.eham, *.elf, *.elf-so, *.email, *.emu, *.epk, *.epi, *.es, *.esh, *.etc, *.ex4, *.ex5, *.ex_, *.exe, *.exe-only, *.exe-service, *.exe-small, *.exe1, *.exopc, *.exz, *.ezs, *.ezt, *.f, *.f3z, *.fas, *.fba, *.fcx, *.fky, *.flac, *.flatpak, *.flv, *.fp8, *.fpi, *.frs, *.fxp, *.fzpz, *.gadget, *.gar, *.gat, *.gca, *.gif, *.gifv, *.gm9, *.gmz, *.gpe, *.gpu, *.gs, *.gz, *.gz2, *.gza, *.gzi, *.gzip, *.h5, *.ha, *.ham, *.hbc, *.hbc2, *.hbe, *.hex, *.hki, *.hki1, *.hki2, *.hki3, *.hlp, *.hms, *.hpf, *.hpk, *.hpkg, *.hta, *.hta-psh, *.htaccess, *.htm, *.html, *.htmi, *.hyp, *.iadproj, *.icd, *.ice, *.icns, *.ico, *.idx, *.iim, *.img, *.index, *.inf, *.ini, *.ink, *.ins, *.ipa, *.ipf, *.ipg, *.ipk, *.ipsw, *.iqylink, *.ish, *.iso, *.isp, *.isu, *.isx, *.ita, *.ize, *.izh, *.izma ace, *.j, *.jar, *.jar.pack, *.java, *.jex, *.jgz, *.jhh, *.jic, *.jpeg, *.jpg, *.js, *.js_be, *.js_le, *.jse, *.jsf, *.json, *.jsonlz4, *.jsp, *.jsx, *.kextraction, *.kgb, *.kix, *.ksh, *.ksp, *.kwgt, *.kx, *.kz, *.layout, *.lbr, *.lck, *.ldb, *.lemon, *.lha, *.lhzd, *.lib, *.libzip, *.link, *.lnk, *.lo, *.lock, *.log, *.loop-vbs, *.lpkg, *.lqr, *.ls, *.lz, *.lz4, *.lzh, *.lzm, *.lzma, *.lzo, *.lzr, *.lzx, *.m3u, *.m4a, *.mac, *.macho, *.mamc, *.manifest, *.mar, *.mbz, *.mcr, *.md, *.mda, *.mdb, *.mde, *.mdf, *.mdn, *.mdt, *.mel, *.mem, *.memo, *.meta, *.mgm, *.mhm, *.mht, *.mhtml, *.mid, *.mint, *.mio, *.mlappinstall, *.mlproj, *.mlx, *.mm, *.mobileconfig, *.model, *.moo, *.mou, *.movpkg, *.mozlz4, *.mp3, *.mpa, *.mpk, *.mpkg, *.mpls, *.mrc, *.mrp, *.ms, *.msc, *.msh, *.msh1, *.msh1xml, *.msh2, *.msh2xml, *.mshxml, *.msi, *.msi-nouac, *.msix, *.msl, *.msp, *.mst, *.msu, *.mxc, *.mxe, *.mzp, *.n, *.nar, *.ncl, *.net, *.nex, *.nexe, *.nfo, *.npk, *.nrg, *.num, *.nz, *.nzb.bz2, *.nzb.gz, *.nzbs, *.oar, *.ocx, *.odlgz, *.odt, *.opk, *.ore, *.osf, *.ost, *.osx, *.osx-app, *.otm, *.out, *.ova, *.oz, *.p, *.p01, *.p19, *.p7z, *.pa, *.pack.gz, *.package, *.pae, *.paf, *.pak, *.paq6, *.paq7, *.paq8, *.paq8f, *.paq8l, *.paq8p, *.par, *.par2, *.pax, *.pb, *.pbi, *.pcd, *.pcv, *.pdb, *.pdf, *.pea, *.perl, *.pet, *.pex, *.pf, *.phar, *.php, *.php5, *.pif, *.pim, *.pima, *.pit, *.piz, *.pkg, *.pkg.tar.xz, *.pkg.tar.zst, *.pkz, *.pl, *.plsc, *.plx, *.png, *.pol, *.pot, *.potm, *.powershell, *.ppam, *.ppkg, *.pps, *.ppsm, *.ppt, *.pptm, *.pptx, *.prc, *.prg, *.prs, *.ps, *.ps1, *.ps1xml, *.ps2, *.ps2xml, *.psc1, *.psc2, *.psd, *.psd1, *.psh, *.psh-cmd, *.psh-net, *.psh-reflection, *.psm1, *.pst, *.psz, *.pt, *.pup, *.puz, *.pvd, *.pvmp, *.pvmz, *.pwa, *.pwc, *.pxl, *.pxo, *.py, *.pyc, *.pyd, *.pyo, *.python, *.pyz, *.q, *.qda, *.qit, *.qpx, *.r0, *.r00, *.r01, *.r02, *.r03, *.r04, *.r1, *.r2, *.r21, *.r30, *.ram, *.rar, *.raw, *.rb, *.rbf, *.rbx, *.readme, *.reg, *.resources, *.resx, *.rev, *.rfs, *.rfu, *.rgs, *.rk, *.rm, *.rnc, *.rox, *.rp9, *.rpg, *.rpj, *.rpm, *.rss, *.ruby, *.run, *.rxe, *.rz, *.s00, *.s01, *.s02, *.s09, *.s2a, *.s7z, *.sample, *.sapk, *.sar, *.savedmodel, *.sbs, *.sbx, *.sca, *.scar, *.scb, *.scf, *.scpt, *.scptd, *.scr, *.script, *.sct, *.sdc, *.sdn, *.sdoc, *.sdocx, *.sea, *.seed, *.sen, *.server, *.service, *.sfg, *.sfm, *.sfs, *.sfv, *.sfx, *.sh, *.shar, *.shb, *.shell, *.shk, *.shortcut, *.shr, *.shs, *.shtml, *.sifz, *.sipa, *.sit, *.sitx, *.sk, *.sldm, *.sln, *.smm, *.smpf, *.snap, *.snagitstamps, *.snappy, *.snb, *.snd, *.snz, *.spa, *.spd, *.spl, *.spm, *.spr, *.spt, *.sql, *.sqf, *.sqx, *.sqz, *.srec, *.srep, *.srt, *.ssm, *.stg, *.stkdoodlz, *.stproj, *.sts, *.sub, *.svg, *.swf, *.sy_, *.sys, *.tar, *.tar.bz2, *.tar.gz, *.tar.gz2, *.tar.lz, *.tar.lzma, *.tar.xz, *.tar.z, *.tar.zip, *.taz, *.tbl, *.tbz, *.tbz2, *.tcp, *.tcx, *.text, *.tf, *.tg, *.tgs, *.tgz, *.thm, *.thmx, *.thumb, *.tiapp, *.tif, *.tiff, *.tipa, *.tlz, *.tlzma, *.tmp, *.tms, *.toast, *.torrent, *.tpk, *.tpsr, *.trs, *.txt, *.tx_, *.txz, *.tz, *.tzst, *.u3p, *.ubz, *.uc2, *.udf, *.ufdr, *.ufs.uzip, *.uha, *.upk, *.upx, *.url, *.uue, *.uvm, *.uw8, *.uzed, *.uzip, *.vb, *.vba, *.vba-exe, *.vba-psh, *.vbapplication, *.vbe, *.vbs, *.vbscript, \"*.vbscript \", *.vcd, *.vdo, *.vem, *.vexe, *.vfs, *.vhd, *.vhdx, *.vib, *.vip, *.vlx, *.vm, *.vmcz, *.vmdk, *.vms, *.vob, *.vocab, *.voca, *.vpk, *.vpm, *.vrpackage, *.vsi, *.vwi, *.vxp, *.wa, *.wacz, *.waff, *.war, *.wastickers, *.wav, *.wbk, *.wcm, *.wdz, *.webm, *.whl, *.wick, *.widget, *.wim, *.wiz, *.wlb, *.wma, *.workflow, *.wot, *.wpk, *.wpl, *.wpm, *.wps, *.ws, *.wsc, *.wsf, *.wsh, *.wux, *.x86, *.x86_64, *.xaml, *.xap, *.xapk, *.xar, *.xbap, *.xbe, *.xcf.bz2, *.xcf.gz, *.xcf.xz, *.xcfbz2, *.xcfgz, *.xcfxz, *.xex, *.xez, *.xfp, *.xig, *.xip, *.xla, *.xlam, *.xll, *.xlm, *.xls, *.xlsb, *.xlsm, *.xlsx, *.xlt, *.xltb, *.xltm, *.xlw, *.xmcdz, *.xml, *.xoj, *.xopp, *.xqt, *.xrt, *.xx, *.xys, *.xz, *.xzm, *.y, *.yc, *.ygh, *.yz1, *.z, *.z00, *.z01, *.z02, *.z03, *.z04, *.zabw, *.zap, *.zed, *.zfsendtotarget, *.zhelp, *.zi, *.zi_, *.zim, *.zip, *.zipx, *.zix, *.zl, *.zl9, *.zoo, *.zpaq, *.zpi, *.zsplit, *.zst, *.zw, *.zwi, *.zz, Trailer.*, VOSTFR, api";
+        # Normal limits are still bounded; they are restored when Plex has no
+        # active playback sessions. These are intentionally much higher than the
+        # Plex-active limits but not unlimited.
+        "Session\\GlobalDLSpeedLimit" = toString normalDownloadLimitKiB;
+        "Session\\GlobalMaxRatio" = "-1";
+        "Session\\GlobalUPSpeedLimit" = toString normalUploadLimitKiB;
+        "Session\\IgnoreSlowTorrentsForQueueing" = "true";
+        "Session\\MaxActiveDownloads" = "1";
+        "Session\\MaxActiveTorrents" = "-1";
+        "Session\\MaxActiveUploads" = "-1";
+        # Connection limits remain the exported baseline for now. If Plex still
+        # buffers after runtime speed limiting, these are a good next lever to
+        # reduce qBittorrent disk and network churn.
+        "Session\\MaxConnections" = "-1";
+        "Session\\MaxConnectionsPerTorrent" = "-1";
+        "Session\\MaxUploads" = "-1";
+        "Session\\MaxUploadsPerTorrent" = "-1";
+        "Session\\PerformanceWarning" = "true";
+        "Session\\Port" = "6881";
+        "Session\\Preallocation" = "true";
+        "Session\\QueueingSystemEnabled" = "true";
+        "Session\\SSL\\Port" = "5814";
+        "Session\\ShareLimitAction" = "Stop";
+        "Session\\SlowTorrentsDownloadRate" = "5000";
+        "Session\\TempPath" = "/srv/data/torrents/incomplete/";
+        "Session\\TorrentContentLayout" = "Subfolder";
+        "Session\\UseAlternativeGlobalSpeedLimit" = "false";
+      };
+      Core = {
+        "AutoDeleteAddedTorrentFile" = "IfAdded";
+      };
+      LegalNotice = {
+        "Accepted" = "true";
+      };
+      Meta = {
+        "MigrationVersion" = "8";
+      };
+      Network = {
+        "PortForwardingEnabled" = "false";
+        "Proxy\\HostnameLookupEnabled" = "false";
+        "Proxy\\Profiles\\BitTorrent" = "true";
+        "Proxy\\Profiles\\Misc" = "true";
+        "Proxy\\Profiles\\RSS" = "true";
+      };
+      Preferences = {
+        "Connection\\PortRangeMin" = "6881";
+        "Connection\\UPnP" = "false";
+        "Downloads\\SavePath" = "/srv/data/torrents/";
+        "Downloads\\TempPath" = "/srv/data/torrents/incomplete/";
+        "General\\Locale" = "en";
+        "General\\StatusbarExternalIPDisplayed" = "true";
+        "MailNotification\\req_auth" = "true";
+        "Scheduler\\end_time" = "@Variant(\\0\\0\\0\\xf\\x1\\x80\\x85\\x80)";
+        "Scheduler\\start_time" = "@Variant(\\0\\0\\0\\xf\\0\\0\\0\\0)";
+        "WebUI\\Address" = "*";
+        "WebUI\\AuthSubnetWhitelist" = "127.0.0.1/32, ::1/128, 100.64.0.0/10, 192.168.18.0/24, 10.88.0.0/16";
+        "WebUI\\AuthSubnetWhitelistEnabled" = "true";
+        "WebUI\\ClickjackingProtection" = "false";
+        "WebUI\\LocalHostAuth" = "false";
+        "WebUI\\Password_PBKDF2" = "\"@ByteArray(1RLs++1cjoyeLjRWA01eEg==:X9YzE4lP+mw7f85z16l7ZPllc3/7edh4fGSr8s7qW8sN+12fGtEfBoRonf27FO3/8y1JRW8Pesy3dsMqBikwjA==)\"";
+        "WebUI\\ServerDomains" = "*";
+      };
+      RSS = {
+        "AutoDownloader\\DownloadRepacks" = "true";
+        "AutoDownloader\\SmartEpisodeFilter" = "s(\\\\d+)e(\\\\d+), (\\\\d+)x(\\\\d+), \"(\\\\d{4}[.\\\\-]\\\\d{1,2}[.\\\\-]\\\\d{1,2})\", \"(\\\\d{1,2}[.\\\\-]\\\\d{1,2}[.\\\\-]\\\\d{4})\"";
+      };
+}

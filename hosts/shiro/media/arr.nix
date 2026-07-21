@@ -12,27 +12,28 @@
     '';
   };
 in {
-  # Native Servarr apps. WebUI/API state is still app-owned; Nix owns enablement,
-  # firewall exposure, and shared media-group permissions.
+  # Native Servarr apps. WebUI/API state is still app-owned; Nix owns enablement
+  # and shared media-group permissions here. Firewall exposure is centralized in
+  # hosts/shiro/networking.nix so IPv6/global-address policy stays consistent.
   services.radarr = {
     enable = true;
     group = "media";
-    openFirewall = true;
+    openFirewall = false;
   };
   services.bazarr = {
     enable = true;
     group = "media";
-    openFirewall = true;
+    openFirewall = false;
   };
   services.sonarr = {
     enable = true;
     group = "media";
-    openFirewall = true;
+    openFirewall = false;
     settings.server.bindaddress = "*";
   };
   services.prowlarr = {
     enable = true;
-    openFirewall = true;
+    openFirewall = false;
     settings.server.bindaddress = "*";
   };
 

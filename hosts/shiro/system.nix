@@ -5,10 +5,10 @@
   ...
 }: {
   boot.kernelPackages = pkgs.linuxPackages_zen;
-  boot.extraModprobeConfig = ''
-    # Keep the active Intel Wi-Fi card awake for server use.
-    options iwlwifi power_save=0
-  '';
+  # The USB Realtek adapter is the authoritative LAN interface for shiro. Disable
+  # the internal Intel Wi-Fi device so it cannot autoconnect, receive IPv6 router
+  # advertisements, or become a competing default route.
+  boot.blacklistedKernelModules = ["iwlwifi" "iwlmvm"];
   hardware.enableRedistributableFirmware = true;
 
   time.timeZone = config.var.timeZone;
