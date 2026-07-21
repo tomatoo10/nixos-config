@@ -16,12 +16,37 @@ profile-management path for normal series.
 | Type | Root folder | Profile | Sonarr tag | qBittorrent category |
 | --- | --- | --- | --- | --- |
 | Normal TV | `/srv/data/media/tv` | Profilarr-managed series profile | `tv` | `tv` |
-| Anime | `/srv/data/media/anime` | `Anime - Legacy 1080p Remux` | `anime` | `animes` |
+| Anime | `/srv/data/media/anime` | `Anime - 1080p Efficient (shiro)` | `anime` | `animes` |
 
 The Sonarr tag is singular `anime`; the qBittorrent category is plural `animes`.
 
-If Recyclarr is ever re-added for anime, keep ownership split so Profilarr and
-Recyclarr never manage the same profile/custom-format set.
+Anime uses a retained Sonarr-owned profile tuned for shiro's direct-play-first
+constraints. It keeps TRaSH anime BD/WEB tiers dominant, but adds small
+x265/HEVC tie-breaker scores and negative HDTV scores so high-bitrate HDTV x264
+fallbacks are less likely to beat playable WEB/BD releases. If Recyclarr or
+Profilarr is ever re-added for anime, keep ownership split so multiple managers
+never sync the same profile/custom-format set.
+
+Current anime profile policy:
+
+- Profile: `Anime - 1080p Efficient (shiro)`.
+- Minimum custom-format score: `100`.
+- Custom-format cutoff: `1000`.
+- Minimum upgrade score step: `25`.
+- Keep hard blocks for `BR-DISK`, LQ formats/groups, `Extras`, `AV1`,
+  `Anime Raws`, `Dubs Only`, and `VOSTFR`.
+- Keep anime tiers dominant: Anime BD Tier 01-08 score `1400` down to `700`;
+  Anime WEB Tier 01-06 score `600` down to `100`.
+- Add direct-play/network tie-breakers: `x265 (HD)` `+75`, `x265` `+25`,
+  `x265 (WEB)`/`x265 (Bluray)` `+50`, and 1080p HEVC WEB/Bluray tier formats
+  `+100`.
+- Penalize HDTV fallback: `1080p HDTV` `-400`, HDTV tiers `-250`/`-350`/`-450`;
+  720p HDTV gets smaller negative scores.
+
+This profile intentionally does not prefer x265/HEVC over everything: a stronger
+anime BD/WEB tier should still beat a weak efficient release. The goal is to
+avoid releases that are technically higher-bitrate x264/HDTV but do not play
+smoothly over shiro's current Wi-Fi path.
 
 ## Download clients
 
