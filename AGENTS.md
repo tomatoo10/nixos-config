@@ -37,6 +37,7 @@ The active stack is native Radarr, Sonarr, Bazarr, Prowlarr, qBittorrent, Plex, 
 
 - `shiro` runs on an old compact notebook and must be treated as a **direct-play-first** Plex server.
 - Do not assume `shiro` can handle video transcoding, audio transcoding, or subtitle burn-in at acceptable performance.
+- If a Plex client buffers while Plex logs still say `Direct play OK`, do not assume a codec problem. First correlate Plex delivery rate with qBittorrent activity, disk IO pressure, and client reconnect/range-retry patterns. In a July 2026 iPhone anime buffering case, playback was direct play with no transcode, but Plex only delivered about 3.4 Mbps for a ~7.8 Mbps file while `/srv/data` disk IO pressure stayed high; the likely bottleneck was disk/local file serving latency rather than video compatibility.
 - Avoid media-selection strategies that depend on server-side transcoding for compatibility.
 - Prefer formats that direct play reliably on the main clients: `ryu`, `sora`, the ThinkPad T14 Gen 1 AMD, and iPhone 13.
 - Prefer external `.srt` sidecar subtitles. Embedded bitmap subtitles such as PGS/VobSub are high risk because they often force Plex to burn subtitles into the video.
@@ -77,6 +78,7 @@ Radarr and Sonarr root folders must point at final library folders, not torrent 
 - Root folder: `/srv/data/media/movies`.
 - qBittorrent download client: `localhost:8080`, category `movies`, no Radarr download-client tags.
 - Profilarr is the active profile-management path for Radarr.
+- Radarr can fail imports when torrent/internal filenames are localized or otherwise unparseable even if the movie is correct. A July 2026 failure for LOTR Fellowship Extended used a Russian/internal folder name (`01 - Властелин колец...`), Radarr logged `Unable to parse file`, and Cleanuparr later deleted it after `FailedImport` strikes. Prefer parseable English release names with title/year/edition/quality in the torrent and file names.
 
 ### Sonarr
 
@@ -111,6 +113,7 @@ Radarr and Sonarr root folders must point at final library folders, not torrent 
 ### Profilarr
 
 - Profilarr is the main profile-management experiment for Radarr/Sonarr at `http://shiro:6868` with config in `/srv/profilarr/config`.
+- Profilarr manages/syncs Radarr/Sonarr profiles, custom formats, and scores; it does not itself choose or upgrade releases at download time. Radarr/Sonarr still make grab/import/upgrade decisions from their state and configured profiles.
 - Recyclarr was removed. Re-add it only if Profilarr is no longer managing the same profiles/custom formats.
 
 ### Plex
@@ -127,6 +130,12 @@ Radarr and Sonarr root folders must point at final library folders, not torrent 
 - Arr URLs should use shiro LAN: Radarr `http://192.168.18.7:7878`, Sonarr `http://192.168.18.7:8989`.
 - qBittorrent WebUI auth bypass must include `10.88.0.0/16` because Cleanuparr reaches qBittorrent from the Podman bridge.
 - Rules must use categories `movies`, `tv`, `animes`, and `unlinked`; never singular `anime`.
+- Cleanuparr Seeker can trigger missing/cutoff/custom-format searches through Arr state and profiles, and can trigger replacement searches after queue deletion. If strict Arr-only search ownership is desired, disable Seeker search rather than trying to make Cleanuparr score releases independently.
+
+## Package update notes
+
+- Be careful updating only `nixpkgs` while `home-manager` follows it. A July 2026 update from nixpkgs rev `567a49d1913ce81ac6e9582e3553dd90a955875f` to `241313f4e8e508cb9b13278c2b0fa25b9ca27163` made `nixos-rebuild build --flake .#shiro` fail in `bat-0.26.1-fish-completions` because fish 4.8 no longer installed `share/fish/tools/create_manpage_completions.py` at the path Home Manager expected.
+- Clean fixes for that Fish completion failure are: update to a Home Manager/nixpkgs revision containing the Fish completion generator fix, or as a temporary explicit policy set `programs.fish.generateCompletions = false;` in the relevant NixOS/Home Manager Fish config. Do not patch store paths or pin random package internals.
 
 ### Removed: Qui
 

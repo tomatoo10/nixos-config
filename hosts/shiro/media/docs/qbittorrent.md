@@ -19,6 +19,8 @@ These should match the Nix config:
 - Incomplete path: `/srv/data/torrents/incomplete/`
 - Torrent content layout: subfolder
 - Queueing enabled; max active downloads: `1`
+- Normal global speed limits: download `14100 KiB/s`, upload `13350 KiB/s`
+- Plex-active speed limits: download `1 MiB/s`, upload `100 KiB/s`
 - Add tracker list URL: `https://cf.trackerslist.com/best.txt`
 - WebUI bind: `*`
 - Auth bypass subnet whitelist enabled for: `127.0.0.1/32, ::1/128, 100.64.0.0/10, 192.168.18.0/24, 10.88.0.0/16`
@@ -26,6 +28,25 @@ These should match the Nix config:
 The `10.88.0.0/16` entry is required because Cleanuparr reaches qBittorrent from the Podman bridge.
 
 This auth bypass is acceptable only for the current LAN/Tailscale trust boundary. Do not expose qBittorrent publicly. If untrusted devices join the LAN/tailnet, narrow or remove the bypass and use normal WebUI authentication.
+
+## Plex-active speed limiter
+
+Plex direct play on `shiro` is sensitive to disk contention from torrent IO. Nix
+therefore installs a systemd timer that checks Plex sessions and applies
+conservative qBittorrent limits over the local Web API only while Plex is
+actively playing or buffering:
+
+- `qbittorrent-plex-limiter.timer`: runs every 30 seconds after boot.
+- `qbittorrent-plex-limiter.service`: reads Plex's local token from
+  `/var/lib/plex/Plex Media Server/Preferences.xml`, checks
+  `http://localhost:32400/status/sessions`, and applies either Plex-active
+  limits or normal limits.
+- Plex-active limits: `1 MiB/s` download and `100 KiB/s` upload.
+- Normal limits: `14100 KiB/s` download and `13350 KiB/s` upload.
+
+This intentionally uses a local timer instead of qBittorrent's built-in bandwidth
+scheduler because active Plex playback is a better signal than fixed clock
+windows and avoids throttling torrents when nobody is watching.
 
 ## Categories
 
