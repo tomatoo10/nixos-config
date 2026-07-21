@@ -59,9 +59,11 @@ The active stack is native Radarr, Sonarr, Bazarr, Prowlarr, qBittorrent, Plex, 
 - Final media libraries: movies `/srv/data/media/movies`, TV `/srv/data/media/tv`, anime `/srv/data/media/anime`, books `/srv/data/media/books`.
 - qBittorrent download root: `/srv/data/torrents`.
 - qBittorrent incomplete path: `/srv/data/torrents/incomplete`.
-- Active qBittorrent category paths: `movies` -> `/srv/data/torrents/movies`, `tv` -> `/srv/data/torrents/tv`, `animes` -> `/srv/data/torrents/animes`, `books` -> `/srv/data/torrents/books`, `unlinked` -> `/srv/data/torrents/unlinked`.
+- Active qBittorrent category paths: `movies` -> `/srv/data/torrents/movies`, `tv` -> `/srv/data/torrents/tv`, `animes` -> `/srv/data/torrents/animes`, `books` -> `/srv/data/torrents/books`, `unlinked` -> `/srv/data/torrents/unlinked`, `dead-torrents` -> `/srv/data/torrents/dead-torrents`.
 
 Do not use the singular torrent category/path `anime`. Sonarr's logical anime tag is `anime`, but the qBittorrent category is `animes`.
+`dead-torrents` is reserved for Cleanuparr quarantine / dead torrent handling
+and must not be used for Arr download-client routing.
 
 Radarr and Sonarr root folders must point at final library folders, not torrent folders and not `/srv/data` directly.
 
@@ -77,7 +79,7 @@ Radarr and Sonarr root folders must point at final library folders, not torrent 
 
 ### qBittorrent
 
-- Module: `hosts/shiro/media/qbittorrent.nix`; WebUI: `http://shiro:8080`; state: `/var/lib/qBittorrent`.
+- Module: `hosts/shiro/media/qbittorrent/default.nix`; WebUI: `http://shiro:8080`; state: `/var/lib/qBittorrent`.
 - Categories are Git-owned in `hosts/shiro/service-configs/qbittorrent/categories.json`.
 - Nix owns important preferences via `services.qbittorrent.serverConfig`.
 - The committed qBittorrent password hash is an accepted LAN/Tailscale-only exception.

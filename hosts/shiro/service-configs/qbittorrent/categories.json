@@ -38,5 +38,13 @@
         "save_path": "unlinked",
         "seeding_time_limit": -2,
         "share_limit_action": "Default"
+    },
+    "dead-torrents": {
+        "download_path": null,
+        "inactive_seeding_time_limit": -2,
+        "ratio_limit": -2,
+        "save_path": "dead-torrents",
+        "seeding_time_limit": -2,
+        "share_limit_action": "Default"
     }
 }

@@ -2,7 +2,7 @@
 
 ## Nix ownership
 
-- Module: `hosts/shiro/media/qbittorrent.nix`
+- Module: `hosts/shiro/media/qbittorrent/default.nix`
 - State: `/var/lib/qBittorrent`
 - WebUI: `http://shiro:8080`
 - Torrent port: `6881`
@@ -59,6 +59,7 @@ Only these categories should exist:
 | `animes` | `animes` |
 | `books` | `books` |
 | `unlinked` | `unlinked` |
+| `dead-torrents` | `dead-torrents` |
 
 Effective paths become `/srv/data/torrents/<category>`.
 
@@ -71,6 +72,10 @@ Radarr/Sonarr library files, such as old files left after an upgrade. Keep it
 separate from `movies`, `tv`, `animes`, and `books`; do not point Arr download clients at
 `unlinked`. The deletion rule for `unlinked` is public-only, but category
 membership alone does not prove a torrent is disposable.
+
+The `dead-torrents` category is also reserved for Cleanuparr quarantine / dead
+torrent handling. It should behave like a cleanup holding area, not an Arr
+download-client route, and it must not replace `animes`.
 
 The category list is Git-owned and reinstalled from
 `hosts/shiro/service-configs/qbittorrent/categories.json` when qBittorrent

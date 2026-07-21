@@ -5,13 +5,17 @@ baseline material for shiro.
 
 ## Exported here
 
-- `qbittorrent/qBittorrent.conf` — exact exported qBittorrent settings from shiro, including the current WebUI password hash. This is intentional for the current LAN/Tailscale-only setup and feeds the declarative `services.qbittorrent.serverConfig` in `hosts/shiro/media/qbittorrent.nix`.
+- `qbittorrent/qBittorrent.conf` — exact exported qBittorrent settings from shiro, including the current WebUI password hash. This is intentional for the current LAN/Tailscale-only setup and feeds the declarative `services.qbittorrent.serverConfig` in `hosts/shiro/media/qbittorrent/default.nix`.
 - `qbittorrent/qBittorrent.conf.template` — sanitized copy with `WebUI\Password_PBKDF2` replaced by `@QBITTORRENT_WEBUI_PASSWORD_PBKDF2@` for reference.
-- `qbittorrent/categories.json` — exported active qBittorrent category names and save paths: `movies`, `tv`, `animes`, and `unlinked`.
+- `qbittorrent/categories.json` — exported active qBittorrent category names and save paths: `movies`, `tv`, `animes`, `books`, `unlinked`, and `dead-torrents`.
 
 Nix owns `qBittorrent.conf` through the qBittorrent module. Nix also owns
 `categories.json` and installs it before qBittorrent starts. Do not edit
 categories in the qBittorrent WebUI unless you export/update this JSON file too.
+
+`dead-torrents` is reserved for Cleanuparr quarantine / dead-torrent handling,
+similar to `unlinked`. It is not an Arr download-client routing category; keep
+`animes` as the anime download category.
 
 ## Not committed here
 

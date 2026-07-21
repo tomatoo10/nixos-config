@@ -37,6 +37,8 @@ After first setup or restore, configure/confirm these settings in the WebUI:
 - Public seeding rules exist for `movies`, `tv`, and `animes`.
 - Unlinked detection watches `movies`, `tv`, and `animes` and moves matching
   orphaned payloads to `unlinked`.
+- Dead-torrent quarantine may use `dead-torrents` for items Cleanuparr has
+  determined are dead/stale; keep it separate from Arr routing.
 - Public-only deletion exists for category `unlinked` with a `2h` max seed time
   and source-file deletion enabled.
 
@@ -52,8 +54,11 @@ Rules must use exactly these qBittorrent categories:
 - `tv`
 - `animes`
 - `unlinked`
+- `dead-torrents`
 
 Never use singular `anime`.
+Never use `dead-torrents` for Arr download-client routing; it is for Cleanuparr
+cleanup/quarantine flows only.
 
 ## Recommended rules
 
@@ -115,6 +120,17 @@ steps. Detection can move orphaned payloads to the `unlinked` category; the live
 deletion rule is what restricts removal to public torrents. Do not assume every
 torrent in `unlinked` is safe to delete manually without checking privacy and
 seeding requirements.
+
+### Dead-torrent quarantine
+
+- Scope: any item Cleanuparr has identified as dead/stale and wants to isolate
+  before final removal or operator review.
+- Target category: `dead-torrents`
+- Purpose: quarantine dead torrents separately from `unlinked`, which is for
+  post-import orphan payloads.
+- Action: move/mark to `dead-torrents` and only delete according to the relevant
+  cleanup rule.
+- Exclude from Arr routing and normal download-client category use.
 
 ### Malware/blocklist rule
 
