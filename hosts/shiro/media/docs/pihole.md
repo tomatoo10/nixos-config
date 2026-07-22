@@ -7,7 +7,9 @@ Pi-hole runs as native NixOS services managed by `services.pihole-ftl` and `serv
 - State: `/var/lib/pihole`
 - Config: `/etc/pihole`
 - Upstream DNS: Cloudflare (`1.1.1.1`, `1.0.0.1`)
-- Blocklist: Pi-hole default StevenBlack hosts list
+- Blocklists: stateful Pi-hole gravity/WebUI data. Do not manage default
+  blocklists through `services.pihole-ftl.lists` because the generated setup
+  unit re-adds them on every activation and can fail on existing databases.
 
 ## Password setup
 
@@ -81,6 +83,12 @@ profilarr.home   -> 192.168.18.7
 Without a reverse proxy, service URLs still need ports, for example `http://radarr.home:7878`.
 
 ## Blocklists
+
+Blocklists are stateful Pi-hole gravity/WebUI data, not Nix-owned config. Do
+not use `services.pihole-ftl.lists` for the default StevenBlack list: the NixOS
+module currently generates a setup step that tries to add configured lists every
+activation, which is not idempotent on an existing Pi-hole database and can make
+`pihole-ftl-setup.service` fail while FTL itself keeps running.
 
 Start with the default Pi-hole lists. Add aggressive blocklists slowly because they can break smart TVs, auth flows, indexers, or media apps.
 

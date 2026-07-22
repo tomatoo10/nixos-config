@@ -9,13 +9,6 @@
       # and IPv6.
       openFirewallDNS = false;
       openFirewallWebserver = false;
-      lists = [
-        {
-          # Keep the default StevenBlack blocklist as the baseline filter set.
-          url = "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts";
-          description = "Pi-hole default blocklist";
-        }
-      ];
       settings = {
         # Keep plain Cloudflare upstreams for now; encrypted upstream DNS can be added later via Stubby if needed.
         dns.upstreams = [
@@ -25,16 +18,7 @@
         # Local service names are owned in Nix so they survive Pi-hole rebuilds
         # and do not depend on manual WebUI state. Ports are still required.
         dns.hosts = [
-          "192.168.18.7 shiro.home"
-          "192.168.18.7 radarr.home"
-          "192.168.18.7 sonarr.home"
-          "192.168.18.7 prowlarr.home"
-          "192.168.18.7 bazarr.home"
-          "192.168.18.7 qbittorrent.home"
-          "192.168.18.7 plex.home"
-          "192.168.18.7 pihole.home"
-          "192.168.18.7 cleanuparr.home"
-          "192.168.18.7 profilarr.home"
+          "192.168.18.7 home.server"
         ];
         # The home LAN can create short DNS bursts from browsers, Tailscale, and
         # Nix substituters. Raise Pi-hole's defaults modestly without disabling

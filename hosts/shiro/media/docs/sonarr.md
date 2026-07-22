@@ -34,19 +34,25 @@ Current anime profile policy:
 - Custom-format cutoff: `1000`.
 - Minimum upgrade score step: `25`.
 - Keep hard blocks for `BR-DISK`, LQ formats/groups, `Extras`, `AV1`,
-  `Anime Raws`, `Dubs Only`, and `VOSTFR`.
+  `Anime Raws`, `Dubs Only`, `VOSTFR`, `Language: Not Original`, and
+  `Not Original or English`.
 - Keep anime tiers dominant: Anime BD Tier 01-08 score `1400` down to `700`;
   Anime WEB Tier 01-06 score `600` down to `100`.
-- Add direct-play/network tie-breakers: `x265 (HD)` `+75`, `x265` `+25`,
-  `x265 (WEB)`/`x265 (Bluray)` `+50`, and 1080p HEVC WEB/Bluray tier formats
-  `+100`.
+- Add only small direct-play/network tie-breakers: `x265 (HD)` `+25`, 1080p
+  HEVC WEB/Bluray tier formats `+25`, and keep the generic `x265`/`h265`,
+  `x265 (WEB)`, `x265 (Bluray)`, and `x265 (no HDR/DV)` formats neutral. Codec
+  efficiency must not be enough to make a weak or wrong-language release pass.
+- Keep `Season Pack` neutral in this default anime profile. Do not globally
+  hard-reject packs: they can be useful for complete/archive anime, but they
+  should not beat better episode releases just for being a pack.
 - Penalize HDTV fallback: `1080p HDTV` `-400`, HDTV tiers `-250`/`-350`/`-450`;
   720p HDTV gets smaller negative scores.
 
-This profile intentionally does not prefer x265/HEVC over everything: a stronger
-anime BD/WEB tier should still beat a weak efficient release. The goal is to
-avoid releases that are technically higher-bitrate x264/HDTV but do not play
-smoothly over shiro's current Wi-Fi path.
+This profile intentionally does not prefer x265/HEVC over everything. A stronger
+anime BD/WEB tier should beat a weak efficient release, and x265/HEVC should be a
+tie-breaker only. The goal is to avoid releases that are technically
+higher-bitrate x264/HDTV or weak wrong-language HEVC packs but do not play
+smoothly over shiro's current Wi-Fi/disk path.
 
 ## Download clients
 
