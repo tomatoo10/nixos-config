@@ -7,7 +7,7 @@
   services.openssh.openFirewall = false;
 
   systemd.network.links."10-shiro-lan" = {
-    matchConfig.MACAddress = "00:e0:4d:0b:47:8d";
+    matchConfig.MACAddress = "9c:da:3e:4a:41:0b";
     linkConfig.Name = "shiro-lan";
   };
 
@@ -22,11 +22,13 @@
         Settings.AutoConnect = true;
       };
     };
-    # Static LAN addresses stay on the known-good USB Wi-Fi adapter rather than
-    # depending on kernel-assigned wlanX ordering. The router advertises the ULA
-    # prefix and has IPv6 forwarding firewalling enabled, but shiro still keeps a
-    # host firewall policy below so private admin ports are protected even if
-    # router policy changes later.
+    # Static LAN addresses stay on the internal Intel AC 3160 5GHz radio rather
+    # than depending on kernel-assigned wlanX ordering. A July 2026 Plex
+    # buffering diagnosis showed the old USB Realtek 2.4GHz adapter had large
+    # LAN latency spikes, while the Intel 5GHz path was stable. The router
+    # advertises the ULA prefix and has IPv6 forwarding firewalling enabled, but
+    # shiro still keeps a host firewall policy below so private admin ports are
+    # protected even if router policy changes later.
     interfaces."shiro-lan".ipv4.addresses = [
       {
         address = "192.168.18.7";

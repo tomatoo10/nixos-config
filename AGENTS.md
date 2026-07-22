@@ -19,6 +19,10 @@ This repository manages the user's NixOS machines and the shiro home-server medi
 - User requests can be technically wrong or point toward a worse design. When
   there is a cleaner, safer, or more maintainable approach, push back, explain
   the tradeoff, and ask before implementing the inferior approach.
+- Do not treat the user as automatically authoritative on technical direction.
+  Respect their goals, but ask targeted questions when unsure and explain when a
+  requested approach looks fragile, unsafe, or less maintainable than an
+  alternative.
 - After every change, report anything fragile, uncertain, or workaround-like.
 
 ## Repository layout
@@ -37,7 +41,7 @@ This repository manages the user's NixOS machines and the shiro home-server medi
 
 - `ryu`: main desktop. Firewall is disabled for HTB. Tailscale is enabled but must not accept DNS; home DNS should come from DHCP/Pi-hole: `extraSetFlags = ["--ssh=true" "--accept-dns=false"]`.
 - `sora`: laptop. OpenSSH is intentionally disabled. Tailscale is enabled but must not accept DNS; home DNS should come from DHCP/Pi-hole and away-from-home DNS should come from the active network unless a deliberate conditional/Tailscale DNS design is added later: `extraSetFlags = ["--ssh=true" "--accept-dns=false"]`.
-- `shiro`: home server at LAN IP `192.168.18.7`; use `ssh shiro.lan` for live checks. The faster USB Wi-Fi adapter with MAC `00:e0:4d:0b:47:8d` is the authoritative LAN path and is renamed to `shiro-lan`; the internal Intel `wlan0`/`iwlwifi` path is intentionally disabled. IPv6 stays enabled: the router advertises ULA `fd7a:c324:7131::/64` and has IPv6 forwarding firewall control enabled, while shiro also source-restricts private service ports in its host firewall. Tailscale is enabled but should not accept DNS: `extraSetFlags = ["--ssh=true" "--accept-dns=false"]`. Docker is not enabled. Podman-backed `virtualisation.oci-containers` is used only for auxiliary services. `zramSwap` is intentionally enabled for low-memory resilience. Pi-hole runs natively on `192.168.18.7:53` and `192.168.18.7:8081`.
+- `shiro`: home server at LAN IP `192.168.18.7`; use `ssh shiro.lan` for live checks. The internal Intel AC 3160 Wi-Fi radio with MAC `9c:da:3e:4a:41:0b` is the authoritative LAN path, should connect to the 5GHz `Vania_5G` network, and is renamed to `shiro-lan`; the USB Realtek 2.4GHz adapter with MAC `00:e0:4d:0b:47:8d` is intentionally disabled because a July 2026 Plex buffering diagnosis showed severe LAN latency spikes on the Realtek path while Intel 5GHz was stable. IPv6 stays enabled: the router advertises ULA `fd7a:c324:7131::/64` and has IPv6 forwarding firewall control enabled, while shiro also source-restricts private service ports in its host firewall. Tailscale is enabled but should not accept DNS: `extraSetFlags = ["--ssh=true" "--accept-dns=false"]`. Docker is not enabled. Podman-backed `virtualisation.oci-containers` is used only for auxiliary services. `zramSwap` is intentionally enabled for low-memory resilience. Pi-hole runs natively on `192.168.18.7:53` and `192.168.18.7:8081`.
 
 ## shiro media stack contract
 

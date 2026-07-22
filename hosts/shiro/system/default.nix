@@ -5,10 +5,10 @@
   ...
 }: {
   boot.kernelPackages = pkgs.linuxPackages_zen;
-  # The USB Realtek adapter is the authoritative LAN interface for shiro. Disable
-  # the internal Intel Wi-Fi device so it cannot autoconnect, receive IPv6 router
-  # advertisements, or become a competing default route.
-  boot.blacklistedKernelModules = ["iwlwifi" "iwlmvm"];
+  # The internal Intel AC 3160 5GHz radio is the authoritative LAN interface for
+  # shiro. Disable the USB Realtek 2.4GHz adapter so it cannot autoconnect,
+  # receive IPv6 router advertisements, or become a competing default route.
+  boot.blacklistedKernelModules = ["rtl8192cu" "rtl8xxxu"];
   hardware.enableRedistributableFirmware = true;
 
   time.timeZone = config.var.timeZone;
