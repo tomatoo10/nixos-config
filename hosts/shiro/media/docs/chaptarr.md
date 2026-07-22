@@ -22,9 +22,17 @@ Chaptarr is the active ebook/books manager experiment. It is alpha-ish and spars
 
 - Chaptarr is still immature compared with the established Arr stack.
 - Pull/start manually during setup: `sudo podman pull docker.io/robertlordhood/chaptarr:latest`, then `sudo systemctl start podman-chaptarr.service`.
+- Do not enable container autostart until the image is already present and a manual start has been tested. Previous rebuild/switch attempts blocked on shiro while Podman tried to pull ebook images during activation.
 - Upstream docs are sparse; verify that `/config` persists during first live setup.
 - Do not add public exposure.
 - Do not commit credentials, API keys, or one-off WebUI state.
+
+## Resource expectations
+
+Chaptarr should not be a constant Plex bottleneck while idle, but searches,
+imports, metadata work, and qBittorrent book downloads share shiro's same CPU,
+RAM, network, and `/srv/data` disk. Keep it disabled unless actively testing the
+books workflow, and avoid running heavy imports while Plex playback is active.
 
 ## Setup notes
 

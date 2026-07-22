@@ -1,6 +1,6 @@
 # shiro media stack docs
 
-These docs describe the stateful WebUI/API configuration that cannot be fully represented in NixOS modules yet. Nix owns service enablement, ports, filesystem layout, qBittorrent major preferences/categories, and Pi-hole local DNS records. The apps still own their own databases, credentials, cookies, indexers, libraries, and interactive settings.
+These docs describe the stateful WebUI/API configuration that cannot be fully represented in NixOS modules yet. Nix owns service enablement, ports, filesystem layout, qBittorrent major preferences/categories, and Pi-hole local DNS records. The apps still own their own databases, credentials, cookies, indexers, libraries, blocklists, and interactive settings.
 
 Read `AGENTS.md` first for the global contract, then the matching service guide before changing WebUI state.
 
@@ -39,6 +39,19 @@ Read `AGENTS.md` first for the global contract, then the matching service guide 
 - qBittorrent categories: `movies`, `tv`, `animes`, `books`, `unlinked`
 
 Do not create or document a singular torrent category named `anime`.
+
+## Stateful / manual configuration
+
+Keep these out of Git unless a service-specific guide explicitly says otherwise:
+
+| Area | Owner | Notes |
+| --- | --- | --- |
+| Radarr/Sonarr/Prowlarr/Bazarr profiles, API keys, indexers, history | WebUI/API state | Document intended settings, but do not commit live databases or `config.xml` secrets. |
+| Pi-hole gravity blocklists, query DB, WebUI password | Pi-hole state | Nix owns upstream DNS, local DNS records, and limits. Do not use `services.pihole-ftl.lists` for default blocklists because that setup step is not idempotent on existing Pi-hole databases. |
+| Plex account, claim, libraries, metadata, watch state | Plex state | Keep tokens and databases out of Git. Nix only enables the service and networking assumptions. |
+| Cleanuparr users/API keys/rules/event history | Cleanuparr state | Back up locally under the ignored backup procedure; do not commit DBs. |
+| Kavita/Chaptarr initial accounts/libraries and image pulls | Manual/WebUI state | Containers are declared but `autoStart = false`; pull and start manually after verifying image availability on shiro. |
+| Router DHCP/DNS/IPv6 settings | Router WebUI state | For Pi-hole, hand out shiro directly as DNS: IPv4 `192.168.18.7`, IPv6 `fd7a:c324:7131::7`. |
 
 ## Quality profile choices
 
